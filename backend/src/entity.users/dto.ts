@@ -2,41 +2,27 @@ import * as bcrypt from 'bcrypt';
 
 import { BCRYPT_ROUNDS } from '../config/environment';
 import { UserRole, UserAttributes, User } from './model';
+import { validateUserData } from './validation';
 
 export default class DTO {
   private static salt = bcrypt.genSaltSync(BCRYPT_ROUNDS);
-  private constructor() { }
+  private constructor() {}
 
-  private static checkPassword(password: string) {
-    //const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    //return passwordRegex.test(password);
-    return password.length >= 8
-  }
+  public static register(data: any): { error: { message: string }; value: null } | { error: null; value: UserAttributes } {
+    const validationResult = validateUserData(data);
 
-
-  public static register(data: any): { error: { message: string }, value: null } | { error: null, value: UserAttributes } {
-    const { email, username, password, role } = data;
-
-    if (!email || !username || !password) {
+    if (validationResult.hasError) {
       return {
         error: {
-          message: "All fields are required: email, username and password."
+          message: validationResult.errorMessages.join(', '),
         },
-        value: null
+        value: null,
       };
     }
 
-    if (!this.checkPassword(password)) {
-      return {
-        error: {
-          message: "Password must be at least 8 characters long."
-        },
-        value: null
-      };
-    }
+    const { email, username, password, role } = validationResult.userData!;
+
     const hashPassword = bcrypt.hashSync(password, this.salt);
-
-    const userRole = role && (role in UserRole) ? role : UserRole.USER;
 
     return {
       error: null,
@@ -44,9 +30,9 @@ export default class DTO {
         email,
         username,
         password: hashPassword,
-        role: userRole,
-        active: true
-      }
+        role,
+        active: true,
+      },
     };
   }
 
@@ -55,46 +41,45 @@ export default class DTO {
     if (!email || !password)
       return {
         error: {
-          message: "All fields are required: email and password."
-        }
-      }
+          message: 'All fields are required: email and password.',
+        },
+      };
 
     return {
       error: null,
       value: {
         email,
-        password
-      }
-    }
+        password,
+      },
+    };
   }
-
 
   public static update(data: any, user: any) {
     const { email, username, password, role, active } = data;
-    if (!email && !username && !password && !role && !active || !user.id)
+    if ((!email && !username && !password && !role && !active) || !user.id)
       return {
         error: {
-          message: "A least one field is required: email, username, password, role and active."
-        }
-      }
+          message: 'A least one field is required: email, username, password, role and active.',
+        },
+      };
 
-    if (password && !this.checkPassword(password))
-      return {
-        error: {
-          message: "Password must be at least 8 characters long."
-        }
-      }
+    // if (password && !this.checkPassword(password))
+    //   return {
+    //     error: {
+    //       message: "Password must be at least 8 characters long."
+    //     }
+    //   }
 
     if (role && !(role in UserRole))
       return {
         error: {
-          message: role + " role, doesn't have permissions."
-        }
-      }
+          message: role + " role, doesn't have permissions.",
+        },
+      };
 
     const response: any = {
       id: parseInt(user.id as string),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
     if (email) response.email = email;
     if (username) response.username = username;
@@ -106,23 +91,21 @@ export default class DTO {
       error: null,
       value: response,
     };
-
   }
 
-
   public static getByToken(user: any) {
-    const { id } = user
+    const { id } = user;
 
-    if (!id) return {
-      error: {
-        message: "User not found."
-      }
-    }
+    if (!id)
+      return {
+        error: {
+          message: 'User not found.',
+        },
+      };
 
     return {
       error: null,
-      value: parseInt(id as string)
-    }
+      value: parseInt(id as string),
+    };
   }
-
 }
