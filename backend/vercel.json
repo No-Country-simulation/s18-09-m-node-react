@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "builds": [
+    {
+      "src": "dist/app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/app.js"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/cron/updateAttendance",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}
