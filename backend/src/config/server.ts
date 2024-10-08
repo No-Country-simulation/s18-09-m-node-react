@@ -1,4 +1,5 @@
 import express from 'express';
+import expressJSDocSwagger from 'express-jsdoc-swagger';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
@@ -7,6 +8,7 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 
 import { PORT, API_VERSION, CORS_ORIGIN, NODE_ENV, DBASE_URL } from './environment';
+import { swaggerConfig } from './swagger.config';
 import passport from '../middlewares/auth.mid';
 import { errorHandler } from '../middlewares/error.middleware';
 import * as usersRouter from '../entity.users/routes';
@@ -19,6 +21,7 @@ export default class Server {
     this.app = express();
     this.database();
     this.middlewares();
+    this.setupSwagger();
     this.routes();
     this.errorHandler();
     this.listen();
@@ -45,6 +48,8 @@ export default class Server {
     }
   }
 
+
+
   private routes() {
     // -- Unprotected routes --
     this.app.use(`/${API_VERSION}`, usersRouter.notProtectedRoutes);
@@ -62,6 +67,10 @@ export default class Server {
 
   private errorHandler() {
     this.app.use(errorHandler);
+  }
+
+  private setupSwagger() {
+    expressJSDocSwagger(this.app)(swaggerConfig);
   }
 
   private listen() {

@@ -36,6 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const express_jsdoc_swagger_1 = __importDefault(require("express-jsdoc-swagger"));
 const cors_1 = __importDefault(require("cors"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const helmet_1 = __importDefault(require("helmet"));
@@ -43,6 +44,7 @@ const hpp_1 = __importDefault(require("hpp"));
 const morgan_1 = __importDefault(require("morgan"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const environment_1 = require("./environment");
+const swagger_config_1 = require("./swagger.config");
 const auth_mid_1 = __importDefault(require("../middlewares/auth.mid"));
 const error_middleware_1 = require("../middlewares/error.middleware");
 const usersRouter = __importStar(require("../entity.users/routes"));
@@ -51,6 +53,7 @@ class Server {
         this.app = (0, express_1.default)();
         this.database();
         this.middlewares();
+        this.setupSwagger();
         this.routes();
         this.errorHandler();
         this.listen();
@@ -88,6 +91,9 @@ class Server {
     }
     errorHandler() {
         this.app.use(error_middleware_1.errorHandler);
+    }
+    setupSwagger() {
+        (0, express_jsdoc_swagger_1.default)(this.app)(swagger_config_1.swaggerConfig);
     }
     listen() {
         this.server = this.app.listen(environment_1.PORT, () => {

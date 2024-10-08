@@ -13,7 +13,8 @@ export interface UserAttributes {
   active: boolean;
 }
 
-
+export interface UserCreationAttributes
+  extends Omit<UserAttributes, 'active'> { }
 
 export interface UserUpdateAttributes
   extends Partial<UserAttributes> { }
