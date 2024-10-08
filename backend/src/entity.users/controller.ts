@@ -38,7 +38,6 @@ export default class Controller {
     }
   }
 
-
   // -- Update user --
   public static async update(req: Request, res: Response, next: NextFunction) {
     const user_id = req.params.id ? { id: req.params.id } : req.user;
