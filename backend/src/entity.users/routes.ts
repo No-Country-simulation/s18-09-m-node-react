@@ -1,6 +1,6 @@
 import express from 'express';
 
-import Controller from './controller.js';
+import Controller from './controller';
 
 // -- Not protected routes --
 export const notProtectedRoutes = express
