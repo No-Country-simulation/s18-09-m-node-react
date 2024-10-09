@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Facebook, Mail } from 'lucide-react'
+import Link from 'next/link'
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('')
@@ -27,9 +28,9 @@ export default function RegisterForm() {
           <div className="flex justify-center mb-6">
             <p className="text-sm text-muted-foreground">
               ¿Ya tienes una cuenta?{' '}
-              <a href="#" className="text-primary hover:underline">
+              <Link href="/login" className="text-primary hover:underline">
                 Iniciar sesión
-              </a>
+              </Link>
             </p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">

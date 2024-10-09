@@ -1,5 +1,6 @@
 import { CheckIcon } from "@/app/svg/CheckIcon";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
 
 const RegisterSuccess: React.FC = () => {
@@ -46,7 +47,6 @@ const RegisterSuccess: React.FC = () => {
                      text-right
                      no-underline
                      text-[20px]
-                     text-center
                      text-2xl
                      font-roboto
                      leading-[63px]
@@ -61,7 +61,7 @@ const RegisterSuccess: React.FC = () => {
 
       <div className="w-[454px]">
         <Button asChild className="w-full">
-          <a href="/">Ir a la página de inicio</a>
+          <Link href="/">Ir a la página de inicio</Link>
         </Button>
       </div>
     </section>
