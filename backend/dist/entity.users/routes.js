@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminProtectedRoutes = exports.userProtectedRoutes = exports.notProtectedRoutes = void 0;
 const express_1 = __importDefault(require("express"));
-const controller_js_1 = __importDefault(require("./controller.js"));
+const controller_1 = __importDefault(require("./controller"));
 // -- Not protected routes --
 exports.notProtectedRoutes = express_1.default
     .Router()
-    .post('/auth/login', controller_js_1.default.login)
+    .post('/auth/login', controller_1.default.login)
     /**
      * POST /auth/register
      * @summary Register a new user
@@ -50,16 +50,16 @@ exports.notProtectedRoutes = express_1.default
      *   "message": "Internal server error."
      * }
      */
-    .post('/auth/register', controller_js_1.default.register);
+    .post('/auth/register', controller_1.default.register);
 // -- User protected routes --
 exports.userProtectedRoutes = express_1.default
     .Router()
-    .get('/users/getByToken', controller_js_1.default.getByToken)
-    .put('/users/update', controller_js_1.default.update);
+    .get('/users/getByToken', controller_1.default.getByToken)
+    .put('/users/update', controller_1.default.update);
 // -- Admin protected routes --
 exports.adminProtectedRoutes = express_1.default
     .Router()
-    .get('/users', controller_js_1.default.get)
-    .get('users/:id', controller_js_1.default.get)
-    .post('users/admin/register', controller_js_1.default.register)
-    .put('users/admin/update/:id', controller_js_1.default.update);
+    .get('/users', controller_1.default.get)
+    .get('users/:id', controller_1.default.get)
+    .post('users/admin/register', controller_1.default.register)
+    .put('users/admin/update/:id', controller_1.default.update);
