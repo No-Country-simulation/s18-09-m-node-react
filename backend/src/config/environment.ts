@@ -10,3 +10,6 @@ export const DBASE_URL = process.env.DBASE_URL ? process.env.DBASE_URL : 'postgr
 
 export const JWT_SECRET = process.env.JWT_SECRET ? process.env.JWT_SECRET : ''
 export const BCRYPT_ROUNDS = Number(process.env.BCRYPT_ROUNDS)
+
+export const EMAIL = process.env.EMAIL ? process.env.EMAIL : ''
+export const EMAIL_APP_PASSWORD = process.env.EMAIL_APP_PASSWORD ? process.env.EMAIL_APP_PASSWORD : ''

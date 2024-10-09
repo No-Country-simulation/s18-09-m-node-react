@@ -1,4 +1,5 @@
 import { User, UserDocument, UserAttributes } from '../model';
+import { sendMail } from '../mailer'
 
 export async function register(user: UserAttributes): Promise<UserDocument> {
   try {
@@ -13,6 +14,9 @@ export async function register(user: UserAttributes): Promise<UserDocument> {
     const newUser = new User(user);
     const registeredUser = await newUser.save();
 
+    if (registeredUser) {
+      await sendMail(registeredUser.email, registeredUser.password)
+    }
     if (!registeredUser) throw new Error("Unable to register user.");
 
     return registeredUser;
