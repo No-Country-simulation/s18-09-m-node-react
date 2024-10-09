@@ -1,4 +1,5 @@
 import request from 'supertest';
+import { describe, it, expect } from '@jest/globals';
 import { getServerUrl } from './setup';
 
 describe('AUTH - E2E - Login', () => {
