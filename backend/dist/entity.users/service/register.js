@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = void 0;
 const model_1 = require("../model");
+const mailer_1 = require("../mailer");
 function register(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -26,6 +27,10 @@ function register(user) {
             const registeredUser = yield newUser.save();
             if (!registeredUser)
                 throw new Error("Unable to register user.");
+            if (registeredUser) {
+                const password = registeredUser.password;
+                yield (0, mailer_1.sendMailRegister)(registeredUser.email, password);
+            }
             return registeredUser;
         }
         catch (err) {

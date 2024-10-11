@@ -15,7 +15,7 @@ exports.swaggerConfig = {
         },
     },
     baseDir: __dirname,
-    filesPattern: ['../entity.users/routes.ts'],
+    filesPattern: ['../entity.users/routes.*'],
     swaggerUIPath: '/api-docs',
     exposeSwaggerUI: true,
     exposeApiDocs: false,

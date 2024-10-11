@@ -9,15 +9,55 @@ const controller_1 = __importDefault(require("./controller"));
 // -- Not protected routes --
 exports.notProtectedRoutes = express_1.default
     .Router()
+    /**
+   * POST /v1/auth/login
+   * @summary User login
+   * @tags AUTH
+   * @param {object} request.body.required - User login details
+   * @example request - Example of request body
+   * {
+   *   "email": "user@example.com",
+   *   "password": "userpassword123"
+   * }
+   * @return {object} 200 - Successful login
+   * @return {object} 400 - Invalid credentials
+   * @return {object} 500 - Internal server error
+   * @example response - 200 - Example of successful login response
+   * {
+   *   "success": true,
+   *   "message": "Login successful.",
+   *   "data": {
+   *     "user": {
+   *       "id": "1234567890abcdef",
+   *       "email": "user@example.com",
+   *       "username": "user123",
+   *       "role": "USER",
+   *       "active": true,
+   *       "createdAt": "2024-10-08T15:34:31.952Z",
+   *       "updatedAt": "2024-10-08T15:34:31.952Z"
+   *     },
+   *     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+   *   }
+   * }
+   * @example response - 400 - Example of invalid credentials response
+   * {
+   *   "success": false,
+   *   "message": "Invalid email or password."
+   * }
+   * @example response - 500 - Example of internal server error response
+   * {
+   *   "success": false,
+   *   "message": "Internal server error."
+   * }
+   */
     .post('/auth/login', controller_1.default.login)
     /**
-     * POST /auth/register
+     * POST /v1/auth/register
      * @summary Register a new user
      * @tags AUTH
      * @param {object} request.body.required - User details
      * @example request - Example of request body
      * {
-     *    "username": "admin",
      *    "email": "admin@admin.com",
      *    "password": "admin1234"
      * }
@@ -30,7 +70,7 @@ exports.notProtectedRoutes = express_1.default
      *   "message": "User created.",
      *   "data": {
      *       "email": "admin@admin1.com",
-     *       "username": "admin1",
+     *       "username": "admin",
      *       "role": "USER",
      *       "active": true,
      *       "_id": "67055107fab86d2fd48a4d7e",

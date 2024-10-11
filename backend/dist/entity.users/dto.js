@@ -26,42 +26,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt = __importStar(require("bcrypt"));
 const environment_1 = require("../config/environment");
 const model_1 = require("./model");
+const validation_1 = require("./validation");
 class DTO {
     constructor() { }
-    static checkPassword(password) {
-        //const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        //return passwordRegex.test(password);
-        return password.length >= 8;
-    }
     static register(data) {
-        const { email, username, password, role } = data;
-        if (!email || !username || !password) {
+        // provisorio para que acepte el username vacio
+        data.username = data.username || (data.email && data.email.split('@')[0]);
+        const validationResult = (0, validation_1.validateUserData)(data);
+        if (validationResult.hasError) {
             return {
                 error: {
-                    message: "All fields are required: email, username and password."
+                    message: validationResult.errorMessages.join(', '),
                 },
-                value: null
+                value: null,
             };
         }
-        if (!this.checkPassword(password)) {
-            return {
-                error: {
-                    message: "Password must be at least 8 characters long."
-                },
-                value: null
-            };
-        }
+        const { email, username, password, role } = validationResult.userData;
         const hashPassword = bcrypt.hashSync(password, this.salt);
-        const userRole = role && (role in model_1.UserRole) ? role : model_1.UserRole.USER;
         return {
             error: null,
             value: {
                 email,
                 username,
                 password: hashPassword,
-                role: userRole,
-                active: true
-            }
+                role,
+                active: true,
+            },
         };
     }
     static login(data) {
@@ -69,40 +59,40 @@ class DTO {
         if (!email || !password)
             return {
                 error: {
-                    message: "All fields are required: email and password."
-                }
+                    message: 'All fields are required: email and password.',
+                },
             };
         return {
             error: null,
             value: {
                 email,
-                password
-            }
+                password,
+            },
         };
     }
     static update(data, user) {
         const { email, username, password, role, active } = data;
-        if (!email && !username && !password && !role && !active || !user.id)
+        if ((!email && !username && !password && !role && !active) || !user.id)
             return {
                 error: {
-                    message: "A least one field is required: email, username, password, role and active."
-                }
+                    message: 'A least one field is required: email, username, password, role and active.',
+                },
             };
-        if (password && !this.checkPassword(password))
-            return {
-                error: {
-                    message: "Password must be at least 8 characters long."
-                }
-            };
+        // if (password && !this.checkPassword(password))
+        //   return {
+        //     error: {
+        //       message: "Password must be at least 8 characters long."
+        //     }
+        //   }
         if (role && !(role in model_1.UserRole))
             return {
                 error: {
-                    message: role + " role, doesn't have permissions."
-                }
+                    message: role + " role, doesn't have permissions.",
+                },
             };
         const response = {
             id: parseInt(user.id),
-            updatedAt: new Date()
+            updatedAt: new Date(),
         };
         if (email)
             response.email = email;
@@ -124,12 +114,12 @@ class DTO {
         if (!id)
             return {
                 error: {
-                    message: "User not found."
-                }
+                    message: 'User not found.',
+                },
             };
         return {
             error: null,
-            value: parseInt(id)
+            value: parseInt(id),
         };
     }
 }
