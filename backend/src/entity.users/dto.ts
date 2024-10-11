@@ -6,9 +6,14 @@ import { validateUserData } from './validation';
 
 export default class DTO {
   private static salt = bcrypt.genSaltSync(BCRYPT_ROUNDS);
-  private constructor() {}
+  private constructor() { }
 
   public static register(data: any): { error: { message: string }; value: null } | { error: null; value: UserAttributes } {
+
+    // provisorio para que acepte el username vacio
+    data.username = data.username || (data.email && data.email.split('@')[0]);
+
+
     const validationResult = validateUserData(data);
 
     if (validationResult.hasError) {
