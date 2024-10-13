@@ -1,21 +1,37 @@
 "use client"
 import { useState } from 'react'
+import useFormState from "@/hooks/formState";
+import useFetchData from "@/hooks/useFetchData";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Facebook, Mail } from 'lucide-react'
 import Link from 'next/link'
+import { toast } from "sonner";
 
 export default function RegisterForm() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  // const [email, setEmail] = useState('')
+  // const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const { fetchData } = useFetchData();
+  const router = useRouter();
+  const { formState, setFormState } = useFormState({
+    email: "",
+    password: "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Handle form submission logic here
-    console.log('Form submitted', { email, password, confirmPassword })
+    const response = await fetchData("registerUser",  formState );
+    
+    if (response.status) {
+      router.push("/register/success")
+    } else {
+      toast.error("No se pudo crear el usuario");
+    }
   }
 
   return (
@@ -40,10 +56,11 @@ export default function RegisterForm() {
               </label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="Ingrese su email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formState.email}
+                onChange={setFormState}
                 required
               />
             </div>
@@ -53,10 +70,11 @@ export default function RegisterForm() {
               </label>
               <Input
                 id="password"
+                name="password"
                 type="password"
                 placeholder="Ingrese su contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formState.password}
+                onChange={setFormState}
                 required
               />
             </div>
@@ -66,6 +84,7 @@ export default function RegisterForm() {
               </label>
               <Input
                 id="confirmPassword"
+                name="confirmPassword"
                 type="password"
                 placeholder="Ingrese su contraseña"
                 value={confirmPassword}
