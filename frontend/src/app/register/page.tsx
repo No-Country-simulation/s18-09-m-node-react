@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react'
-import useFormState from "@/hooks/formState";
+import useFormState from "@/hooks/useFormState";
 import useFetchData from "@/hooks/useFetchData";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button"
@@ -25,7 +25,7 @@ export default function RegisterForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Handle form submission logic here
-    const response = await fetchData("registerUser",  formState );
+    const response = await fetchData("registerUser", formState );
     
     if (response.status) {
       router.push("/register/success")
