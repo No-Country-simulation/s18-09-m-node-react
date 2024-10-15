@@ -10,21 +10,23 @@ export interface FuntionProps<T> {
   body?: T;
 }
 
-// Loader types
-
-export interface LoadStateI {
-  isLoading: boolean;
-  showLoader: () => void;
-  hideLoader: () => void;
+export interface ServiceTypes {
+  registerUser: { email: string; password: string };
+  loginUser: { email: string; password: string };
+  getUserById: string;
+  getWeatherForecast: Record<string, string>;
 }
 
+export interface UserI {
+  userData: {
+    _id: string;
+    email: string;
+    role: string;
+  } | null;
+  token: string | null;
+}
 
-
-
-export interface ServiceTypes {
-  registerUser: { email: string, password: string }
-  loginUser: { email: string, password: string },
-  getUserById: string, 
-  getWeatherForecast: Record<string,string>,
-
+export interface AppStoreI {
+  user: UserI | null;
+  setUser: (user: UserI) => void;
 }

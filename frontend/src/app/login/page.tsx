@@ -1,44 +1,44 @@
-'use client'
+"use client";
 // import Image from 'next/image'
-import {useState} from 'react'
-import Link from 'next/link'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 function validateEmail(email: string) {
-  const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-  return re.test(email)
+  const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return re.test(email);
 }
 
 function validatePassword(password: string) {
-  return password.length >= 8
+  return password.length >= 8;
 }
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setEmail(value)
+    const value = e.target.value;
+    setEmail(value);
     if (!validateEmail(value)) {
-      setEmailError('Por favor, ingrese un email válido')
+      setEmailError("Por favor, ingrese un email válido");
     } else {
-      setEmailError('')
+      setEmailError("");
     }
-  }
+  };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setPassword(value)
+    const value = e.target.value;
+    setPassword(value);
     if (!validatePassword(value)) {
-      setPasswordError('La contraseña debe tener al menos 8 caracteres')
+      setPasswordError("La contraseña debe tener al menos 8 caracteres");
     } else {
-      setPasswordError('')
+      setPasswordError("");
     }
-  }
+  };
 
   // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   //   e.preventDefault()
@@ -50,9 +50,6 @@ export default function LoginPage() {
   //     if (!validatePassword(password)) setPasswordError('La contraseña debe tener al menos 8 caracteres')
   //   }
   // }
-
-
-
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -86,7 +83,10 @@ export default function LoginPage() {
           </Button>
         </form>
         <div className="text-center">
-          <Link href="/forgot-password" className="text-sm text-blue-600 hover:underline">
+          <Link
+            href="/forgot-password"
+            className="text-sm text-blue-600 hover:underline"
+          >
             ¿Ha olvidado su contraseña?
           </Link>
         </div>
@@ -94,7 +94,7 @@ export default function LoginPage() {
           <Button variant="outline" className="w-full bg-gray-600 text-white">
             Iniciar sesión con Google
           </Button>
-          <Button type='submit' className="w-full">
+          <Button type="submit" className="w-full">
             Iniciar sesión con Facebook
           </Button>
         </div>
@@ -104,12 +104,15 @@ export default function LoginPage() {
           <div className="border-t-2 border-gray-800 flex-grow"></div>
         </div>
         <div className="text-center text-sm">
-          ¿Eres nuevo en este sitio?{' '}
-          <Link href="/register" className=" m-2 text-black font-semibold hover:underline">
+          ¿Eres nuevo en este sitio?{" "}
+          <Link
+            href="/register"
+            className=" m-2 text-black font-semibold hover:underline"
+          >
             Regístrate
           </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }
