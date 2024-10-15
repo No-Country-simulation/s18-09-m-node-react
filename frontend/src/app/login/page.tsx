@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import useFormState from "@/hooks/useFormState";
 import useFetchData from "@/hooks/useFetchData";
@@ -39,16 +38,16 @@ export default function LoginPage() {
 
   
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setEmail(value)
-    setPassword(e.target.value);
-    if (!validateEmail(value)) {
-      setEmailError('Por favor, ingrese un email válido')
-    } else {
-      setEmailError('')
-    }
-  }
+  // const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value
+  //   setEmail(value)
+  //   setPassword(e.target.value);
+  //   if (!validateEmail(value)) {
+  //     setEmailError('Por favor, ingrese un email válido')
+  //   } else {
+  //     setEmailError('')
+  //   }
+  // }
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,15 +71,15 @@ export default function LoginPage() {
     setLoginError("");
   };
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setPassword(value)
-    if (!validatePassword(value)) {
-      setPasswordError('La contraseña debe tener al menos 8 caracteres')
-    } else {
-      setPasswordError('')
-    }
-  }
+  // const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value
+  //   setPassword(value)
+  //   if (!validatePassword(value)) {
+  //     setPasswordError('La contraseña debe tener al menos 8 caracteres')
+  //   } else {
+  //     setPasswordError('')
+  //   }
+  // }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -154,6 +153,4 @@ export default function LoginPage() {
   )
 }
 
-function setEmailError(arg0: string) {
-  throw new Error('Function not implemented.');
-}
+
