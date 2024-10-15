@@ -167,7 +167,7 @@ export default function LoginPage() {
             Iniciar sesión con Google
           </Button>
 
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full" />
 
           <Button type="submit" className="w-full">
 
@@ -182,7 +182,7 @@ export default function LoginPage() {
         <div className="text-center text-sm">
 
           ¿Eres nuevo en este sitio?{' '}
-          <Link href="/register" className="text-blue-600 hover:underline">
+          <Link href="/register" className="text-blue-600 hover:underline" />
 
           ¿Eres nuevo en este sitio?{" "}
           <Link
@@ -201,6 +201,6 @@ export default function LoginPage() {
 
 
 
-  );
-}
+  
+
 
