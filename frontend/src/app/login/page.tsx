@@ -11,18 +11,20 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
+
 function validateEmail(email: string) {
-  const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-  return re.test(email)
+  const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return re.test(email);
 }
 
 function validatePassword(password: string) {
-  return password.length >= 8
+  return password.length >= 8;
 }
 
 
 
 export default function LoginPage() {
+
   const { formState, setFormState } = useFormState({ email: "", password: "" });
   const { fetchData } = useFetchData();
   const router = useRouter();
@@ -44,10 +46,37 @@ export default function LoginPage() {
   //   setPassword(e.target.value);
   //   if (!validateEmail(value)) {
   //     setEmailError('Por favor, ingrese un email válido')
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    if (!validateEmail(value)) {
+      setEmailError("Por favor, ingrese un email válido");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPassword(value);
+    if (!validatePassword(value)) {
+      setPasswordError("La contraseña debe tener al menos 8 caracteres");
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   if (validateEmail(email) && validatePassword(password)) {
+  //     // Aquí iría la lógica de autenticación
+  //     console.log('Autenticando:', email, password)
   //   } else {
   //     setEmailError('')
   //   }
   // }
+
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -80,6 +109,7 @@ export default function LoginPage() {
   //     setPasswordError('')
   //   }
   // }
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -125,7 +155,10 @@ export default function LoginPage() {
           <div className="text-green-500 text-sm text-center">Inicio de sesión exitoso</div>
         )}
         <div className="text-center">
-          <Link href="/forgot-password" className="text-sm text-blue-600 hover:underline">
+          <Link
+            href="/forgot-password"
+            className="text-sm text-blue-600 hover:underline"
+          >
             ¿Ha olvidado su contraseña?
           </Link>
         </div>
@@ -133,7 +166,11 @@ export default function LoginPage() {
           <Button variant="outline" className="w-full">
             Iniciar sesión con Google
           </Button>
+
           <Button variant="outline" className="w-full">
+
+          <Button type="submit" className="w-full">
+
             Iniciar sesión con Facebook
           </Button>
         </div>
@@ -143,14 +180,27 @@ export default function LoginPage() {
           <div className="border-t border-gray-300 flex-grow"></div>
         </div>
         <div className="text-center text-sm">
+
           ¿Eres nuevo en este sitio?{' '}
           <Link href="/register" className="text-blue-600 hover:underline">
+
+          ¿Eres nuevo en este sitio?{" "}
+          <Link
+            href="/register"
+            className=" m-2 text-black font-semibold hover:underline"
+          >
+
             Regístrate
           </Link>
         </div>
       </div>
     </div>
+
   )
 }
 
+
+
+  );
+}
 
