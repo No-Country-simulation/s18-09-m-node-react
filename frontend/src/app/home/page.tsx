@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import { ArrowLeftRight, Menu, Edit2 } from "lucide-react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { ArrowLeftRight, Menu, Edit2, X } from "lucide-react";
 
 type TimerMode = "pomodoro" | "52-17" | "pausas-activas";
 
@@ -13,8 +13,8 @@ interface TimerConfig {
 
 const timerConfigs: Record<TimerMode, TimerConfig> = {
   pomodoro: {
-    workDuration: 25 * 60,
-    breakDuration: 5 * 60,
+    workDuration: 0.1 * 60,
+    breakDuration: 0.1 * 60,
     description: (
       <div className="relative px-6 py-4">
         <span className="font-bold">
@@ -74,10 +74,26 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
 };
 
 export default function Home() {
-  const [time, setTime] = useState(25 * 60);
+  const [time, setTime] = useState(52 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState<TimerMode>("52-17");
   const [isWorkTime, setIsWorkTime] = useState(true);
+  const [showNotification, setShowNotification] = useState(false);
+  const [buttonText, setButtonText] = useState("Meditar");
+
+  const showSystemNotification = useCallback((message: string) => {
+    if (Notification.permission === "granted") {
+      new Notification(message, {
+        body: "Descansa tus ojos. Estira tus piernas. Respira. Relájate.",
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+  }, []);
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -89,8 +105,9 @@ export default function Home() {
 
   const resetTimer = useCallback(() => {
     const config = timerConfigs[mode];
-    setTime(isWorkTime ? config.workDuration : config.breakDuration);
-  }, [mode, isWorkTime]);
+    setTime(config.workDuration);
+    setIsWorkTime(true);
+  }, [mode]);
 
   const toggleTimer = () => {
     setIsRunning((prev) => !prev);
@@ -103,6 +120,15 @@ export default function Home() {
     setTime(timerConfigs[newMode].workDuration);
   };
 
+  const buttonOptions = useMemo(
+    () => ["Meditar", "Estiramientos", "Respirar"],
+    []
+  );
+
+  const getRandomButtonText = useCallback(() => {
+    return buttonOptions[Math.floor(Math.random() * buttonOptions.length)];
+  }, [buttonOptions]);
+
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
@@ -110,15 +136,35 @@ export default function Home() {
       interval = setInterval(() => {
         setTime((prevTime) => prevTime - 1);
       }, 1000);
-    } else if (time === 0) {
-      setIsWorkTime((prev) => !prev);
-      resetTimer();
+    } else if (time === 0 && isWorkTime) {
+      setIsWorkTime(false);
+      setTime(timerConfigs[mode].breakDuration);
+      setShowNotification(true);
+      showSystemNotification("¡Es hora de tu break!");
+      setIsRunning(false); // Pause until notification is closed
+      setButtonText(getRandomButtonText());
+    } else if (time === 0 && !isWorkTime) {
+      resetTimer(); // Reset to work time
+      setIsRunning(false);
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isRunning, time, resetTimer]);
+  }, [
+    isRunning,
+    time,
+    mode,
+    isWorkTime,
+    getRandomButtonText,
+    showSystemNotification,
+    resetTimer,
+  ]);
+
+  const closeNotification = () => {
+    setShowNotification(false);
+    setIsRunning(true);
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -185,10 +231,28 @@ export default function Home() {
             {isRunning ? "PAUSE" : "START"}
           </button>
           <p className="text-center text-2xl text-gray-600 mt-5">
-            {isWorkTime ? "¡Es hora de Enfocarse!" : "¡Tiempo de descanso!"}
+            {isWorkTime ? "¡Es hora de Enfocarse!" : "Es hora de tu break"}
           </p>
         </div>
       </main>
+      {showNotification && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-end p-4">
+          <div className="bg-white border border-gray-300 shadow-lg p-4 rounded-lg max-w-sm">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center">
+                <h3 className="font-bold">¡Es hora de tu break!</h3>
+              </div>
+              <button onClick={closeNotification}>
+                <X className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+              </button>
+            </div>
+            <p className="text-gray-600 mt-2">
+              Descansa tus ojos. Estira tus piernas. Respira. Relájate.
+            </p>
+            <button className="bg-blue-400 text-white">{buttonText}</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
