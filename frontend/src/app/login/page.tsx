@@ -11,28 +11,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { appStore } from "@/store";
 
-function validateEmail(email: string) {
-  const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return re.test(email);
-}
+// function validateEmail(email: string) {
+//   const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+//   return re.test(email);
+// }
 
-function validatePassword(password: string) {
-  return password.length >= 8;
-}
+// function validatePassword(password: string) {
+//   return password.length >= 8;
+// }
 
 export default function LoginPage() {
   const { formState, setFormState } = useFormState({ email: "", password: "" });
   const { fetchData } = useFetchData();
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [user, setUser] = useState(null);
-  const [fields, setFields] = useState([]);
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  // const [email, setEmail] = useState("");
+  // const [user, setUser] = useState(null);
+  // const [fields, setFields] = useState([]);
+  // const [emailError, setEmailError] = useState("");
+  // const [passwordError, setPasswordError] = useState("");
+  // const [isLoading, setIsLoading] = useState(false);
+  const isLoading = false;
   const [loginError, setLoginError] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
 
   // const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const value = e.target.value
@@ -41,25 +42,25 @@ export default function LoginPage() {
   //   if (!validateEmail(value)) {
   //     setEmailError('Por favor, ingrese un email válido')
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-    if (!validateEmail(value)) {
-      setEmailError("Por favor, ingrese un email válido");
-    } else {
-      setEmailError("");
-    }
-  };
+  // const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value;
+  //   setEmail(value);
+  //   if (!validateEmail(value)) {
+  //     setEmailError("Por favor, ingrese un email válido");
+  //   } else {
+  //     setEmailError("");
+  //   }
+  // };
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setPassword(value);
-    if (!validatePassword(value)) {
-      setPasswordError("La contraseña debe tener al menos 8 caracteres");
-    } else {
-      setPasswordError("");
-    }
-  };
+  // const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value;
+  //   setPassword(value);
+  //   if (!validatePassword(value)) {
+  //     setPasswordError("La contraseña debe tener al menos 8 caracteres");
+  //   } else {
+  //     setPasswordError("");
+  //   }
+  // };
 
   // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   //   e.preventDefault()
@@ -83,7 +84,7 @@ export default function LoginPage() {
     if (status) {
       console.log(response);
       toast.success("Usuario correcto");
-      setUser(response);
+      // setUser(response);
       setLoginSuccess(true);
       router.push("home");
       hideLoader();
@@ -118,7 +119,7 @@ export default function LoginPage() {
               required
               value={formState.email}
               onChange={setFormState}
-              error={emailError}
+              // error={emailError}
             />
           </div>
           <div>
@@ -129,7 +130,7 @@ export default function LoginPage() {
               required
               value={formState.password}
               onChange={setFormState}
-              error={passwordError}
+              // error={passwordError}
             />
           </div>
           <Button
