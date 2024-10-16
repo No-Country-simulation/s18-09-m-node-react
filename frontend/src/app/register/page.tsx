@@ -1,21 +1,28 @@
-"use client"
-import { useState } from 'react'
+"use client";
+import { useState } from "react";
 import useFormState from "@/hooks/useFormState";
 import useFetchData from "@/hooks/useFetchData";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Facebook, Mail, Eye, EyeOff } from 'lucide-react'
-import Link from 'next/link'
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Facebook, Mail, Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
+import { appStore } from "@/store";
 
 export default function RegisterForm() {
   // const [email, setEmail] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const { fetchData } = useFetchData();
   const router = useRouter();
   const { formState, setFormState } = useFormState({
@@ -23,17 +30,25 @@ export default function RegisterForm() {
     password: "",
   });
 
+  const showLoader = appStore((state) => state.showLoader);
+  const hideLoader = appStore((state) => state.hideLoader);
+
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    showLoader();
+
     // Handle form submission logic here
     const response = await fetchData("registerUser", formState);
 
     if (response.status) {
-      router.push("/register/success")
+      router.push("/register/success");
+      hideLoader();
     } else {
       toast.error("No se pudo crear el usuario");
+      hideLoader();
     }
-  }
+  };
   const validatePassword = (password: string) => {
     const errors = [];
 
@@ -64,12 +79,14 @@ export default function RegisterForm() {
     <div className="h-screen flex items-center justify-center">
       <Card className="w-full max-w-md mx-auto ">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Registrate</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            Registrate
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-center mb-6">
             <p className="text-sm text-muted-foreground">
-              ¿Ya tienes una cuenta?{' '}
+              ¿Ya tienes una cuenta?{" "}
               <Link href="/login" className="text-primary hover:underline">
                 Iniciar sesión
               </Link>
@@ -89,7 +106,6 @@ export default function RegisterForm() {
                 onChange={setFormState}
                 required
               />
-
             </div>
 
             {/* password */}
@@ -109,6 +125,7 @@ export default function RegisterForm() {
                 error={validatePassword(formState.password)}
               />
               <button
+                type="button" // Asegura que no actúe como un submit
                 className="absolute top-1/2 right-2 transform -translate-y-1/2"
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -117,7 +134,7 @@ export default function RegisterForm() {
             </div>
 
             {/* confirm password */}
-            
+
             <div className="space-y-2 relative">
               <label htmlFor="confirmPassword" className="text-sm font-medium">
                 Repetir Contraseña
@@ -130,15 +147,19 @@ export default function RegisterForm() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                error={formState.password !== confirmPassword ? "Las contraseñas no coinciden" : undefined}
+                error={
+                  formState.password !== confirmPassword
+                    ? "Las contraseñas no coinciden"
+                    : undefined
+                }
               />
               <button
+                type="button"
                 className="absolute top-1/2 right-2 transform -translate-y-1/2"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
                 {showConfirmPassword ? <EyeOff /> : <Eye />}
               </button>
-
             </div>
             <Button type="submit" className="w-full">
               Registrate
@@ -148,7 +169,9 @@ export default function RegisterForm() {
         <CardFooter className="flex flex-col items-center">
           <div className="flex items-center w-full my-4">
             <Separator className="flex-1" />
-            <span className="mx-4 text-sm text-muted-foreground">o conéctate con</span>
+            <span className="mx-4 text-sm text-muted-foreground">
+              o conéctate con
+            </span>
             <Separator className="flex-1" />
           </div>
           <div className="flex space-x-4">
@@ -162,5 +185,5 @@ export default function RegisterForm() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
