@@ -5,6 +5,15 @@ import { persist } from "zustand/middleware";
 export const appStore = create<AppStoreI>()(
   persist(
     (set) => ({
+      isLoaderVisible: false,
+      showLoader: () =>
+        set(() => ({
+          isLoaderVisible: true,
+        })),
+      hideLoader: () =>
+        set(() => ({
+          isLoaderVisible: false,
+        })),
       user: null,
       setUser: (user: UserI) => set(() => ({ user })),
     }),

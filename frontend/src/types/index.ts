@@ -27,6 +27,9 @@ export interface UserI {
 }
 
 export interface AppStoreI {
+  isLoaderVisible: boolean;
+  showLoader: () => void;
+  hideLoader: () => void;
   user: UserI | null;
   setUser: (user: UserI) => void;
 }
