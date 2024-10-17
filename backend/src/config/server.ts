@@ -13,6 +13,7 @@ import passport from '../middlewares/auth.mid';
 import { errorHandler } from '../middlewares/error.middleware';
 import * as usersRouter from '../entity.users/routes';
 import * as techniquesRouter from '../entity.techniques/routes';
+import * as sessionsRouter from '../entity.sessions/routes';
 
 export default class Server {
   public app: express.Application;
@@ -59,11 +60,13 @@ export default class Server {
     this.app.use(passport.authenticate('userJWT', { session: false }));
     this.app.use(`/${API_VERSION}`, usersRouter.userProtectedRoutes);
     this.app.use(`/${API_VERSION}`, techniquesRouter.userProtectedRoutes);
+    this.app.use(`/${API_VERSION}`, sessionsRouter.userProtectedRoutes);
 
     // -- Admin protected routes --
     this.app.use(passport.authenticate('adminJWT', { session: false }));
     this.app.use(`/${API_VERSION}`, usersRouter.adminProtectedRoutes);
     this.app.use(`/${API_VERSION}`, techniquesRouter.adminProtectedRoutes);
+    this.app.use(`/${API_VERSION}`, sessionsRouter.adminProtectedRoutes);
 
   }
 
