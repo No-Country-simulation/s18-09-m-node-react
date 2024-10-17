@@ -1,8 +1,21 @@
 import type { Metadata } from "next";
+import { Inter, Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Loader } from "@/components/ui/Loader";
 import { Toaster } from "sonner";
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  variable: "--font-roboto",
+  weight: ["400", "700"],
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "600", "700"],
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${roboto.variable} ${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Loader />
         <Toaster richColors />
