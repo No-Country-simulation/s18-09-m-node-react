@@ -169,11 +169,11 @@ export default function Home() {
   };
 
   //modal
-  const [isModalOpen, setIsModalOpen] = useState(true); // Inicialmente el modal está abierto
+  // const [isModalOpen, setIsModalOpen] = useState(true); // Inicialmente el modal está abierto
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Cerrar el modal
-  };
+  // const handleCloseModal = () => {
+  //   // setIsModalOpen(false); // Cerrar el modal
+  // };
 
   //drawer
   const [isOpen, setIsOpen] = useState(false)
