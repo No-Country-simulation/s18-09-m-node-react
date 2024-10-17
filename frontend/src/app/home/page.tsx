@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowLeftRight, Menu, Edit2, X } from "lucide-react";
+import WelcomeModal from "@/components/ui/WelcomeModal"; 
 
 type TimerMode = "pomodoro" | "52-17" | "pausas-activas";
 
@@ -168,6 +169,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
+      <WelcomeModal/> 
       <header className="container mx-auto flex justify-between items-center p-4 border-b">
         <div className="text-2xl font-bold border border-gray-300 px-2">
           Logo
