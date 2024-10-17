@@ -12,6 +12,7 @@ import { swaggerConfig } from './swagger.config';
 import passport from '../middlewares/auth.mid';
 import { errorHandler } from '../middlewares/error.middleware';
 import * as usersRouter from '../entity.users/routes';
+import * as techniquesRouter from '../entity.techniques/routes';
 
 export default class Server {
   public app: express.Application;
@@ -57,11 +58,12 @@ export default class Server {
     // -- User protected routes --
     this.app.use(passport.authenticate('userJWT', { session: false }));
     this.app.use(`/${API_VERSION}`, usersRouter.userProtectedRoutes);
+    this.app.use(`/${API_VERSION}`, techniquesRouter.userProtectedRoutes);
 
     // -- Admin protected routes --
     this.app.use(passport.authenticate('adminJWT', { session: false }));
     this.app.use(`/${API_VERSION}`, usersRouter.adminProtectedRoutes);
-
+    this.app.use(`/${API_VERSION}`, techniquesRouter.adminProtectedRoutes);
 
   }
 
