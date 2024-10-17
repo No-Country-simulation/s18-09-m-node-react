@@ -8,12 +8,12 @@ export const sessionRegistrationSchema = z.object({
   technique_id: z.string({
     message: 'Invalid technique ID format.',
   }),
-  start_time: z.date({
-    required_error: 'Start time is required.',
-  }),
-  end_time: z.date({
-    required_error: 'End time is required.',
-  }),
+  start_time: z.preprocess((arg) => {
+    if (typeof arg === "string" || arg instanceof Date) return new Date(arg);
+  }, z.date()),
+  end_time: z.preprocess((arg) => {
+    if (typeof arg === "string" || arg instanceof Date) return new Date(arg);
+  }, z.date()),
   expected_total_time: z
     .number({
       required_error: 'Expected total time is required.',

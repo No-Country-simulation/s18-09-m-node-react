@@ -17,6 +17,7 @@ export default class DTO {
 
     const { user_id, technique_id, start_time, end_time, expected_total_time, real_focus_time, real_break_time, real_break_count, finished, score } =
       validationResult.userData!;
+
     return {
       error: null,
       value: {
