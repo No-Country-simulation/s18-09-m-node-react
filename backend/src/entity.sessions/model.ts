@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-export interface SessionAttributes extends Document {
+export interface SessionAttributes {
   user_id: String;
   technique_id: String;
   start_time: Date;
@@ -13,7 +13,15 @@ export interface SessionAttributes extends Document {
   score: number;
 }
 
-const SessionSchema = new Schema<SessionAttributes>(
+export interface SessionUpdateAttributes extends SessionAttributes {
+  _id: string;
+}
+
+export interface SessionDocument extends Document, SessionAttributes {
+  _id: string;
+}
+
+const SessionSchema: Schema<SessionDocument> = new Schema(
   {
     user_id: {
       type: String,
@@ -66,4 +74,4 @@ const SessionSchema = new Schema<SessionAttributes>(
   { timestamps: true },
 );
 
-export const Session: Model<SessionAttributes> = mongoose.model<SessionAttributes>('Session', SessionSchema);
+export const Session: Model<SessionDocument> = mongoose.model<SessionDocument>('Session', SessionSchema);
