@@ -48,6 +48,7 @@ const swagger_config_1 = require("./swagger.config");
 const auth_mid_1 = __importDefault(require("../middlewares/auth.mid"));
 const error_middleware_1 = require("../middlewares/error.middleware");
 const usersRouter = __importStar(require("../entity.users/routes"));
+const techniquesRouter = __importStar(require("../entity.techniques/routes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -85,9 +86,11 @@ class Server {
         // -- User protected routes --
         this.app.use(auth_mid_1.default.authenticate('userJWT', { session: false }));
         this.app.use(`/${environment_1.API_VERSION}`, usersRouter.userProtectedRoutes);
+        this.app.use(`/${environment_1.API_VERSION}`, techniquesRouter.userProtectedRoutes);
         // -- Admin protected routes --
         this.app.use(auth_mid_1.default.authenticate('adminJWT', { session: false }));
         this.app.use(`/${environment_1.API_VERSION}`, usersRouter.adminProtectedRoutes);
+        this.app.use(`/${environment_1.API_VERSION}`, techniquesRouter.adminProtectedRoutes);
     }
     errorHandler() {
         this.app.use(error_middleware_1.errorHandler);
