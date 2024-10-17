@@ -2,7 +2,7 @@ import { User, UserDocument, UserAttributes } from '../model';
 import { sendMailRegister } from '../mailer'
 
 
-export async function register(user: UserAttributes): Promise<UserDocument> {
+export async function register(user: UserAttributes, password: string): Promise<UserDocument> {
   try {
     const existingUsers = await User.find({
       $or: [
@@ -17,8 +17,7 @@ export async function register(user: UserAttributes): Promise<UserDocument> {
 
 
     if (!registeredUser) throw new Error("Unable to register user.");
-    if(registeredUser) {
-      const password = registeredUser.password
+    if (registeredUser) {
       await sendMailRegister(registeredUser.email, password)
     }
 

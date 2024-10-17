@@ -16,10 +16,10 @@ export default class Controller {
 
   // -- Register a new user --
   public static async register(req: Request, res: Response, next: NextFunction) {
-    const { error, value } = DTO.register(req.body);
+    const { error, value, password } = DTO.register(req.body);
     if (error) return ControllerHandler.badRequest(error.message, res)
     try {
-      const userData = await register(value);
+      const userData = await register(value,password);
       return ControllerHandler.created("User created.", userData, res)
     } catch (err) {
       next(err);
