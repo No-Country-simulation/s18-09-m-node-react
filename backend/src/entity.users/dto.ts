@@ -8,7 +8,7 @@ export default class DTO {
   private static salt = bcrypt.genSaltSync(BCRYPT_ROUNDS);
   private constructor() { }
 
-  public static register(data: any): { error: { message: string }; value: null } | { error: null; value: UserAttributes } {
+  public static register(data: any): { error: { message: string }; value: null; password: null } | { error: null; value: UserAttributes; password: string } {
 
     // provisorio para que acepte el username vacio
     data.username = data.username || (data.email && data.email.split('@')[0]);
@@ -22,10 +22,13 @@ export default class DTO {
           message: validationResult.errorMessages.join(', '),
         },
         value: null,
+        password:null,
       };
     }
 
     const { email, username, password, role } = validationResult.userData!;
+
+    // Enviar mail de registro exitoso
 
     const hashPassword = bcrypt.hashSync(password, this.salt);
 
@@ -38,6 +41,7 @@ export default class DTO {
         role,
         active: true,
       },
+      password:password,
     };
   }
 

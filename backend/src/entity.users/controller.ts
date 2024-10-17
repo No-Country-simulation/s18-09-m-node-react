@@ -7,8 +7,9 @@ import {
   register,
   login,
   update,
-  get
+  get,
 } from './service';
+import { forgetPassword } from './service/forget';
 
 
 export default class Controller {
@@ -16,11 +17,26 @@ export default class Controller {
 
   // -- Register a new user --
   public static async register(req: Request, res: Response, next: NextFunction) {
-    const { error, value } = DTO.register(req.body);
+    const { error, value, password } = DTO.register(req.body);
     if (error) return ControllerHandler.badRequest(error.message, res)
     try {
-      const userData = await register(value);
+      const userData = await register(value, password);
       return ControllerHandler.created("User created.", userData, res)
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  // -- Forget password --
+  public static async forgetPassword(req: Request, res: Response, next: NextFunction) {
+    const { email } = req.body;
+    try {
+      const result = await forgetPassword(email);
+      if (result.success) {
+        return ControllerHandler.created("Password reset email sent.", result, res);
+      } else {
+        return res.status(404).json({ message: result.message }); // Usuario no encontrado
+      }
     } catch (err) {
       next(err);
     }

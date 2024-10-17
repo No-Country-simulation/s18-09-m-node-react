@@ -89,6 +89,7 @@ export const notProtectedRoutes = express
    * }
    */
   .post('/auth/register', Controller.register)
+  .post('/auth/forgetpassword', Controller.forgetPassword)
 
 // -- User protected routes --
 export const userProtectedRoutes = express
