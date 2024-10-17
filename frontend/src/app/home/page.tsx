@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowLeftRight, Menu, Edit2, X } from "lucide-react";
 import WelcomeModal from "@/components/ui/WelcomeModal"; 
+import { Drawer } from '@/components/Drawer'
 
 type TimerMode = "pomodoro" | "52-17" | "pausas-activas";
 
@@ -167,6 +168,10 @@ export default function Home() {
     setIsRunning(true);
   };
 
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggleDrawer = () => setIsOpen(!isOpen)
+  
   return (
     <div className="min-h-screen bg-white">
       <WelcomeModal/> 
@@ -176,7 +181,14 @@ export default function Home() {
         </div>
         <div className="flex gap-4">
           <ArrowLeftRight className="h-5 w-5" />
-          <Menu className="h-5 w-5" />
+          <button
+          onClick={toggleDrawer}
+          className="right-4 z-50"
+          aria-label="Toggle configuration drawer"
+          >
+            <Menu className="h-5 w-5" />
+         </button>
+         <Drawer title="Configuración" isOpen={isOpen} toggleDrawer={toggleDrawer} />
         </div>
       </header>
 
