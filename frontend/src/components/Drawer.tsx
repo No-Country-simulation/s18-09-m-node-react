@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react'; // Asegúrate de importar ChevronDown
+import {  X, ChevronDown } from 'lucide-react'; // Asegúrate de importar ChevronDown
 import { motion, AnimatePresence } from 'framer-motion';
-import { Separator } from '@radix-ui/react-separator';
+// import { Separator } from '@radix-ui/react-separator';
 
 interface DrawerProps {
   title: string;

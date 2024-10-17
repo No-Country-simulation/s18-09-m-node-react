@@ -40,3 +40,5 @@ export const DashboardMenuItem = memo(({ value, href }: Props) => {
     </div>
   );
 });
+
+DashboardMenuItem.displayName = 'DashboardMenuItem';
