@@ -75,6 +75,8 @@ export default function LoginPage() {
   const showLoader = appStore((state) => state.showLoader);
   const hideLoader = appStore((state) => state.hideLoader);
 
+  const setUser = appStore((state) => state.setUser);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -83,9 +85,20 @@ export default function LoginPage() {
 
     if (status) {
       console.log(response);
+      const { _id, email, role } = response.data;
+      const token = response.token;
+
       toast.success("Usuario correcto");
       // setUser(response);
       setLoginSuccess(true);
+      setUser({
+        token,
+        userData: {
+          _id,
+          email,
+          role,
+        },
+      });
       router.push("home");
       hideLoader();
     } else {
