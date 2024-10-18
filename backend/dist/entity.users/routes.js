@@ -90,7 +90,8 @@ exports.notProtectedRoutes = express_1.default
      *   "message": "Internal server error."
      * }
      */
-    .post('/auth/register', controller_1.default.register);
+    .post('/auth/register', controller_1.default.register)
+    .post('/auth/forgetpassword', controller_1.default.forgetPassword);
 // -- User protected routes --
 exports.userProtectedRoutes = express_1.default
     .Router()

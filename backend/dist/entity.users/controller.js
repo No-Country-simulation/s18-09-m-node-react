@@ -15,17 +15,36 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const controllers_handler_1 = __importDefault(require("../handlers/controllers.handler"));
 const dto_1 = __importDefault(require("./dto"));
 const service_1 = require("./service");
+const forget_1 = require("./service/forget");
 class Controller {
     constructor() { }
     // -- Register a new user --
     static register(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { error, value } = dto_1.default.register(req.body);
+            const { error, value, password } = dto_1.default.register(req.body);
             if (error)
                 return controllers_handler_1.default.badRequest(error.message, res);
             try {
-                const userData = yield (0, service_1.register)(value);
+                const userData = yield (0, service_1.register)(value, password);
                 return controllers_handler_1.default.created("User created.", userData, res);
+            }
+            catch (err) {
+                next(err);
+            }
+        });
+    }
+    // -- Forget password --
+    static forgetPassword(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { email } = req.body;
+            try {
+                const result = yield (0, forget_1.forgetPassword)(email);
+                if (result.success) {
+                    return controllers_handler_1.default.created("Password reset email sent.", result, res);
+                }
+                else {
+                    return res.status(404).json({ message: result.message }); // Usuario no encontrado
+                }
             }
             catch (err) {
                 next(err);

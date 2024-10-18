@@ -23,35 +23,55 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = exports.UserRole = void 0;
+exports.Session = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-var UserRole;
-(function (UserRole) {
-    UserRole["ADMIN"] = "ADMIN";
-    UserRole["USER"] = "USER";
-})(UserRole || (exports.UserRole = UserRole = {}));
-const UserSchema = new mongoose_1.Schema({
-    email: {
+const SessionSchema = new mongoose_1.Schema({
+    user_id: {
         type: String,
         required: true,
-        unique: true
+        ref: 'User',
     },
-    username: {
+    technique_id: {
         type: String,
         required: true,
+        ref: 'Technique',
     },
-    password: {
-        type: String,
-        required: true
+    start_time: {
+        type: Date,
+        required: true,
     },
-    role: {
-        type: String,
-        enum: [UserRole.ADMIN, UserRole.USER],
-        required: true
+    end_time: {
+        type: Date,
+        required: true,
     },
-    active: {
+    expected_total_time: {
+        type: Number,
+        required: true,
+        min: 0,
+    },
+    real_focus_time: {
+        type: Number,
+        required: true,
+        min: 0,
+    },
+    real_break_time: {
+        type: Number,
+        required: true,
+        min: 0,
+    },
+    real_break_count: {
+        type: Number,
+        default: 0,
+        min: 0,
+    },
+    finished: {
         type: Boolean,
-        default: true
+        default: false,
+    },
+    score: {
+        type: Number,
+        default: 0,
+        min: 0,
     },
 }, { timestamps: true });
-exports.User = mongoose_1.default.model('User', UserSchema);
+exports.Session = mongoose_1.default.model('Session', SessionSchema);
