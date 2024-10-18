@@ -2,8 +2,11 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowLeftRight, Menu, Edit2, X } from "lucide-react";
-import WelcomeModal from "@/components/WelcomeModal";
-import { Drawer } from '@/components/Drawer'
+
+{
+  /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
+}
+
 
 type TimerMode = "pomodoro" | "52-17" | "pausas-activas";
 
@@ -18,7 +21,7 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
     workDuration: 0.1 * 60,
     breakDuration: 0.1 * 60,
     description: (
-      <div className="relative px-6 py-4">
+      <div className="max-w-[1200px] relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5 ">
         <span className="font-bold">
           Maximiza tu productividad con intervalos de enfoque y descansos
           estratégicos.
@@ -32,8 +35,8 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
         Este ciclo te ayuda a mantener la motivación, reducir la procrastinación
         y evitar el agotamiento, permitiéndote lograr más en menos tiempo
         mientras cuidas tu bienestar mental.
-        <button className="absolute bottom-4 right-4 bg-pink-50 p-2 rounded-md">
-          <Edit2 className="h-4 w-4 text-purple-600" />
+        <button className="absolute bottom-20 right-4 bg-violet-100 p-2 rounded-xl shadow-lg shadow-gray-500/50">
+          <Edit2 className="h-7 w-7 text-indigo-500" />
         </button>
       </div>
     ),
@@ -42,7 +45,7 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
     workDuration: 52 * 60,
     breakDuration: 17 * 60,
     description: (
-      <div className="relative px-6 py-4">
+      <div className="max-w-[1200px] relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5">
         <span className="font-bold">
           Optimiza tu rendimiento con sesiones largas y descansos estratégicos.
         </span>
@@ -55,8 +58,8 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
         Este método te permite mantener un enfoque sostenido en tareas
         importantes, mientras los descansos regulares te ayudan a renovar
         energías y prevenir el agotamiento.
-        <button className="absolute bottom-4 right-4 bg-pink-50 p-2 rounded-md">
-          <Edit2 className="h-4 w-4 text-purple-600" />
+        <button className="absolute bottom-20 right-4 bg-violet-100 p-2 rounded-xl shadow-lg shadow-gray-500/50 ">
+          <Edit2 className="h-7 w-7 text-indigo-500" />
         </button>
       </div>
     ),
@@ -65,10 +68,10 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
     workDuration: 55 * 60,
     breakDuration: 5 * 60,
     description: (
-      <div className="relative px-6 py-4">
+      <div className="max-w-[1200px] relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5">
         Incorpora breves pausas de actividad física durante tu jornada laboral.
-        <button className="absolute bottom-4 right-4 bg-pink-50 p-2 rounded-md">
-          <Edit2 className="h-4 w-4 text-purple-600" />
+        <button className="absolute bottom-20 right-4 bg-violet-100 p-2 rounded-xl shadow-lg shadow-gray-500/50">
+          <Edit2 className="h-7 w-7 text-indigo-500" />
         </button>
       </div>
     ),
@@ -82,6 +85,7 @@ export default function Home() {
   const [isWorkTime, setIsWorkTime] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
   const [buttonText, setButtonText] = useState("Meditar");
+  const [hoveredMode, setHoveredMode] = useState<TimerMode | null>(null);
 
   const showSystemNotification = useCallback((message: string) => {
     if (Notification.permission === "granted") {
@@ -120,6 +124,12 @@ export default function Home() {
     setIsRunning(false);
     setIsWorkTime(true);
     setTime(timerConfigs[newMode].workDuration);
+  };
+
+  const handleWrapperMouseEnter = () => {};
+
+  const handleWrapperMouseLeave = () => {
+    setHoveredMode(null);
   };
 
   const buttonOptions = useMemo(
@@ -168,82 +178,105 @@ export default function Home() {
     setIsRunning(true);
   };
 
+
+  //modal
+  // const [isModalOpen, setIsModalOpen] = useState(true); // Inicialmente el modal está abierto
+
+  // const handleCloseModal = () => {
+  // // setIsModalOpen(false); // Cerrar el modal
+  // };
+
   //drawer
-  const [isOpen, setIsOpen] = useState(false)
-  const toggleDrawer = () => setIsOpen(!isOpen)
-  
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDrawer = () => setIsOpen(!isOpen);
+
+
   return (
-    <div className="min-h-screen bg-white">
-      <header className="container mx-auto flex justify-between items-center p-4 border-b">
-        <div className="text-2xl font-bold border border-gray-300 px-2">
-          Logo
-        </div>
-        <div className="flex gap-4">
-          <ArrowLeftRight className="h-5 w-5" />
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-around p-4">
+      <header className="flex mt-2 gap-4">
+        <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400">
+          Break&focus
+        </h1>
+        <div className="flex justify_around items-center mt-4 gap-4">
+          <ArrowLeftRight className="h-6 w-6 text-gray-700" />
           <button
-          onClick={toggleDrawer}
-          className="right-4 z-50"
-          aria-label="Toggle configuration drawer"
+            onClick={toggleDrawer}
+            className="relative z-50"
+            aria-label="Toggle configuration drawer"
           >
-            <Menu className="h-5 w-5" />
-         </button>
-         <Drawer title="Configuración" isOpen={isOpen} toggleDrawer={toggleDrawer} />
+            <Menu className="h-6 w-6 text-gray-700" />
+          </button>
+          <Drawer
+            title="Configuración"
+            isOpen={isOpen}
+            toggleDrawer={toggleDrawer}
+          />
         </div>
       </header>
 
-      <main className="text-2xl md:container md:mx-auto px-4 py-8 max-w-2xl">
-        <h2 className="text-center mb-8 text-gray-600">
-          Escoge la opción que más se ajuste a tu estilo de trabajo y comienza a
-          maximizar tu productividad y bienestar
-        </h2>
-
-        <div className="flex justify-around mb-4 bg-pink-50 py-4 px-5">
-          <button
-            className={`text-md  ${
-              mode === "pomodoro"
-                ? "text-purple-600 font-bold"
-                : "text-gray-600"
-            }`}
-            onClick={() => switchMode("pomodoro")}
-          >
-            Técnica Pomodoro
-          </button>
-          <button
-            className={`text-md ${
-              mode === "52-17" ? "text-purple-600 font-bold" : "text-gray-600"
-            }`}
-            onClick={() => switchMode("52-17")}
-          >
-            Técnica 52/17
-          </button>
-          <button
-            className={`text-md  ${
-              mode === "pausas-activas"
-                ? "text-purple-600 font-bold"
-                : "text-gray-600"
-            }`}
-            onClick={() => switchMode("pausas-activas")}
-          >
-            Técnica Pausas Activas
-          </button>
+      <main className="text-2xl md:container md:mx-auto px-4 py-8 max-w-2xl ">
+        <div
+          className="flex flex-col justify-center mb-6 space-x-6 bg-transparent"
+          onMouseEnter={handleWrapperMouseEnter}
+          onMouseLeave={handleWrapperMouseLeave}
+        >
+          <div className="flex justify-evenly bg-violet-100">
+            <button
+              className={`text-lg pb-2  ${
+                mode === "pomodoro"
+                  ? "border-b-2 border-purple-500 text-purple-600 font-semibold"
+                  : "text-gray-500"
+              }`}
+              onMouseEnter={() => setHoveredMode("pomodoro")} // Hover triggers for Pomodoro
+              onClick={() => switchMode("pomodoro")}
+            >
+              Técnica Pomodoro
+            </button>
+            <button
+              className={`text-lg pb-2 ${
+                mode === "52-17"
+                  ? "border-b-2 border-purple-500 text-purple-600 font-semibold"
+                  : "text-gray-500"
+              }`}
+              onMouseEnter={() => setHoveredMode("52-17")}
+              onClick={() => switchMode("52-17")}
+            >
+              Técnica 52/17
+            </button>
+            <button
+              className={`text-lg pb-2 ${
+                mode === "pausas-activas"
+                  ? "border-b-2 border-purple-500 text-purple-600 font-semibold"
+                  : "text-gray-500"
+              }`}
+              onMouseEnter={() => setHoveredMode("pausas-activas")}
+              onClick={() => switchMode("pausas-activas")}
+            >
+              Técnica Pausas Activas
+            </button>
+          </div>
+          {hoveredMode && (
+            <span className="text-lg text-gray-600">
+              {timerConfigs[hoveredMode].description}
+            </span>
+          )}
         </div>
-        <span className="text-xd text-gray-600 mb-8">
-          {timerConfigs[mode].description}
-        </span>
 
-        <div className=" text-center mb-8">
-          <div className="container mx-auto bg-gray-100 rounded-2xl p-8 w-80 text-center">
-            <div className="py-4 px-5 text-8xl font-bold mb-6">
+        <div className="text-center mt-10 ">
+          <div className="container mx-auto mb-5 bg-gradient-to-r from-green-400 to-blue-300 py-12 rounded-2xl shadow-md max-w-[600px]">
+            <p className=" text-8xl font-extrabold text-white">
               {formatTime(time)}
-            </div>
+            </p>
           </div>
           <button
             onClick={toggleTimer}
-            className="mt-5 bg-gray-200 text-gray-800 px-8 p-2 rounded-full text-md font-semibold"
+            className="text-center mt-5 mb-7 bg-gradient-to-b from-green-400 to-blue-400 text-white font-semibold
+                        text-2xl p-4 rounded-full shadow-lg h-[180px] w-[180px]"
           >
-            {isRunning ? "PAUSE" : "START"}
+            {isRunning ? "PAUSE" : "COMENZAR"}
           </button>
-          <p className="text-center text-2xl text-gray-600 mt-5">
+          <p className="text-xl font-semibold text-blue-600 mt-5">
             {isWorkTime ? "¡Es hora de Enfocarse!" : "Es hora de tu break"}
           </p>
         </div>
