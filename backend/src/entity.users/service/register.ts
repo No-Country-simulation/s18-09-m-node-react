@@ -6,8 +6,7 @@ export async function register(user: UserAttributes, password: string): Promise<
   try {
     const existingUsers = await User.find({
       $or: [
-        { email: user.email },
-        { username: user.username }
+        { email: user.email }
       ]
     }).exec();
     if (existingUsers.length > 0) throw new Error("User already exists.");

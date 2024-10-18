@@ -12,7 +12,7 @@ export const swaggerConfig = {
     },
   },
   baseDir: __dirname,
-  filesPattern: ['../entity.users/routes.*', '../entity.techniques/routes.*'],
+  filesPattern: ['../entity.users/routes.*', '../entity.techniques/routes.*', '../entity.sessions/routes.*'],
   swaggerUIPath: '/api-docs',
   exposeSwaggerUI: true,
   exposeApiDocs: false,
