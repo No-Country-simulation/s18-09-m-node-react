@@ -14,8 +14,8 @@ import { useEffect, useState } from "react";
  * @returns Un nuevo componente que verifica la autenticación del usuario antes de renderizar el componente envuelto.
  */
 
-const withAuth = (WrappedComponent: React.ComponentType<any>) => {
-  const Wrapper = (props: any) => {
+const withAuth = (WrappedComponent: React.ComponentType<{ children: React.ReactNode }>) => {
+  const Wrapper = (props: { children: React.ReactNode }) => {
     const router = useRouter();
     const [isAuth, setIsAuth] = useState(false);
 
