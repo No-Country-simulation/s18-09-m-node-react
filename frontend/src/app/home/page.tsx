@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowLeftRight, Menu, Edit2, X } from "lucide-react";
+
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
-import { Drawer } from "@/components/Drawer";
+
 
 type TimerMode = "pomodoro" | "52-17" | "pausas-activas";
 
@@ -177,6 +178,7 @@ export default function Home() {
     setIsRunning(true);
   };
 
+
   //modal
   // const [isModalOpen, setIsModalOpen] = useState(true); // Inicialmente el modal está abierto
 
@@ -188,6 +190,7 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer = () => setIsOpen(!isOpen);
+
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-around p-4">
@@ -296,7 +299,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      {/*<WelcomeModal isOpen={isModalOpen} onClose={handleCloseModal} />*/}
+      <WelcomeModal  />
     </div>
   );
 }
