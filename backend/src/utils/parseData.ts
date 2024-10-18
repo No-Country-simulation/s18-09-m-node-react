@@ -20,7 +20,13 @@ export const parseValidationResult = <T>(result: validationResult<T>): parsedVal
       userData: result.data,
     } as const;
   } else {
-    const errorMessages = result.error?.issues.map((issue) => issue.message) ?? [];
+    const errorMessages = result.error?.issues.map((issue) => {
+      const field = issue.path[0];
+      if (issue.message === 'Required') {
+        return `Field '${field}' is required.`;
+      }
+      return issue.message;
+    }) ?? [];
     return {
       hasError: true,
       errorMessages,
