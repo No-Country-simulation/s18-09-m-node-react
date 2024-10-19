@@ -161,7 +161,11 @@ export default function RegisterForm() {
                 {showConfirmPassword ? <EyeOff /> : <Eye />}
               </button>
             </div>
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={formState.password !== confirmPassword}
+            >
               Registrate
             </Button>
           </form>
