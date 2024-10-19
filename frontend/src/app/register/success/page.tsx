@@ -1,4 +1,4 @@
-import { CheckIcon } from "@/app/svg/CheckIcon";
+import { CheckIcon } from "@/svg/CheckIcon";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
