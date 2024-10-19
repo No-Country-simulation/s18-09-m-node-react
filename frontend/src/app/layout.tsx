@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Loader } from "@/components/ui/Loader";
 import { Toaster } from "sonner";
+import { Header } from "./common/Header";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Header />
         <Loader />
         <Toaster richColors />
         {children}

@@ -184,34 +184,8 @@ export default function Home() {
   // // setIsModalOpen(false); // Cerrar el modal
   // };
 
-  //drawer
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDrawer = () => setIsOpen(!isOpen);
-
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-around p-4">
-      <header className="flex mt-2 gap-4">
-        <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-green-400">
-          Break&focus
-        </h1>
-        <div className="flex justify_around items-center mt-4 gap-4">
-          <ArrowLeftRight className="h-6 w-6 text-gray-700" />
-          <button
-            onClick={toggleDrawer}
-            className="relative z-50"
-            aria-label="Toggle configuration drawer"
-          >
-            <Menu className="h-6 w-6 text-gray-700" />
-          </button>
-          <Drawer
-            title="Configuración"
-            isOpen={isOpen}
-            toggleDrawer={toggleDrawer}
-          />
-        </div>
-      </header>
-
       <main className="text-2xl md:container md:mx-auto px-4 py-8 max-w-2xl ">
         <div
           className="flex flex-col justify-center mb-6 space-x-6 bg-transparent"
