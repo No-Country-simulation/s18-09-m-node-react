@@ -5,6 +5,7 @@ import "./globals.css";
 import { Loader } from "@/components/ui/Loader";
 import { Toaster } from "sonner";
 import { Header } from "./common/Header";
+import Footer from "./common/Footer";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -48,6 +49,7 @@ export default function RootLayout({
         <Loader />
         <Toaster richColors />
         {children}
+        <Footer />
       </body>
     </html>
   );

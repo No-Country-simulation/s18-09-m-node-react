@@ -2,7 +2,7 @@
 import { Drawer } from "@/components/Drawer";
 import { AppLogo } from "@/svg/AppLogo";
 import { LoginIcon } from "@/svg/LoginIcon";
-import { ArrowLeftRight, LogIn, Menu, RotateCcw } from "lucide-react";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 

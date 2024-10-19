@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { ArrowLeftRight, Menu, Edit2, X } from "lucide-react";
+import { Edit2, X } from "lucide-react";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
-import { Drawer } from "@/components/Drawer";
 
 type TimerMode = "pomodoro" | "52-17" | "pausas-activas";
 
