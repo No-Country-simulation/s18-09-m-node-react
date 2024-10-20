@@ -10,67 +10,41 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { appStore } from "@/store";
+import { Eye, EyeOff } from "lucide-react";
 
-// function validateEmail(email: string) {
-//   const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-//   return re.test(email);
-// }
+const validatePassword = (password: string) => {
+  const errors = [];
 
-// function validatePassword(password: string) {
-//   return password.length >= 8;
-// }
+  if (password.length < 8) {
+    errors.push("La contraseña debe tener al menos 8 caracteres");
+  }
+
+  if (!/\d/.test(password)) {
+    errors.push("La contraseña debe tener al menos un número");
+  }
+
+  if (!/[A-Z]/.test(password)) {
+    errors.push("La contraseña debe tener al menos una mayúscula");
+  }
+
+  if (!/[a-z]/.test(password)) {
+    errors.push("La contraseña debe tener al menos una minúscula");
+  }
+
+  if (!/[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/.test(password)) {
+    errors.push("La contraseña debe tener al menos un carácter especial");
+  }
+
+  return errors.length > 0 ? errors[0] : undefined;
+};
 
 export default function LoginPage() {
   const { formState, setFormState } = useFormState({ email: "", password: "" });
   const { fetchData } = useFetchData();
   const router = useRouter();
-  // const [email, setEmail] = useState("");
-  // const [user, setUser] = useState(null);
-  // const [fields, setFields] = useState([]);
-  // const [emailError, setEmailError] = useState("");
-  // const [passwordError, setPasswordError] = useState("");
-  // const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const isLoading = false;
-  const [loginError, setLoginError] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(false);
-  // const [password, setPassword] = useState("");
 
-  // const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value
-  //   setEmail(value)
-  //   setPassword(e.target.value);
-  //   if (!validateEmail(value)) {
-  //     setEmailError('Por favor, ingrese un email válido')
-
-  // const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value;
-  //   setEmail(value);
-  //   if (!validateEmail(value)) {
-  //     setEmailError("Por favor, ingrese un email válido");
-  //   } else {
-  //     setEmailError("");
-  //   }
-  // };
-
-  // const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value;
-  //   setPassword(value);
-  //   if (!validatePassword(value)) {
-  //     setPasswordError("La contraseña debe tener al menos 8 caracteres");
-  //   } else {
-  //     setPasswordError("");
-  //   }
-  // };
-
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   if (validateEmail(email) && validatePassword(password)) {
-  //     // Aquí iría la lógica de autenticación
-  //     console.log('Autenticando:', email, password)
-  //   } else {
-  //     setEmailError('')
-  //   }
-  // }
 
   const showLoader = appStore((state) => state.showLoader);
   const hideLoader = appStore((state) => state.hideLoader);
@@ -90,7 +64,6 @@ export default function LoginPage() {
 
       toast.success("Usuario correcto");
       // setUser(response);
-      setLoginSuccess(true);
       setUser({
         token,
         userData: {
@@ -106,25 +79,16 @@ export default function LoginPage() {
       hideLoader();
     }
 
-    setLoginError("");
   };
 
-  // const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value
-  //   setPassword(value)
-  //   if (!validatePassword(value)) {
-  //     setPasswordError('La contraseña debe tener al menos 8 caracteres')
-  //   } else {
-  //     setPasswordError('')
-  //   }
-  // }
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6">
         <h1 className="text-2xl font-bold text-center">Inicio de sesión</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
+          <div >
             <Input
               name="email"
               type="email"
@@ -132,19 +96,27 @@ export default function LoginPage() {
               required
               value={formState.email}
               onChange={setFormState}
-              // error={emailError}
+            // error={emailError}
             />
+
           </div>
-          <div>
+          <div className="relative">
             <Input
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Ingrese su contraseña"
               required
               value={formState.password}
               onChange={setFormState}
-              // error={passwordError}
+              error={validatePassword(formState.password)}
             />
+            <button
+              type="button" // Asegura que no actúe como un submit
+              className="absolute top-1/2 right-2 transform -translate-y-1/2"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOff /> : <Eye />}
+            </button>
           </div>
           <Button
             type="submit"
@@ -156,14 +128,7 @@ export default function LoginPage() {
             <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex space-x-1"></div>
           </Button>
         </form>
-        {loginError && (
-          <div className="text-red-500 text-sm text-center">{loginError}</div>
-        )}
-        {loginSuccess && (
-          <div className="text-green-500 text-sm text-center">
-            Inicio de sesión exitoso
-          </div>
-        )}
+
         <div className="text-center">
           <Link
             href="/forgot-password"
@@ -177,9 +142,7 @@ export default function LoginPage() {
             Iniciar sesión con Google
           </Button>
 
-          <Button variant="outline" className="w-full" />
-
-          <Button type="submit" className="w-full">
+          <Button variant="outline" className="w-full">
             Iniciar sesión con Facebook
           </Button>
         </div>
