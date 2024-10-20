@@ -9,31 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = void 0;
+exports.update = void 0;
 const model_1 = require("../model");
-const mailer_1 = require("../mailer");
-function register(user, password) {
+function update(sessiondata) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const existingUsers = yield model_1.User.find({
-                $or: [
-                    { email: user.email }
-                ]
-            }).exec();
-            if (existingUsers.length > 0)
-                throw new Error("User already exists.");
-            const newUser = new model_1.User(user);
-            const registeredUser = yield newUser.save();
-            if (!registeredUser)
-                throw new Error("Unable to register user.");
-            if (registeredUser) {
-                yield (0, mailer_1.sendMailRegister)(registeredUser.email, password);
-            }
-            return registeredUser;
+            const { _id, user_id, technique_id, start_time, end_time, expected_total_time, real_focus_time, real_break_time, real_break_count, finished, score, } = sessiondata;
+            const updatedSession = yield model_1.Session.findOneAndUpdate({ _id }, { user_id, technique_id, start_time, end_time, expected_total_time, real_focus_time, real_break_time, real_break_count, finished, score }, { new: true });
+            return updatedSession;
         }
         catch (err) {
             throw err;
         }
     });
 }
-exports.register = register;
+exports.update = update;

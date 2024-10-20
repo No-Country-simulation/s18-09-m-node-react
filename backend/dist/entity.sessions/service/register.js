@@ -11,25 +11,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = void 0;
 const model_1 = require("../model");
-const mailer_1 = require("../mailer");
-function register(user, password) {
+function register(session) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const existingUsers = yield model_1.User.find({
-                $or: [
-                    { email: user.email }
-                ]
-            }).exec();
-            if (existingUsers.length > 0)
-                throw new Error("User already exists.");
-            const newUser = new model_1.User(user);
-            const registeredUser = yield newUser.save();
-            if (!registeredUser)
-                throw new Error("Unable to register user.");
-            if (registeredUser) {
-                yield (0, mailer_1.sendMailRegister)(registeredUser.email, password);
-            }
-            return registeredUser;
+            const newSession = new model_1.Session(session);
+            const registeredSession = yield newSession.save();
+            if (!registeredSession)
+                throw new Error('Unable to register session.');
+            return registeredSession;
         }
         catch (err) {
             throw err;
