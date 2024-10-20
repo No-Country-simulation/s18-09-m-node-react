@@ -17,9 +17,5 @@ export default function StatisticsPage() {
     { value: "Exportar datos", href: "/statistics/export", selected: false },
   ];
 
-  return (
-    <Dashboard title="Estadísticas" items={items}>
-      <h1>Hola</h1>
-    </Dashboard>
-  );
+  return <Dashboard title="Estadísticas" items={items}></Dashboard>;
 }
