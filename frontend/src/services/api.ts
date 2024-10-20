@@ -1,23 +1,26 @@
-import axios from "axios";
-// import { userStore } from "@/context/zustand";
+import axios, { InternalAxiosRequestConfig } from "axios";
+import { appStore } from "@/store/index";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3001/v1", // url que viene del .env o el local
+  // url que viene del .env o el local
+  baseURL: process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3001/v1", 
   headers: {
     "Content-Type": "application/json",
   },
   // withCredentials:true
 });
 
-// api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-//   const { user } = userStore.getState();
-//   const token = user?.token;
+// Add a request interceptor
+api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  const { user } = appStore.getState();
+  const token = user?.token;
   
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+    console.log("token", token);
+  }
 
-//   return config;
-// });
+  return config;
+});
 
 export default api;
