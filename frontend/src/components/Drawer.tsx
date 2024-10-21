@@ -108,7 +108,7 @@ export const Drawer: React.FC<DrawerProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"
+            className="fixed -inset-6 bg-black bg-opacity-50 backdrop-blur-sm z-40"
             onClick={toggleDrawer}
           />
         )}
