@@ -128,6 +128,48 @@ export const notProtectedRoutes = express
 // -- User protected routes --
 export const userProtectedRoutes = express
   .Router()
+
+  /**
+   *  /v1/users/getByToken
+   * @summary Get Users by Token
+   * @tags AUTH
+   * @param {string} Authorization.header.required - Bearer token for authorization
+   * @example request - Example of request body
+   * {
+   *  "Authorization" : "Bearer {Token}"
+   * }
+   * @return {object} 201 - User Found.
+   * @return {object} 400 - User not Found.
+   * @return {object} 500 - Internal server error
+   * @example response - 201 - Example of response
+   * {
+    "success": true,
+    "message": "User found.",
+    "data": {
+        "user": {
+            "_id": "6716ce3799aaf188e7ed4d64",
+            "email": "example@example.com",
+            "username": "Userexample",
+            "password": "$2b$09$9sfrpFEhDFbKr.swTZctDugv4YhYogWi1/w3sYh4P4f0KuGMXDuX.",
+            "role": "USER",
+            "active": true,
+            "createdAt": "2024-10-21T21:57:11.523Z",
+            "updatedAt": "2024-10-21T21:58:30.863Z",
+            "__v": 0
+        }
+    }
+}
+   * @example response - 400 - Example of response
+   * {
+   *   "success": false,
+   *   "message": "User not found."
+   * }
+   * @example response - 500 - Example of response
+   * {
+   *   "success": false,
+   *   "message": "Unauthorized"
+   * }
+   */
   .get('/users/getByToken', Controller.getByToken)
   .put('/users/update', Controller.update)
 
