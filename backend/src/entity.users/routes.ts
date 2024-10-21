@@ -97,9 +97,9 @@ export const notProtectedRoutes = express
    * @param {object} request.body.required - User details
    * @example request - Example of request body
    * {
-   *    "email": "admin@admin.com",
+   *  "email": "admin@admin.com"
    * }
-   * @return {object} 201 - Mail sended
+   * @return {object} 201 - Mail sent and password reset
    * @return {object} 400 - Invalid data
    * @return {object} 500 - Internal server error
    * @example response - 201 - Example of response

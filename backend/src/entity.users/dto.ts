@@ -102,9 +102,9 @@ export default class DTO {
   }
 
   public static getByToken(user: any) {
-    const { id } = user;
+    const { _id } = user;
 
-    if (!id)
+    if (!_id)
       return {
         error: {
           message: 'User not found.',
@@ -113,7 +113,7 @@ export default class DTO {
 
     return {
       error: null,
-      value: parseInt(id as string),
+      value: { _id }
     };
   }
 }
