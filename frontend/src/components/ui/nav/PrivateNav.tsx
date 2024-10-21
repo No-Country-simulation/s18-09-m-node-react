@@ -1,7 +1,6 @@
 "use client";
 
 import { Drawer } from "@/components/Drawer";
-import { LoginIcon } from "@/svg/LoginIcon";
 import { UserIcon } from "@/svg/UserIcon";
 import { Menu } from "lucide-react";
 import Link from "next/link";
