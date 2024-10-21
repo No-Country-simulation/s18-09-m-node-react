@@ -6,6 +6,8 @@ export interface SessionAttributes {
   start_time: Date;
   end_time: Date;
   expected_total_time: number;
+  expected_focus_time: number;
+  expected_break_time: number;
   real_focus_time: number;
   real_break_time: number;
   real_break_count: number;
@@ -42,6 +44,16 @@ const SessionSchema: Schema<SessionDocument> = new Schema(
       required: true,
     },
     expected_total_time: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    expected_focus_time: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    expected_break_time: {
       type: Number,
       required: true,
       min: 0,
