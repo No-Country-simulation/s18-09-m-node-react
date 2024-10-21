@@ -17,6 +17,7 @@ export const Dashboard = ({ title, items, children }: Props) => {
   return (
     <div
       className="w-full h-full
+                 min-h-screen
                  pt-[126px]
                  pl-[152px]"
     >
