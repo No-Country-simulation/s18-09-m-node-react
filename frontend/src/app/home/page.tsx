@@ -16,10 +16,10 @@ interface TimerConfig {
 
 const timerConfigs: Record<TimerMode, TimerConfig> = {
   pomodoro: {
-    workDuration: 0.1 * 60,
-    breakDuration: 0.1 * 60,
+    workDuration: 25 * 60,
+    breakDuration: 5 * 60,
     description: (
-      <div className="max-w-[1200px] relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5 ">
+      <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5 ">
         <span className="font-bold">
           Maximiza tu productividad con intervalos de enfoque y descansos
           estratégicos.
@@ -33,8 +33,8 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
         Este ciclo te ayuda a mantener la motivación, reducir la procrastinación
         y evitar el agotamiento, permitiéndote lograr más en menos tiempo
         mientras cuidas tu bienestar mental.
-        <button className="absolute bottom-20 right-4 bg-violet-100 p-2 rounded-xl shadow-lg shadow-gray-500/50">
-          <Edit2 className="h-7 w-7 text-indigo-500" />
+        <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
+          <Edit2 className="h-7 w-7 text-blue-500" />
         </button>
       </div>
     ),
@@ -43,7 +43,7 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
     workDuration: 52 * 60,
     breakDuration: 17 * 60,
     description: (
-      <div className="max-w-[1200px] relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5">
+      <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5">
         <span className="font-bold">
           Optimiza tu rendimiento con sesiones largas y descansos estratégicos.
         </span>
@@ -56,20 +56,27 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
         Este método te permite mantener un enfoque sostenido en tareas
         importantes, mientras los descansos regulares te ayudan a renovar
         energías y prevenir el agotamiento.
-        <button className="absolute bottom-20 right-4 bg-violet-100 p-2 rounded-xl shadow-lg shadow-gray-500/50 ">
-          <Edit2 className="h-7 w-7 text-indigo-500" />
+        <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50 ">
+          <Edit2 className="h-7 w-7 text-blue-500" />
         </button>
       </div>
     ),
   },
   "pausas-activas": {
-    workDuration: 55 * 60,
-    breakDuration: 5 * 60,
+    workDuration: 60 * 60,
+    breakDuration: 10 * 60,
     description: (
-      <div className="max-w-[1200px] relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5">
-        Incorpora breves pausas de actividad física durante tu jornada laboral.
-        <button className="absolute bottom-20 right-4 bg-violet-100 p-2 rounded-xl shadow-lg shadow-gray-500/50">
-          <Edit2 className="h-7 w-7 text-indigo-500" />
+      <div className="max-w-[1200px] bg-white  relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5">
+        <span className="font-bold">
+          Incorpora pausas activas en tu rutina laboral y marca una diferencia
+          significativa en tu bienestar general y en tu desempeño en el trabajo.
+        </span>
+        <br />
+        Estas pausas breves, que implican movimientos suaves y ejercicios,
+        aportan una serie de ventajas que van más allá de simplemente romper la
+        monotonía de la jornada.
+        <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
+          <Edit2 className="h-7 w-7 text-blue-500" />
         </button>
       </div>
     ),
@@ -77,9 +84,9 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
 };
 
 export default function Home() {
-  const [time, setTime] = useState(52 * 60);
+  const [time, setTime] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
-  const [mode, setMode] = useState<TimerMode>("52-17");
+  const [mode, setMode] = useState<TimerMode>("pomodoro");
   const [isWorkTime, setIsWorkTime] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
   const [buttonText, setButtonText] = useState("Meditar");
@@ -184,19 +191,19 @@ export default function Home() {
   // };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-around p-4">
+    <div className="min-h-screen bg-green-100 flex flex-col items-center justify-around p-4">
       <main className="text-2xl md:container md:mx-auto px-4 py-8 max-w-2xl ">
         <div
           className="flex flex-col justify-center mb-6 space-x-6 bg-transparent"
           onMouseEnter={handleWrapperMouseEnter}
           onMouseLeave={handleWrapperMouseLeave}
         >
-          <div className="flex justify-evenly bg-violet-100">
+          <div className="flex justify-evenly bg-green-100 border-b-2 border-blue-500">
             <button
               className={`text-lg pb-2  ${
                 mode === "pomodoro"
-                  ? "border-b-2 border-purple-500 text-purple-600 font-semibold"
-                  : "text-gray-500"
+                  ? "border-b-2 border-blue-400 text-blue-600 font-semibold"
+                  : "text-gray-800"
               }`}
               onMouseEnter={() => setHoveredMode("pomodoro")} // Hover triggers for Pomodoro
               onClick={() => switchMode("pomodoro")}
@@ -206,8 +213,8 @@ export default function Home() {
             <button
               className={`text-lg pb-2 ${
                 mode === "52-17"
-                  ? "border-b-2 border-purple-500 text-purple-600 font-semibold"
-                  : "text-gray-500"
+                  ? "border-b-2 border-blue-400 text-blue-600 font-semibold"
+                  : "text-gray-800"
               }`}
               onMouseEnter={() => setHoveredMode("52-17")}
               onClick={() => switchMode("52-17")}
@@ -217,8 +224,8 @@ export default function Home() {
             <button
               className={`text-lg pb-2 ${
                 mode === "pausas-activas"
-                  ? "border-b-2 border-purple-500 text-purple-600 font-semibold"
-                  : "text-gray-500"
+                  ? "border-b-2 border-blue-400 text-blue-600 font-semibold"
+                  : "text-gray-800"
               }`}
               onMouseEnter={() => setHoveredMode("pausas-activas")}
               onClick={() => switchMode("pausas-activas")}
@@ -227,7 +234,7 @@ export default function Home() {
             </button>
           </div>
           {hoveredMode && (
-            <span className="text-lg text-gray-600">
+            <span className="flex flex justify-center text-lg text-gray-600">
               {timerConfigs[hoveredMode].description}
             </span>
           )}
@@ -265,7 +272,11 @@ export default function Home() {
             <p className="text-gray-600 mt-2">
               Descansa tus ojos. Estira tus piernas. Respira. Relájate.
             </p>
-            <button className="bg-blue-400 text-white">{buttonText}</button>
+            {mode === "pausas-activas" && (
+              <button className="bg-green-500 text-white mt-2">
+                {buttonText}
+              </button>
+            )}
           </div>
         </div>
       )}

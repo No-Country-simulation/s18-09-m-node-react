@@ -15,6 +15,7 @@ export interface ServiceTypes {
   loginUser: { email: string; password: string };
   getUserById: string;
   getWeatherForecast: Record<string, string>;
+  getTechniques: TechniqueI[];
 }
 
 export interface UserI {
@@ -25,11 +26,22 @@ export interface UserI {
   } | null;
   token: string | null;
 }
-
 export interface AppStoreI {
   isLoaderVisible: boolean;
   showLoader: () => void;
   hideLoader: () => void;
   user: UserI | null;
   setUser: (user: UserI) => void;
+  techniques: TechniqueI[] | null;
+  setTechniques: (techniques: TechniqueI[]) => void;
+}
+
+export interface TechniqueI {
+  name: string;
+  description: string;
+  focus_time: number;
+  break_time: number;
+  long_break_time: number;
+  cycles_before_long_break: number;
+  active_pause: boolean;
 }

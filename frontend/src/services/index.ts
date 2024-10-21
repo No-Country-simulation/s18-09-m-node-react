@@ -6,18 +6,18 @@ import createQuerys from "@/utils/createQuerys";
 const registerUser = async <T>(body: T) =>
   await api.post("/auth/register", body);
 
-const loginUser = async <T>(body: T) => 
-  await api.post("/auth/login", body);
+const loginUser = async <T>(body: T) => await api.post("/auth/login", body);
 
-const getUserById = async <T>(url: T) => 
-  await api.get(`/data/${url}`);
+const getUserById = async <T>(url: T) => await api.get(`/data/${url}`);
+
+// const getTechniques = async () => await api.get(`/techniques`);
+
+const getTechniques = async () => await api.get("/techniques");
 
 // Clima services
 
 const getWeatherForecast = async <T>(querys: T) =>
   await api.get(`/clima/forescast?${createQuerys(querys as QueryProps)}`);
-
-
 
 // Default export
 const services = {
@@ -25,6 +25,7 @@ const services = {
   loginUser,
   getUserById,
   getWeatherForecast,
+  getTechniques,
 };
 
 export default services;
