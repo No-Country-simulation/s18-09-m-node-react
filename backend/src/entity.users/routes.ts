@@ -99,7 +99,7 @@ export const notProtectedRoutes = express
    * {
    *    "email": "admin@admin.com",
    * }
-   * @return {object} 201 - User created
+   * @return {object} 201 - Mail sended
    * @return {object} 400 - Invalid data
    * @return {object} 500 - Internal server error
    * @example response - 201 - Example of response
@@ -109,7 +109,7 @@ export const notProtectedRoutes = express
    * "data": {
    *     "success": true,
    *     "message": "Password reset email sent. Check email.",
-   *     "hashPassword": "$2b$09$359FK5uP8NyLrQBshTnZt.LVbr4LbqXtfy.fENKi4JwoBglTYL05i"
+   *     "hashPassword": "{ password hashed }"
    *  }
    * }
    * @example response - 400 - Example of response
