@@ -8,6 +8,7 @@ import { Toaster } from "sonner";
 import { Header } from "./common/Header";
 import Footer from "./common/Footer";
 import { metadata } from "./config";
+import { useRouteChangeLoader } from "@/hooks/useRouteChangeLoader";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -37,6 +38,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useRouteChangeLoader(); // oculta el loader cuando cambia de ruta.
   return (
     <html lang="en">
       <head>

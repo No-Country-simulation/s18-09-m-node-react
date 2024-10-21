@@ -43,7 +43,6 @@ export default function RegisterForm() {
 
     if (response.status) {
       router.push("/register/success");
-      hideLoader();
     } else {
       toast.error("No se pudo crear el usuario");
       hideLoader();

@@ -45,7 +45,6 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const isLoading = false;
 
-
   const showLoader = appStore((state) => state.showLoader);
   const hideLoader = appStore((state) => state.hideLoader);
 
@@ -73,22 +72,18 @@ export default function LoginPage() {
         },
       });
       router.push("home");
-      hideLoader();
     } else {
       toast.error("Usuario incorrecto");
       hideLoader();
     }
-
   };
-
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6">
         <h1 className="text-2xl font-bold text-center">Inicio de sesión</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div >
+          <div>
             <Input
               name="email"
               type="email"
@@ -96,9 +91,8 @@ export default function LoginPage() {
               required
               value={formState.email}
               onChange={setFormState}
-            // error={emailError}
+              // error={emailError}
             />
-
           </div>
           <div className="relative">
             <Input
