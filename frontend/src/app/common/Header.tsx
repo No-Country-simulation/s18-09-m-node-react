@@ -1,16 +1,12 @@
 "use client";
-import { Drawer } from "@/components/Drawer";
+import { PrivateNav } from "@/components/ui/nav/PrivateNav";
+import { PublicNav } from "@/components/ui/nav/PublicNav";
+import { appStore } from "@/store";
 import { AppLogo } from "@/svg/AppLogo";
-import { LoginIcon } from "@/svg/LoginIcon";
-import { Menu } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
 
 export const Header = () => {
-  //drawer
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDrawer = () => setIsOpen(!isOpen);
+  const token = appStore((state) => state.user?.token);
 
   return (
     <header className="bg-white shadow-sm">
@@ -33,65 +29,7 @@ export const Header = () => {
               <AppLogo />
             </Link>
           </div>
-          <div
-            className="flex
-                       items-center
-                       space-x-6"
-          >
-            {" "}
-            {/* Aumenté el espacio aquí */}
-            <Link
-              href={"/login"}
-              className="p-2
-                         rounded-full
-                         text-gray-400
-                         hover:text-gray-500
-                         focus:outline-none
-                         focus:ring-2
-                         focus:ring-offset-2
-                         focus:ring-blue-500"
-            >
-              <span className="sr-only">Iniciar Sesión</span>
-              <div className="relative">
-                <LoginIcon />
-                <div
-                  className="absolute
-                             w-[66px]
-                             text-[11px]
-                             text-[#0859A3]
-                             font-roboto
-                             font-[400]
-                             -left-[19px]
-                             -bottom-[20px]"
-                >
-                  Iniciar Sesión
-                </div>
-              </div>
-            </Link>
-            <button
-              type="button"
-              className="p-2
-                         rounded-full
-                         text-gray-400
-                         hover:text-gray-500
-                         focus:outline-none
-                         focus:ring-2
-                         focus:ring-offset-2
-                         focus:ring-blue-500"
-              onClick={toggleDrawer}
-            >
-              <span className="sr-only">Menú</span>
-              <Menu
-                className="h-6 w-6
-                           text-[#0859A3]"
-              />
-            </button>
-            <Drawer
-              title="Configuración"
-              isOpen={isOpen}
-              toggleDrawer={toggleDrawer}
-            />
-          </div>
+          {token ? <PrivateNav /> : <PublicNav />}
         </div>
       </div>
     </header>
