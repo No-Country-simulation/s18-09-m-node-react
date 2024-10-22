@@ -1,6 +1,7 @@
 "use client";
 
-import { Drawer } from "@/components/Drawer";
+import { DrawerConfig } from "@/components/ui/userMenu/Configuration";
+import { Drawer } from "@/components/ui/userMenu/Drawer";
 import { LoginIcon } from "@/svg/LoginIcon";
 import { Menu } from "lucide-react";
 import Link from "next/link";
@@ -70,7 +71,9 @@ export const PublicNav = () => {
         title="Configuración"
         isOpen={isOpen}
         toggleDrawer={toggleDrawer}
-      />
+      >
+        <DrawerConfig/>
+      </Drawer>
     </nav>
   );
 };
