@@ -1,3 +1,4 @@
+import ProfileInfoForm from "@/components/ProfileInfo";
 import { Dashboard } from "@/components/ui/dashboard/Dashboard";
 
 const ProfileInformation: React.FC = () => {
@@ -20,7 +21,7 @@ const ProfileInformation: React.FC = () => {
   ];
   return (
     <Dashboard title="Perfil" items={items}>
-      <h1>Información Personal</h1>
+      <ProfileInfoForm />
     </Dashboard>
   );
 };
