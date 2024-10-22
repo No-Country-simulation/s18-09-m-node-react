@@ -1,11 +1,11 @@
 import { SessionAttributes, SessionUpdateAttributes } from './model';
 import { validateSessionData, validateUpdateSessionData } from './validation';
-import { sessionHelper } from './helper';
+import { SessionHelper } from './helper';
 
 export default class DTO {
   private constructor() {}
 
-  public static register(data: any): { error: { message: string }; value: null } | { error: null; value: SessionAttributes } {
+  public static async register(data: any): Promise<{ error: { message: string }; value: null } | { error: null; value: SessionAttributes }> {
     const validationResult = validateSessionData(data);
     if (validationResult.hasError) {
       return {
@@ -19,20 +19,26 @@ export default class DTO {
     const { user_id, technique_id, start_time, end_time, real_focus_time, real_break_time, real_break_count, finished, score } =
       validationResult.userData!;
 
-    const startTime = sessionHelper.dateConverter(start_time);
-    const endTime = sessionHelper.dateConverter(end_time);
-    const expected_total_time = sessionHelper.getTotalExpectedTime(start_time, end_time);
+    const startDate = SessionHelper.dateConverter(start_time);
+    const endDate = SessionHelper.dateConverter(end_time);
+    const startTime = SessionHelper.extractTimeFromISO(start_time);
+    const expected_total_time = SessionHelper.getTotalExpectedTime(start_time, end_time);
+    const expected_focus_time = await SessionHelper.getExpectedFocusTime(technique_id, expected_total_time);
+    const expected_break_time = await SessionHelper.getExpectedBreakTime(technique_id, expected_total_time);
+    const schedule = await SessionHelper.generateSchedule(technique_id, startTime, expected_total_time);
+    console.log(schedule)
 
     return {
       error: null,
       value: {
         user_id,
         technique_id,
-        start_time,
-        end_time,
+        start_time: startDate,
+        end_time: endDate,
         expected_total_time,
-        expected_focus_time: 0,
-        expected_break_time: 0,
+        expected_focus_time,
+        expected_break_time,
+        schedule: schedule,
         real_focus_time,
         real_break_time,
         real_break_count,
@@ -53,8 +59,21 @@ export default class DTO {
       };
     }
 
-    const { user_id, technique_id, start_time, end_time, real_focus_time, real_break_time, real_break_count, finished, score } =
-      validationResult.userData!;
+    const {
+      user_id,
+      technique_id,
+      start_time,
+      end_time,
+      expected_total_time,
+      expected_focus_time,
+      expected_break_time,
+      schedule,
+      real_focus_time,
+      real_break_time,
+      real_break_count,
+      finished,
+      score,
+    } = validationResult.userData!;
 
     if (!start_time || !end_time) {
       return {
@@ -63,9 +82,8 @@ export default class DTO {
       };
     }
 
-    const startTime = sessionHelper.dateConverter(start_time);
-    const endTime = sessionHelper.dateConverter(end_time);
-    const expected_total_time = sessionHelper.getTotalExpectedTime(start_time, end_time);
+    const startTime = SessionHelper.dateConverter(start_time);
+    const endTime = SessionHelper.dateConverter(end_time);
 
     return {
       error: null,
@@ -75,9 +93,10 @@ export default class DTO {
         technique_id: technique_id!,
         start_time: startTime,
         end_time: endTime,
-        expected_total_time,
-        expected_focus_time: 0,
-        expected_break_time: 0,
+        expected_total_time: expected_total_time!,
+        expected_focus_time: expected_focus_time!,
+        expected_break_time: expected_break_time!,
+        schedule: schedule!,
         real_focus_time: real_focus_time!,
         real_break_time: real_break_time!,
         real_break_count: real_break_count!,

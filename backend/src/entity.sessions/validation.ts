@@ -57,6 +57,17 @@ export const validateSessionData = (techniqueRegisterData: any): parsedValidatio
     userData,
   };
 };
+const breakTimeSchema = z.object({
+  time: z.string(), 
+  isLongBreak: z.boolean(), 
+});
+
+
+const cycleSchema = z.object({
+  start_working: z.string(), 
+  break_time: breakTimeSchema, 
+});
+
 
 export const sessionUpdateSchema = z.object({
   user_id: z.string().optional(),
@@ -67,6 +78,10 @@ export const sessionUpdateSchema = z.object({
   end_time: z.preprocess((arg) => {
     if (typeof arg === 'string' || arg instanceof Date) return new Date(arg);
   }, z.date().optional()),
+  expected_total_time: z.number().min(0).default(0).optional(),
+  expected_focus_time: z.number().min(0).default(0).optional(),
+  expected_break_time: z.number().min(0).default(0).optional(),
+  schedule: z.array(cycleSchema).optional(),
   real_focus_time: z.number().min(0).default(0).optional(),
   real_break_time: z.number().min(0).default(0).optional(),
   real_break_count: z.number().min(0).default(0).optional(),

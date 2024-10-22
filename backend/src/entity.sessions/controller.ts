@@ -17,7 +17,7 @@ export default class Controller {
   }
 
   public static async register(req: Request, res: Response, next: NextFunction) {
-    const { error, value } = DTO.register(req.body);
+    const { error, value } = await  DTO.register(req.body);
     if (error) return ControllerHandler.badRequest(error.message, res);
     try {
       const userData = await register(value);
