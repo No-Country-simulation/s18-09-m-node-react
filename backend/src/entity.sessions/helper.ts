@@ -27,10 +27,10 @@ export class SessionHelper {
     const [hours, mins] = time.split(':').map(Number);
     const totalMinutes = hours * 60 + mins + minutes;
 
-    const newHours = Math.floor(totalMinutes / 60);
+    const normalizedHours = Math.floor(totalMinutes / 60) % 24;
     const newMinutes = totalMinutes % 60;
 
-    return `${String(newHours).padStart(2, '0')}:${String(newMinutes).padStart(2, '0')}`;
+    return `${String(normalizedHours).padStart(2, '0')}:${String(newMinutes).padStart(2, '0')}`;
   }
 
   public static getTotalExpectedTime(start_time: Date, end_time: Date): number {
@@ -112,14 +112,14 @@ export class SessionHelper {
   }
 
   public static async generateSchedule(technique_id: string, start_time: string, expected_total_time: number): Promise<cycle[]> {
-    const technique = await SessionHelper.getTechnique(technique_id);
+    const technique = await this.getTechnique(technique_id);
     const schedule: cycle[] = [];
     let currentTime = start_time;
     let remainingTime = expected_total_time;
     let cycleCount = 0;
 
     while (remainingTime > 0) {
-      const workEndTime = SessionHelper.addMinutesToTime(currentTime, technique.focus_time);
+      const workEndTime = this.addMinutesToTime(currentTime, technique.focus_time);
 
       cycleCount++;
       const isLongBreak = cycleCount % (technique.cycles_before_long_break + 1) === 0;
@@ -134,7 +134,7 @@ export class SessionHelper {
       });
 
       remainingTime -= technique.focus_time + breakDuration;
-      currentTime = SessionHelper.addMinutesToTime(workEndTime, breakDuration);
+      currentTime = this.addMinutesToTime(workEndTime, breakDuration);
     }
 
     return schedule;
