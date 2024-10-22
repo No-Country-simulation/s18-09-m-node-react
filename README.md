@@ -22,7 +22,10 @@
 <br />
 <div align="center">
 
-  <a href="https://github.com/othneildrew/Best-README-Template">
+![BREAK](https://github.com/user-attachments/assets/4748959c-aef5-4208-ad96-0caae1e7df35)
+
+  <img src="(https://github.com/user-attachments/assets/7c65989f-ee88-43f2-af1b-4558d1d69be4)
+">
     <img src="images/logo.png" alt="Logo" width="80" height="80"> 
   </a>
 
