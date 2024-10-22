@@ -26,14 +26,14 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80"> 
   </a>
 
-  <h1 align="center"><span style="color:PaleTurquoise">B</span><span style="color:white">reak<span><span style="color:white">A</span>nd<span style="color:PaleGreen">F</span>ocus</h1>
+  <h1 align="center">Break&focus</h1>
 
 </div>
 
 
 
 <!-- ABOUT THE PROJECT -->
-## El proyecto
+# El proyecto
 ![alt text](/images/image.png)
 
 Es una plataforma web diseñada para mejorar tu productividad y bienestar mediante la gestión eficiente de tus sesiones de trabajo y descansos. Basada en técnicas de productividad comprobadas, esta herramienta te ayuda a mantener un equilibrio saludable entre enfoque y recuperación, optimizando tus ciclos de concentración.
