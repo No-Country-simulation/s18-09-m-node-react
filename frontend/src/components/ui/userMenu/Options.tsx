@@ -2,16 +2,16 @@ import { X, LogOut, UserIcon, SettingsIcon } from "lucide-react";
 import Link from "next/link";
 import { StatsIcon } from "@/svg/StatsIcon";
 
-interface MenuProps {
-    toggleMenu: () => void;
-    setIsConfirmMenuOpen: (open: boolean) => void;
+interface OptionsProps {
+    toggleOptions: () => void;
+
 }
 
-export const Menu: React.FC<MenuProps> = ({ toggleMenu, setIsConfirmMenuOpen }) => {
+export const Options: React.FC<OptionsProps> = ({ toggleOptions }) => {
   return (
     <div className="p-6">
       <div className="flex justify-end items-center mb-6">
-        <button onClick={toggleMenu} aria-label="Close user menu">
+        <button onClick={toggleOptions} aria-label="Close user menu">
           <X className="h-6 w-6" />
         </button>
       </div>
@@ -20,7 +20,7 @@ export const Menu: React.FC<MenuProps> = ({ toggleMenu, setIsConfirmMenuOpen }) 
       <nav className="space-y-4">
         <Link
           href="/profile"
-          onClick={toggleMenu}
+          onClick={toggleOptions}
           className="h-[56px] font-roboto flex text-[#4A4459] items-center gap-4 text-lg font-light hover:text-blue-500"
         >
           <UserIcon />
@@ -29,7 +29,7 @@ export const Menu: React.FC<MenuProps> = ({ toggleMenu, setIsConfirmMenuOpen }) 
 
         <Link
           href="/statistics"
-          onClick={toggleMenu}
+          onClick={toggleOptions}
           className="h-[36px] font-roboto flex text-[#4A4459] items-center gap-4 text-lg font-light hover:text-blue-500"
         >
           <StatsIcon />
@@ -38,7 +38,7 @@ export const Menu: React.FC<MenuProps> = ({ toggleMenu, setIsConfirmMenuOpen }) 
 
         <Link
           href="/settings"
-          onClick={toggleMenu}
+          onClick={toggleOptions}
           className="h-[56px] font-roboto flex text-[#4A4459] items-center gap-4 text-lg font-light hover:text-blue-500"
         >
           <SettingsIcon />
@@ -48,8 +48,8 @@ export const Menu: React.FC<MenuProps> = ({ toggleMenu, setIsConfirmMenuOpen }) 
         <div className="w-full py-[6px]">
           <button
             onClick={() => {
-              setIsConfirmMenuOpen(true);
-              toggleMenu();
+            
+              toggleOptions();
             }}
             className="text-white
                      font-roboto

@@ -1,15 +1,16 @@
 "use client";
 
 import { UserMenu } from "@/components/ui/userMenu/UserMenu";
+import { Options } from "@/components/ui/userMenu/Options";
 import { UserIcon } from "@/svg/UserIcon";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
 export const PrivateNav = () => {
-  const [isMenuOpen, setIsUserMenuOpen] = useState(false);
-  const toggleMenu = () => setIsUserMenuOpen(!isMenuOpen);
-
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
+  
   return (
     <nav
       className="flex
@@ -42,7 +43,7 @@ export const PrivateNav = () => {
                    focus:ring-2
                    focus:ring-offset-2
                    focus:ring-blue-500"
-        onClick={toggleMenu}
+        onClick={toggleUserMenu}
       >
         <span className="sr-only">Menú</span>
         <Menu
@@ -51,9 +52,11 @@ export const PrivateNav = () => {
         />
       </button>
       <UserMenu
-        isMenuOpen={isMenuOpen}
-        toggleMenu={toggleMenu}
-      />
+        isMenuOpen={isUserMenuOpen}
+        toggleUserMenu={toggleUserMenu}
+      >
+        <Options toggleOptions={toggleUserMenu}/>
+      </UserMenu>
     </nav>
   );
 };

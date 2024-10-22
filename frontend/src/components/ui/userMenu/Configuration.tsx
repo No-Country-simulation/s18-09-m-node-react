@@ -69,7 +69,7 @@ const imageOptions = [
   },
 ];
 
-export const DrawerConfig: React.FC = () => {
+export const Configuration: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState<number | null>(null);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [isColorGridVisible, setIsColorGridVisible] = useState(false);
