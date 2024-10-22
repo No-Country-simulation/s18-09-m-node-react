@@ -1,5 +1,5 @@
 "use client"
-
+import { appStore } from "@/store/index";
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -37,13 +37,15 @@ const formSchema = z.object({
 
 export default function ProfileInfoForm() {
   const [showPassword, setShowPassword] = useState(false)
-
+  const { user } = appStore.getState();
+  
+  // console.log(user)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nombre: "",
       apellido: "",
-      correo: "",
+      correo: user?.userData?.email ?? "",
       contrasena: "",
       repetirContrasena: "",
     },
@@ -68,7 +70,7 @@ export default function ProfileInfoForm() {
                 <FormItem>
                   <FormLabel>Nombre</FormLabel>
                   <FormControl>
-                    <Input placeholder="Carlos" {...field} />
+                    <Input placeholder="Nombre" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -81,7 +83,7 @@ export default function ProfileInfoForm() {
                 <FormItem>
                   <FormLabel>Apellido</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ramos" {...field} />
+                    <Input placeholder="Apellido" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
