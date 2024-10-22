@@ -131,7 +131,7 @@ flowchart
    C --> D[Haz modificaciones]
    D --> E((3 Acomete cambios -commit-))
    E --> F((4 Publica cambios))
-   F --> G((4 Crea una solicitud de modificación -pull request-))
+   F --> G((5 Crea una solicitud de modificación -pull request-))
    G -- Aprobado --> H((Fusión de la solicitud de cambios))
    G -- Rechazado --> D
 ```
