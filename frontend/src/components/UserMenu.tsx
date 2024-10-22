@@ -1,21 +1,20 @@
 "use client";
 
-import { X, User, BarChart, Settings, LogOut } from "lucide-react";
+import { X, LogOut, UserIcon, SettingsIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import { appStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { StatsIcon } from "@/svg/StatsIcon";
 
 interface MenuProps {
-  title: string;
   isUserMenuOpen: boolean;
   toggleUserMenu: () => void;
 }
 
 export const UserMenu: React.FC<MenuProps> = ({
-  title,
   isUserMenuOpen,
   toggleUserMenu,
 }) => {
@@ -105,16 +104,10 @@ export const UserMenu: React.FC<MenuProps> = ({
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 w-full sm:w-96 h-full bg-white shadow-lg z-50 overflow-y-auto"
+              className="fixed top-0 right-0 w-full sm:w-96 h-full bg-[#DFF7F2] shadow-lg z-50 overflow-y-auto"
             >
               <div className="p-6">
-                <div className="flex justify-between items-center mb-6 border-b border-gray-300 pb-4">
-                  <div>
-                    <h2>Mi cuenta</h2>
-                    <span className="text-[14px] font-[400] font-inter">
-                      {title}
-                    </span>
-                  </div>
+                <div className="flex justify-end items-center mb-6">
                   <button
                     onClick={toggleUserMenu}
                     aria-label="Close configuration drawer"
@@ -128,40 +121,57 @@ export const UserMenu: React.FC<MenuProps> = ({
                   <Link
                     href="/profile"
                     onClick={toggleUserMenu}
-                    className="flex items-center gap-4 text-lg font-light hover:text-blue-500"
+                    className="h-[56px] font-roboto flex text-[#4A4459] items-center gap-4 text-lg font-light hover:text-blue-500"
                   >
-                    <User className="h-5 w-5" />
-                    Mi perfil
+                    <UserIcon />
+                    Perfil de Usuario
                   </Link>
 
                   <Link
                     href="/statistics"
                     onClick={toggleUserMenu}
-                    className="flex items-center gap-4 text-lg font-light hover:text-blue-500"
+                    className="h-[36px] font-roboto flex text-[#4A4459] items-center gap-4 text-lg font-light hover:text-blue-500"
                   >
-                    <BarChart className="h-5 w-5" />
+                    <StatsIcon />
                     Estadísticas
                   </Link>
 
                   <Link
                     href="/settings"
                     onClick={toggleUserMenu}
-                    className="flex items-center gap-4 text-lg font-light hover:text-blue-500"
+                    className="h-[56px] font-roboto flex text-[#4A4459] items-center gap-4 text-lg font-light hover:text-blue-500"
                   >
-                    <Settings className="h-5 w-5" />
+                    <SettingsIcon />
                     Configuración
                   </Link>
 
-                  <button
-                    onClick={() => {
-                      setIsConfirmMenuOpen(true);
-                      toggleUserMenu();
-                    }}
-                    className="flex items-center gap-4 text-lg font-light hover:text-red-500"
-                  >
-                    <LogOut className="h-5 w-5" />
-                    Cerrar sesión
-                  </button>
+                  <div className="w-fullpy-[6px]">
+                    <button
+                      onClick={() => {
+                        setIsConfirmMenuOpen(true);
+                        toggleUserMenu();
+                      }}
+                      className="text-white
+                                 font-roboto
+                                 m-auto
+                                 w-[272px]
+                                 h-[44px]
+                                 bg-[#47A896]
+                                 hover:bg-[#54c7a8]
+                                 text-lg
+                                 font-light
+                                 flex justify-center
+                                 items-center
+                                 rounded-[4px]
+                                 gap-4
+                                 transition-colors
+                                 duration-300
+                                 ease-in-out"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span>Cerrar sesión</span>
+                    </button>
+                  </div>
                 </nav>
               </div>
             </motion.div>

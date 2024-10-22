@@ -8,7 +8,6 @@ import Link from "next/link";
 export const Header = () => {
   const user = appStore((state) => state.user);
   const token = user?.token;
-  const username = user?.userData?.email;
 
   return (
     <header className="bg-white shadow-sm">
@@ -31,7 +30,7 @@ export const Header = () => {
               <AppLogo />
             </Link>
           </div>
-          {token ? <PrivateNav username={username} /> : <PublicNav />}
+          {token ? <PrivateNav /> : <PublicNav />}
         </div>
       </div>
     </header>
