@@ -43,6 +43,7 @@ export const userProtectedRoutes = express.Router();
  * }
  */
 userProtectedRoutes.get('/sessions', Controller.get);
+userProtectedRoutes.get('/sessions/:id', Controller.getSessionsByUserId);
 
 /**
  * POST /v1/sessions/register
