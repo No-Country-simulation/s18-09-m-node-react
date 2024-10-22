@@ -6,7 +6,8 @@ import { AppLogo } from "@/svg/AppLogo";
 import Link from "next/link";
 
 export const Header = () => {
-  const token = appStore((state) => state.user?.token);
+  const user = appStore((state) => state.user);
+  const token = user?.token;
 
   return (
     <header className="bg-white shadow-sm">
