@@ -21,7 +21,6 @@ export const userProtectedRoutes = express.Router();
  *       "technique_id": "613b1fcf8f1d1e2f4a12b3c5",
  *       "start_time": "2024-10-01T10:00:00Z",
  *       "end_time": "2024-10-01T10:30:00Z",
- *       "expected_total_time": 30,
  *       "real_focus_time": 25,
  *       "real_break_time": 5,
  *       "real_break_count": 1,
@@ -34,7 +33,6 @@ export const userProtectedRoutes = express.Router();
  *       "technique_id": "613b1fcf8f1d1e2f4a12b3c5",
  *       "start_time": "2024-10-02T14:00:00Z",
  *       "end_time": "2024-10-02T14:45:00Z",
- *       "expected_total_time": 45,
  *       "real_focus_time": 40,
  *       "real_break_time": 5,
  *       "real_break_count": 1,
@@ -45,6 +43,7 @@ export const userProtectedRoutes = express.Router();
  * }
  */
 userProtectedRoutes.get('/sessions', Controller.get);
+userProtectedRoutes.get('/sessions/:id', Controller.getSessionsByUserId);
 
 /**
  * POST /v1/sessions/register
