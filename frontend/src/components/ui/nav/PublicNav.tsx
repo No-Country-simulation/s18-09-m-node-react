@@ -1,18 +1,9 @@
 "use client";
 
-import { DrawerConfig } from "@/components/ui/userMenu/Configuration";
-import { Drawer } from "@/components/ui/userMenu/Drawer";
 import { LoginIcon } from "@/svg/LoginIcon";
-import { Menu } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 
 export const PublicNav = () => {
-  //drawer
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDrawer = () => setIsOpen(!isOpen);
-
   return (
     <nav
       className="flex
@@ -49,31 +40,6 @@ export const PublicNav = () => {
           </div>
         </div>
       </Link>
-      <button
-        type="button"
-        className="p-2
-                         rounded-full
-                         text-gray-400
-                         hover:text-gray-500
-                         focus:outline-none
-                         focus:ring-2
-                         focus:ring-offset-2
-                         focus:ring-blue-500"
-        onClick={toggleDrawer}
-      >
-        <span className="sr-only">Menú</span>
-        <Menu
-          className="h-6 w-6
-                           text-[#0859A3]"
-        />
-      </button>
-      <Drawer
-        title="Configuración"
-        isOpen={isOpen}
-        toggleDrawer={toggleDrawer}
-      >
-        <DrawerConfig/>
-      </Drawer>
     </nav>
   );
 };

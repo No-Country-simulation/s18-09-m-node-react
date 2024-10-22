@@ -32,4 +32,5 @@ export interface AppStoreI {
   hideLoader: () => void;
   user: UserI | null;
   setUser: (user: UserI) => void;
+  logout: () => void;
 }
