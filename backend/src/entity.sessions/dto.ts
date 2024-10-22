@@ -26,7 +26,6 @@ export default class DTO {
     const expected_focus_time = await SessionHelper.getExpectedFocusTime(technique_id, expected_total_time);
     const expected_break_time = await SessionHelper.getExpectedBreakTime(technique_id, expected_total_time);
     const schedule = await SessionHelper.generateSchedule(technique_id, startTime, expected_total_time);
-    console.log(schedule)
 
     return {
       error: null,
@@ -38,10 +37,10 @@ export default class DTO {
         expected_total_time,
         expected_focus_time,
         expected_break_time,
-        schedule: schedule,
+        schedule: schedule.schedule,
         real_focus_time,
         real_break_time,
-        real_break_count,
+        real_break_count: schedule.break_count,
         finished,
         score,
       },

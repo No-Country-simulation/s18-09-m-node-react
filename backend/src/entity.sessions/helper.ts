@@ -20,6 +20,11 @@ interface TimeDistribution {
   extraTime: number;
 }
 
+interface Schedule {
+  schedule: cycle[];
+  break_count: number;
+}
+
 export class SessionHelper {
   private constructor() {}
 
@@ -111,7 +116,7 @@ export class SessionHelper {
     return total_break_time;
   }
 
-  public static async generateSchedule(technique_id: string, start_time: string, expected_total_time: number): Promise<cycle[]> {
+  public static async generateSchedule(technique_id: string, start_time: string, expected_total_time: number): Promise<Schedule> {
     const technique = await this.getTechnique(technique_id);
     const schedule: cycle[] = [];
     let currentTime = start_time;
@@ -137,7 +142,10 @@ export class SessionHelper {
       currentTime = this.addMinutesToTime(workEndTime, breakDuration);
     }
 
-    return schedule;
+    return {
+      schedule,
+      break_count: cycleCount, 
+    };
   }
 
   public static extractTimeFromISO(isoDate: Date): string {
