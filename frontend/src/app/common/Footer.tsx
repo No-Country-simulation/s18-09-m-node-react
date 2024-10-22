@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Twitter, Instagram, Youtube, Linkedin, Send } from "lucide-react";
+// import { Input } from "@/components/ui/input";
+// import { Button } from "@/components/ui/button";
+// import { Twitter, Instagram, Youtube, Linkedin, Send } from "lucide-react";
 import { XLogo } from "@/svg/XLogo";
 import { InstagramLogo } from "@/svg/InstagramLogo";
 import { YouTubeLogo } from "@/svg/YouTubeLogo";
