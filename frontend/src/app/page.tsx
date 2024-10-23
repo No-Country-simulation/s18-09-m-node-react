@@ -1,3 +1,4 @@
+import Link  from "next/link";
 import { Button } from "@/components/ui/button";
 import  HomeBrackground from "@/svg/main.svg";
 import Image from "next/image";
@@ -29,9 +30,11 @@ export default function Home() {
           <p className="text-lg font-roboto font-semibold text-black">
             ¿Empiezas hoy a trabajar mejor y sentirte bien?
           </p>
-          <Button className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-lg text-lg">
-            Empezar Ahora
-          </Button>
+          <Link href="/home">
+            <Button className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-lg text-lg">
+              Empezar Ahora
+            </Button>
+          </Link>
         </div>
       </main>
     </div>
