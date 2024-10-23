@@ -35,6 +35,8 @@ export interface AppStoreI {
   setUser: (user: UserI) => void;
   techniques: TechniqueI[] | null;
   setTechniques: (techniques: TechniqueI[]) => void;
+  sessions: SessionI[] | null;
+  setSessions: (sessions: SessionI[]) => void;
 }
 
 export interface TechniqueI {
@@ -46,4 +48,24 @@ export interface TechniqueI {
   cycles_before_long_break: number;
   active_pause: boolean;
   logout: () => void;
+}
+
+export interface StatsDataI {
+  start_time: string;
+  real_break_count: number;
+  real_focus_time: string;
+  real_break_time: string;
+}
+
+export interface SessionI {
+  user_id: String;
+  technique_id: String;
+  start_time: Date;
+  end_time: Date;
+  expected_total_time: number;
+  real_focus_time: number;
+  real_break_time: number;
+  real_break_count: number;
+  finished: boolean;
+  score: number;
 }

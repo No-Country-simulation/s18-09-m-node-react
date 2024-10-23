@@ -1,4 +1,4 @@
-import { AppStoreI, TechniqueI, UserI } from "@/types";
+import { AppStoreI, SessionI, TechniqueI, UserI } from "@/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -20,13 +20,15 @@ export const appStore = create<AppStoreI>()(
       user: null,
       setUser: (user: UserI) => set(() => ({ user })),
       logout: () => set(() => ({ user: null })),
+      sessions: null,
+      setSessions: (sessions: SessionI[]) => set(() => ({ sessions })),
     }),
     {
       name: "appStore",
       partialize: (state) => ({
         user: state.user,
         techniques: state.techniques,
-      }), // Solo persiste el estado del usuario.
+      }), // Solo persiste el estado del usuario y las técnicas.
     }
   )
 );
