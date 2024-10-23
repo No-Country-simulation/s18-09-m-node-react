@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Edit2, X } from "lucide-react";
+import services from "@/services";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
@@ -104,6 +105,14 @@ export default function Home() {
     if (Notification.permission === "default") {
       Notification.requestPermission();
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await services.getTechniques();
+      console.log(response.data.data);
+    };
+    fetchData();
   }, []);
 
   const formatTime = (seconds: number): string => {
