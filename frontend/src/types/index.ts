@@ -44,4 +44,5 @@ export interface TechniqueI {
   long_break_time: number;
   cycles_before_long_break: number;
   active_pause: boolean;
+  logout: () => void;
 }

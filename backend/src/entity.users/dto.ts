@@ -15,14 +15,13 @@ export default class DTO {
 
 
     const validationResult = validateUserData(data);
-
     if (validationResult.hasError) {
       return {
         error: {
           message: validationResult.errorMessages.join(', '),
         },
         value: null,
-        password:null,
+        password: null,
       };
     }
 
@@ -41,7 +40,7 @@ export default class DTO {
         role,
         active: true,
       },
-      password:password,
+      password: password,
     };
   }
 

@@ -35,7 +35,7 @@ export default class Controller {
       if (result.success) {
         return ControllerHandler.created("Password reset email sent.", result, res);
       } else {
-        return res.status(404).json({ message: result.message }); // Usuario no encontrado
+        return ControllerHandler.badRequest( result.message, res ); // Usuario no encontrado
       }
     } catch (err) {
       next(err);

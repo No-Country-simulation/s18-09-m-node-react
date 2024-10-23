@@ -9,3 +9,12 @@ export async function get() {
     throw err;
   }
 }
+
+export async function getSessionsByUserId(userId: string) {
+  try {
+    const sessions = await Session.find({ user_id: userId }).exec();
+    return sessions;
+  } catch (err) {
+    throw err; 
+  }
+}

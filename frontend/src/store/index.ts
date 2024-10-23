@@ -19,6 +19,7 @@ export const appStore = create<AppStoreI>()(
         })),
       user: null,
       setUser: (user: UserI) => set(() => ({ user })),
+      logout: () => set(() => ({ user: null })),
     }),
     {
       name: "appStore",
