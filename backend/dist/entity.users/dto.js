@@ -39,9 +39,11 @@ class DTO {
                     message: validationResult.errorMessages.join(', '),
                 },
                 value: null,
+                password: null,
             };
         }
         const { email, username, password, role } = validationResult.userData;
+        // Enviar mail de registro exitoso
         const hashPassword = bcrypt.hashSync(password, this.salt);
         return {
             error: null,
@@ -52,6 +54,7 @@ class DTO {
                 role,
                 active: true,
             },
+            password: password,
         };
     }
     static login(data) {

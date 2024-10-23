@@ -1,12 +1,15 @@
-import express from 'express';
-import Controller from './controller';
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.adminProtectedRoutes = exports.userProtectedRoutes = exports.notProtectedRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const controller_1 = __importDefault(require("./controller"));
 // -- Not protected routes --
-export const notProtectedRoutes = express.Router();
-
+exports.notProtectedRoutes = express_1.default.Router();
 // -- User protected routes --
-export const userProtectedRoutes = express.Router();
-
+exports.userProtectedRoutes = express_1.default.Router();
 /**
  * GET /v1/sessions
  * @summary Retrieve a list of sessions
@@ -21,6 +24,7 @@ export const userProtectedRoutes = express.Router();
  *       "technique_id": "613b1fcf8f1d1e2f4a12b3c5",
  *       "start_time": "2024-10-01T10:00:00Z",
  *       "end_time": "2024-10-01T10:30:00Z",
+ *       "expected_total_time": 30,
  *       "real_focus_time": 25,
  *       "real_break_time": 5,
  *       "real_break_count": 1,
@@ -33,6 +37,7 @@ export const userProtectedRoutes = express.Router();
  *       "technique_id": "613b1fcf8f1d1e2f4a12b3c5",
  *       "start_time": "2024-10-02T14:00:00Z",
  *       "end_time": "2024-10-02T14:45:00Z",
+ *       "expected_total_time": 45,
  *       "real_focus_time": 40,
  *       "real_break_time": 5,
  *       "real_break_count": 1,
@@ -42,9 +47,7 @@ export const userProtectedRoutes = express.Router();
  *   ]
  * }
  */
-userProtectedRoutes.get('/sessions', Controller.get);
-userProtectedRoutes.get('/sessions/:id', Controller.getSessionsByUserId);
-
+exports.userProtectedRoutes.get('/sessions', controller_1.default.get);
 /**
  * POST /v1/sessions/register
  * @summary Register a new session
@@ -95,11 +98,9 @@ userProtectedRoutes.get('/sessions/:id', Controller.getSessionsByUserId);
  *   "message": "Internal server error."
  * }
  */
-userProtectedRoutes.post('/sessions/register', Controller.register);
-
+exports.userProtectedRoutes.post('/sessions/register', controller_1.default.register);
 // -- Admin protected routes --
-export const adminProtectedRoutes = express.Router();
-
+exports.adminProtectedRoutes = express_1.default.Router();
 /**
  * PUT /v1/sessions/update/{id}
  * @summary Update an existing session
@@ -144,4 +145,4 @@ export const adminProtectedRoutes = express.Router();
  *   "message": "Internal server error."
  * }
  */
-adminProtectedRoutes.put('/sessions/update/:id', Controller.update);
+exports.adminProtectedRoutes.put('/sessions/update/:id', controller_1.default.update);

@@ -89,6 +89,40 @@ export const notProtectedRoutes = express
    * }
    */
   .post('/auth/register', Controller.register)
+
+  /**
+   * POST /v1/auth/forgetpassword
+   * @summary Request a password reset
+   * @tags AUTH
+   * @param {object} request.body.required - User details
+   * @example request - Example of request body
+   * {
+   *    "email": "admin@admin.com",
+   * }
+   * @return {object} 201 - Mail sended
+   * @return {object} 400 - Invalid data
+   * @return {object} 500 - Internal server error
+   * @example response - 201 - Example of response
+   * {
+   * "success": true,
+   * "message": "Password reset email sent.",
+   * "data": {
+   *     "success": true,
+   *     "message": "Password reset email sent. Check email.",
+   *     "hashPassword": "{ password hashed }"
+   *  }
+   * }
+   * @example response - 400 - Example of response
+   * {
+   *   "success": false,
+   *   "message": "User not found."
+   * }
+   * @example response - 500 - Example of response
+   * {
+   *   "success": false,
+   *   "message": "Internal server error."
+   * }
+   */
   .post('/auth/forgetpassword', Controller.forgetPassword)
 
 // -- User protected routes --
