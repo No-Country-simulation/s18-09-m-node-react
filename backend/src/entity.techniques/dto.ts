@@ -1,5 +1,5 @@
 import { TechniqueAttributes, TechniqueUpdateAttributes } from './model';
-import { validateTechniqueData } from './validation';
+import { validateTechniqueData, validateUpdateTechniqueData } from './validation';
 
 export default class DTO {
   private constructor() { }
@@ -32,7 +32,7 @@ export default class DTO {
 
 
   public static update(data: any, technique_id: string): { error: { message: string }; value: null } | { error: null; value: TechniqueUpdateAttributes } {
-    const validationResult = validateTechniqueData(data);
+    const validationResult = validateUpdateTechniqueData(data);
     if (validationResult.hasError) {
       return {
         error: {
@@ -47,13 +47,13 @@ export default class DTO {
       error: null,
       value: {
         _id: technique_id,
-        name,
-        description,
-        focus_time,
-        break_time,
-        long_break_time,
-        cycles_before_long_break,
-        active_pause
+        name: name!,
+        description: description!,
+        focus_time: focus_time!,
+        break_time: break_time!,
+        long_break_time: long_break_time!,
+        cycles_before_long_break: cycles_before_long_break!,
+        active_pause: active_pause!
       },
     };
   }
