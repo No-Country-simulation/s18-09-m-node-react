@@ -5,6 +5,7 @@ import { useState } from "react";
 import { appStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { Confirmation } from "./Confirmation";
+import { LogoutButton } from "./LogoutButton";
 
 interface UserMenuProps {
   isMenuOpen: boolean;
@@ -57,6 +58,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({
             className="fixed top-0 right-0 w-full sm:w-96 h-full bg-[#DFF7F2] shadow-lg z-50 overflow-y-auto"
           >
             {children}
+            <LogoutButton setIsConfirmMenuOpen={setIsConfirmMenuOpen} />
           </motion.div>
         )}
       </AnimatePresence>

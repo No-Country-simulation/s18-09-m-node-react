@@ -1,10 +1,9 @@
-import { X, LogOut, UserIcon, SettingsIcon } from "lucide-react";
+import { X, UserIcon, SettingsIcon } from "lucide-react";
 import Link from "next/link";
 import { StatsIcon } from "@/svg/StatsIcon";
 
 interface OptionsProps {
-    toggleOptions: () => void;
-
+  toggleOptions: () => void;
 }
 
 export const Options: React.FC<OptionsProps> = ({ toggleOptions }) => {
@@ -44,34 +43,6 @@ export const Options: React.FC<OptionsProps> = ({ toggleOptions }) => {
           <SettingsIcon />
           Configuración
         </Link>
-
-        <div className="w-full py-[6px]">
-          <button
-            onClick={() => {
-            
-              toggleOptions();
-            }}
-            className="text-white
-                     font-roboto
-                     m-auto
-                     w-[272px]
-                     h-[44px]
-                     bg-[#47A896]
-                     hover:bg-[#54c7a8]
-                     text-lg
-                     font-light
-                     flex justify-center
-                     items-center
-                     rounded-[4px]
-                     gap-4
-                     transition-colors
-                     duration-300
-                     ease-in-out"
-          >
-            <LogOut className="h-5 w-5" />
-            <span>Cerrar sesión</span>
-          </button>
-        </div>
       </nav>
     </div>
   );
