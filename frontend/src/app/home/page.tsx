@@ -78,8 +78,9 @@ export default function Home() {
   const [showNotification, setShowNotification] = useState(false);
   const [buttonText, setButtonText] = useState("Meditar");
   const [hoveredMode, setHoveredMode] = useState<TimerMode | null>(null);
-  const [fetchError, setFetchError] = useState<string | null>(null); // Manejo de errores
-  const fetchCalled = useRef(false); // Control del ciclo de fetch
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const fetchCalled = useRef(false);
+  const [showDescription, setShowDescription] = useState(true);
 
   const showSystemNotification = useCallback((message: string) => {
     if (Notification.permission === "granted") {
@@ -204,16 +205,25 @@ export default function Home() {
   };
 
   const switchMode = (newMode: TimerMode) => {
-    setMode(newMode);
-    setIsRunning(false);
-    setIsWorkTime(true);
-    setTime(timerConfigs[newMode].workDuration);
+    if (mode === newMode) {
+      // Toggles the description selected
+      setShowDescription((prevState) => !prevState);
+    } else {
+      // Change and show description on different technique
+      setMode(newMode);
+      setShowDescription(true); // Mostrar siempre que se cambie de técnica
+      setIsRunning(false);
+      setIsWorkTime(true);
+      setTime(timerConfigs[newMode].workDuration);
+    }
   };
 
-  const handleWrapperMouseEnter = () => {};
-
-  const handleWrapperMouseLeave = () => {
-    setHoveredMode(null);
+  // Hover or selected
+  const showDescriptionContent = () => {
+    if (hoveredMode) {
+      return timerConfigs[hoveredMode].description;
+    }
+    return timerConfigs[mode].description; // Not hover, show selected technique
   };
 
   const buttonOptions = useMemo(
@@ -278,51 +288,52 @@ export default function Home() {
             {fetchError}
           </div>
         )}
-        <div
-          className="flex flex-col justify-center mb-6 space-x-6 bg-transparent"
-          onMouseEnter={handleWrapperMouseEnter}
-          onMouseLeave={handleWrapperMouseLeave}
-        >
+        <div className="flex flex-col justify-center mb-6 space-x-6 bg-transparent">
           <div className="flex justify-evenly bg-green-100 border-b-2 border-blue-500">
             <button
-              className={`text-lg pb-2  ${
-                mode === "pomodoro"
+              className={`text-lg pb-2 ${
+                mode === "pomodoro" || hoveredMode === "pomodoro"
                   ? "border-b-2 border-blue-400 text-blue-600 font-semibold"
                   : "text-gray-800"
               }`}
-              onMouseEnter={() => setHoveredMode("pomodoro")} // Hover triggers for Pomodoro
+              onMouseEnter={() => setHoveredMode("pomodoro")}
+              onMouseLeave={() => setHoveredMode(null)}
               onClick={() => switchMode("pomodoro")}
             >
               Técnica Pomodoro
             </button>
             <button
               className={`text-lg pb-2 ${
-                mode === "52-17"
+                mode === "52-17" || hoveredMode === "52-17"
                   ? "border-b-2 border-blue-400 text-blue-600 font-semibold"
                   : "text-gray-800"
               }`}
               onMouseEnter={() => setHoveredMode("52-17")}
+              onMouseLeave={() => setHoveredMode(null)}
               onClick={() => switchMode("52-17")}
             >
               Técnica 52/17
             </button>
             <button
               className={`text-lg pb-2 ${
-                mode === "pausas-activas"
+                mode === "pausas-activas" || hoveredMode === "pausas-activas"
                   ? "border-b-2 border-blue-400 text-blue-600 font-semibold"
                   : "text-gray-800"
               }`}
               onMouseEnter={() => setHoveredMode("pausas-activas")}
+              onMouseLeave={() => setHoveredMode(null)}
               onClick={() => switchMode("pausas-activas")}
             >
               Técnica Pausas Activas
             </button>
           </div>
-          {hoveredMode && (
-            <span className="flex flex justify-center text-lg text-gray-600">
-              {timerConfigs[hoveredMode].description}
-            </span>
-          )}
+          <div
+            className={`mt-4 transition-all duration-300 ${
+              showDescription ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {showDescriptionContent()}
+          </div>
         </div>
 
         <div className="text-center mt-10 ">
