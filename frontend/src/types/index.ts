@@ -27,6 +27,7 @@ export interface UserI {
   token: string | null;
 }
 export interface AppStoreI {
+  logout: () => void;
   isLoaderVisible: boolean;
   showLoader: () => void;
   hideLoader: () => void;
