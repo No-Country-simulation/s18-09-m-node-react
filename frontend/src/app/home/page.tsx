@@ -1,6 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import { Edit2, X } from "lucide-react";
 import services from "@/services";
 {
@@ -15,25 +22,16 @@ interface TimerConfig {
   description: JSX.Element;
 }
 
-const timerConfigs: Record<TimerMode, TimerConfig> = {
+const initialTimerConfigs: Record<TimerMode, TimerConfig> = {
   pomodoro: {
     workDuration: 25 * 60,
     breakDuration: 5 * 60,
     description: (
-      <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5 ">
+      <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
         <span className="font-bold">
           Maximiza tu productividad con intervalos de enfoque y descansos
           estratégicos.
         </span>
-        <br />
-        <span className="font-bold">
-          La Técnica Pomodoro divide tu tiempo de trabajo en sesiones de 25
-          minutos de concentración plena, seguidas de 5 minutos de descanso.
-        </span>
-        <br />
-        Este ciclo te ayuda a mantener la motivación, reducir la procrastinación
-        y evitar el agotamiento, permitiéndote lograr más en menos tiempo
-        mientras cuidas tu bienestar mental.
         <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
           <Edit2 className="h-7 w-7 text-blue-500" />
         </button>
@@ -44,20 +42,11 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
     workDuration: 52 * 60,
     breakDuration: 17 * 60,
     description: (
-      <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5">
+      <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
         <span className="font-bold">
           Optimiza tu rendimiento con sesiones largas y descansos estratégicos.
         </span>
-        <br />
-        <span className="font-bold">
-          La Técnica 52/17 propone trabajar durante 52 minutos de concentración
-          profunda, seguidos de 17 minutos de descanso.
-        </span>
-        <br />
-        Este método te permite mantener un enfoque sostenido en tareas
-        importantes, mientras los descansos regulares te ayudan a renovar
-        energías y prevenir el agotamiento.
-        <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50 ">
+        <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
           <Edit2 className="h-7 w-7 text-blue-500" />
         </button>
       </div>
@@ -67,15 +56,11 @@ const timerConfigs: Record<TimerMode, TimerConfig> = {
     workDuration: 60 * 60,
     breakDuration: 10 * 60,
     description: (
-      <div className="max-w-[1200px] bg-white  relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[180px] mt-5">
+      <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
         <span className="font-bold">
           Incorpora pausas activas en tu rutina laboral y marca una diferencia
-          significativa en tu bienestar general y en tu desempeño en el trabajo.
+          significativa.
         </span>
-        <br />
-        Estas pausas breves, que implican movimientos suaves y ejercicios,
-        aportan una serie de ventajas que van más allá de simplemente romper la
-        monotonía de la jornada.
         <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
           <Edit2 className="h-7 w-7 text-blue-500" />
         </button>
@@ -89,9 +74,12 @@ export default function Home() {
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState<TimerMode>("pomodoro");
   const [isWorkTime, setIsWorkTime] = useState(true);
+  const [timerConfigs, setTimerConfigs] = useState(initialTimerConfigs);
   const [showNotification, setShowNotification] = useState(false);
   const [buttonText, setButtonText] = useState("Meditar");
   const [hoveredMode, setHoveredMode] = useState<TimerMode | null>(null);
+  const [fetchError, setFetchError] = useState<string | null>(null); // Manejo de errores
+  const fetchCalled = useRef(false); // Control del ciclo de fetch
 
   const showSystemNotification = useCallback((message: string) => {
     if (Notification.permission === "granted") {
@@ -107,12 +95,94 @@ export default function Home() {
     }
   }, []);
 
+  interface Technique {
+    name: string;
+    focus_time: number;
+    break_time: number;
+    long_break_time: number;
+    cycles_before_long_break: number;
+    active_pause: boolean;
+    description: string;
+  }
+  // Calling the API to update timerConfigs
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await services.getTechniques();
-      console.log(response.data.data);
-    };
-    fetchData();
+    if (!fetchCalled.current) {
+      fetchCalled.current = true; // Garantiza que no se realicen múltiples llamadas
+
+      const fetchData = async () => {
+        try {
+          const response = await services.getTechniques();
+          const techniquesArray: Technique[] = response.data.data;
+
+          const techniquesMap = techniquesArray.reduce(
+            (map: Record<string, Technique>, technique: Technique) => {
+              map[technique.name] = technique;
+              return map;
+            },
+            {}
+          );
+
+          const updatedTimerConfigs: Record<TimerMode, TimerConfig> = {
+            pomodoro: {
+              workDuration: (techniquesMap["Pomodoro"]?.focus_time || 25) * 60,
+              breakDuration: (techniquesMap["Pomodoro"]?.break_time || 5) * 60,
+              description: (
+                <div className="max-w-[1200px] bg-white relative px-8 py-8 border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
+                  <span className="font-bold">
+                    {techniquesMap["Pomodoro"]?.description ||
+                      "Maximiza tu productividad con intervalos de enfoque y descansos estratégicos."}
+                  </span>
+                  <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
+                    <Edit2 className="h-7 w-7 text-blue-500" />
+                  </button>
+                </div>
+              ),
+            },
+            "52-17": {
+              workDuration:
+                (techniquesMap["52/17 Technique"]?.focus_time || 52) * 60,
+              breakDuration:
+                (techniquesMap["52/17 Technique"]?.break_time || 17) * 60,
+              description: (
+                <div className="max-w-[1200px] bg-white relative px-8 py-8 border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
+                  <span className="font-bold">
+                    {techniquesMap["52/17 Technique"]?.description ||
+                      "Optimiza tu rendimiento con sesiones largas y descansos estratégicos."}
+                  </span>
+                  <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
+                    <Edit2 className="h-7 w-7 text-blue-500" />
+                  </button>
+                </div>
+              ),
+            },
+            "pausas-activas": {
+              workDuration:
+                (techniquesMap["Active Pause"]?.focus_time || 25) * 60,
+              breakDuration:
+                (techniquesMap["Active Pause"]?.break_time || 5) * 60,
+              description: (
+                <div className="max-w-[1200px] bg-white relative px-8 py-8 border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
+                  <span className="font-bold">
+                    {techniquesMap["Active Pause"]?.description ||
+                      "Incorpora pausas activas en tu rutina laboral y marca una diferencia significativa."}
+                  </span>
+                  <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
+                    <Edit2 className="h-7 w-7 text-blue-500" />
+                  </button>
+                </div>
+              ),
+            },
+          };
+
+          setTimerConfigs(updatedTimerConfigs);
+        } catch (apiError) {
+          console.error("Error al obtener las técnicas:", apiError);
+          setFetchError("Error al actualizar las técnicas.");
+        }
+      };
+
+      fetchData();
+    }
   }, []);
 
   const formatTime = (seconds: number): string => {
@@ -127,7 +197,7 @@ export default function Home() {
     const config = timerConfigs[mode];
     setTime(config.workDuration);
     setIsWorkTime(true);
-  }, [mode]);
+  }, [mode, timerConfigs]);
 
   const toggleTimer = () => {
     setIsRunning((prev) => !prev);
@@ -185,6 +255,7 @@ export default function Home() {
     getRandomButtonText,
     showSystemNotification,
     resetTimer,
+    timerConfigs,
   ]);
 
   const closeNotification = () => {
@@ -202,6 +273,11 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-green-100 flex flex-col items-center justify-around p-4">
       <main className="text-2xl md:container md:mx-auto px-4 py-8 max-w-2xl ">
+        {fetchError && (
+          <div className="bg-red-300 text-red-800 p-4 rounded-md mb-6">
+            {fetchError}
+          </div>
+        )}
         <div
           className="flex flex-col justify-center mb-6 space-x-6 bg-transparent"
           onMouseEnter={handleWrapperMouseEnter}
