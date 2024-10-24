@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   useRouteChangeLoader(); // oculta el loader cuando cambia de ruta.
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <meta name="description" content={metadata.description} />
         <title>{metadata.title}</title>
