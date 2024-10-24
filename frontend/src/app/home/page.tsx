@@ -10,6 +10,8 @@ import React, {
 } from "react";
 import { Edit2, X } from "lucide-react";
 import services from "@/services";
+import { Configuration } from "@/components/ui/userMenu/Configuration";
+import { UserMenu } from "@/components/ui/userMenu/UserMenu";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
@@ -273,6 +275,10 @@ export default function Home() {
     setIsRunning(true);
   };
 
+  //UserMenu -> Configuration
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
+
   //modal
   // const [isModalOpen, setIsModalOpen] = useState(true); // Inicialmente el modal está abierto
 
@@ -281,7 +287,16 @@ export default function Home() {
   // };
 
   return (
-    <div className="min-h-screen bg-green-100 flex flex-col items-center justify-around p-4">
+    <div className="min-h-screen  flex flex-col items-center justify-around p-4">
+      <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50" onClick={toggleUserMenu}>
+        <Edit2 className="h-7 w-7 text-blue-500" />
+      </button>
+      <UserMenu
+        isMenuOpen={isUserMenuOpen}
+        toggleUserMenu={toggleUserMenu}
+      >
+        <Configuration toggleOptions={toggleUserMenu}/>
+      </UserMenu>
       <main className="text-2xl md:container md:mx-auto px-4 py-8 max-w-2xl ">
         {fetchError && (
           <div className="bg-red-300 text-red-800 p-4 rounded-md mb-6">
