@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { appStore } from "@/store";
-import { Eye, EyeOff } from "lucide-react";
 
 const validatePassword = (password: string) => {
   const errors = [];
@@ -104,14 +103,18 @@ export default function LoginPage() {
               onChange={setFormState}
               error={validatePassword(formState.password)}
             />
-            <button
-              type="button" // Asegura que no actúe como un submit
-              className="absolute top-1/2 right-2 transform -translate-y-1/2"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff /> : <Eye />}
-            </button>
+
           </div>
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              className="rounded"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            <span className="text-sm">Mostrar contraseña</span>
+          </div>
+          
           <Button
             type="submit"
             className="w-full relative"
