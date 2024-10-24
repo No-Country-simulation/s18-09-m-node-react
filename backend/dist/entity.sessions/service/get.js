@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get = void 0;
+exports.getSessionsByUserId = exports.get = void 0;
 const model_1 = require("../model");
 function get() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -23,3 +23,15 @@ function get() {
     });
 }
 exports.get = get;
+function getSessionsByUserId(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const sessions = yield model_1.Session.find({ user_id: userId }).exec();
+            return sessions;
+        }
+        catch (err) {
+            throw err;
+        }
+    });
+}
+exports.getSessionsByUserId = getSessionsByUserId;

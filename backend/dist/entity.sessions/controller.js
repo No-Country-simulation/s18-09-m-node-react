@@ -30,9 +30,23 @@ class Controller {
             }
         });
     }
+    static getSessionsByUserId(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user_id = req.params.id;
+                const sessions = yield (0, service_1.getSessionsByUserId)(user_id);
+                if (sessions.length > 0)
+                    return controllers_handler_1.default.ok('Sessions found.', res, sessions);
+                return controllers_handler_1.default.notFound('Sessions not found.', res);
+            }
+            catch (err) {
+                next(err);
+            }
+        });
+    }
     static register(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { error, value } = dto_1.default.register(req.body);
+            const { error, value } = yield dto_1.default.register(req.body);
             if (error)
                 return controllers_handler_1.default.badRequest(error.message, res);
             try {

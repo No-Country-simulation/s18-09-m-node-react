@@ -25,7 +25,7 @@ class Controller {
                 return controllers_handler_1.default.badRequest(error.message, res);
             try {
                 const userData = yield (0, service_1.register)(value);
-                return controllers_handler_1.default.created("Technique created.", userData, res);
+                return controllers_handler_1.default.created('Technique created.', userData, res);
             }
             catch (err) {
                 next(err);
@@ -42,8 +42,8 @@ class Controller {
             try {
                 const result = yield (0, service_1.update)(value);
                 if (result)
-                    return controllers_handler_1.default.ok("Technique updated.", res);
-                return controllers_handler_1.default.notFound("Technique not updated.", res);
+                    return controllers_handler_1.default.ok('Technique updated.', res);
+                return controllers_handler_1.default.notFound('Technique not updated.', res);
             }
             catch (err) {
                 next(err);
@@ -56,8 +56,22 @@ class Controller {
             try {
                 const techniques = yield (0, service_1.get)();
                 if (techniques.length > 0)
-                    return controllers_handler_1.default.ok("Techniques found.", res, techniques);
-                return controllers_handler_1.default.notFound("Techniques not found.", res);
+                    return controllers_handler_1.default.ok('Techniques found.', res, techniques);
+                return controllers_handler_1.default.notFound('Techniques not found.', res);
+            }
+            catch (err) {
+                next(err);
+            }
+        });
+    }
+    static getById(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const technique_id = req.params.id;
+                const technique = yield (0, service_1.getById)(technique_id);
+                if (technique)
+                    return controllers_handler_1.default.ok('Technique found.', res, technique);
+                return controllers_handler_1.default.notFound('Techniques not found.', res);
             }
             catch (err) {
                 next(err);

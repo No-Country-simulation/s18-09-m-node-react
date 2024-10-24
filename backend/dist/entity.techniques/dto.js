@@ -28,7 +28,7 @@ class DTO {
         };
     }
     static update(data, technique_id) {
-        const validationResult = (0, validation_1.validateTechniqueData)(data);
+        const validationResult = (0, validation_1.validateUpdateTechniqueData)(data);
         if (validationResult.hasError) {
             return {
                 error: {
@@ -42,13 +42,13 @@ class DTO {
             error: null,
             value: {
                 _id: technique_id,
-                name,
-                description,
-                focus_time,
-                break_time,
-                long_break_time,
-                cycles_before_long_break,
-                active_pause
+                name: name,
+                description: description,
+                focus_time: focus_time,
+                break_time: break_time,
+                long_break_time: long_break_time,
+                cycles_before_long_break: cycles_before_long_break,
+                active_pause: active_pause
             },
         };
     }
