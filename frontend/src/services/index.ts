@@ -1,6 +1,6 @@
-import { QueryProps } from "@/types";
+// import { QueryProps } from "@/types";
 import api from "./api";
-import createQuerys from "@/utils/createQuerys";
+// import createQuerys from "@/utils/createQuerys";
 
 // User services
 const registerUser = async <T>(body: T) =>
