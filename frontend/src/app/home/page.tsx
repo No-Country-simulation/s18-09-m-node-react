@@ -8,10 +8,11 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { Edit2, X } from "lucide-react";
+import { Edit2 } from "lucide-react";
 import services from "@/services";
 import { Configuration } from "@/components/ui/userMenu/Configuration";
 import { UserMenu } from "@/components/ui/userMenu/UserMenu";
+import Message from "@/components/Message";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
@@ -26,8 +27,8 @@ interface TimerConfig {
 
 const initialTimerConfigs: Record<TimerMode, TimerConfig> = {
   pomodoro: {
-    workDuration: 25 * 60,
-    breakDuration: 5 * 60,
+    workDuration: 5,
+    breakDuration: 5,
     description: (
       <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
         <span className="font-bold">
@@ -369,28 +370,11 @@ export default function Home() {
           </p>
         </div>
       </main>
-      {showNotification && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-end p-4">
-          <div className="bg-white border border-gray-300 shadow-lg p-4 rounded-lg max-w-sm">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center">
-                <h3 className="font-bold">¡Es hora de tu break!</h3>
-              </div>
-              <button onClick={closeNotification}>
-                <X className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-              </button>
-            </div>
-            <p className="text-gray-600 mt-2">
-              Descansa tus ojos. Estira tus piernas. Respira. Relájate.
-            </p>
-            {mode === "pausas-activas" && (
-              <button className="bg-green-500 text-white mt-2">
-                {buttonText}
-              </button>
-            )}
-          </div>
-        </div>
-      )}
+
+            {/* Show Message component */}
+
+      {showNotification && <Message mode={mode} buttonText={buttonText} closeNotification={closeNotification} />
+      }
       {/*<WelcomeModal isOpen={isModalOpen} onClose={handleCloseModal} />*/}
     </div>
   );
