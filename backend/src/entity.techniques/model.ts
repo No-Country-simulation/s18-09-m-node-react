@@ -50,3 +50,4 @@ const TechniqueSchema: Schema<TechniqueDocument> = new Schema({
 }, { timestamps: true });
 
 export const Technique: Model<TechniqueDocument> = mongoose.model<TechniqueDocument>('Technique', TechniqueSchema);
+export const PersonalTechnique: Model<TechniqueDocument> = mongoose.model<TechniqueDocument>('PersonalTechnique', TechniqueSchema);

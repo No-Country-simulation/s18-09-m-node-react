@@ -38,9 +38,6 @@ export const userProtectedRoutes = express.Router();
  */
 userProtectedRoutes.get('/techniques', Controller.get);
 
-// -- Admin protected routes --
-export const adminProtectedRoutes = express.Router();
-
 /**
  * POST /v1/techniques/register
  * @summary Register a new technique
@@ -85,7 +82,7 @@ export const adminProtectedRoutes = express.Router();
  *   "message": "Internal server error."
  * }
  */
-adminProtectedRoutes.post('/techniques/register', Controller.register);
+userProtectedRoutes.post('/techniques/register', Controller.register);
 
 /**
  * PUT /v1/techniques/update/{id}
@@ -128,4 +125,8 @@ adminProtectedRoutes.post('/techniques/register', Controller.register);
  *   "message": "Internal server error."
  * }
  */
-adminProtectedRoutes.put('/techniques/update/:id', Controller.update);
+userProtectedRoutes.put('/techniques/update/:id', Controller.update);
+
+
+// -- Admin protected routes --
+export const adminProtectedRoutes = express.Router();
