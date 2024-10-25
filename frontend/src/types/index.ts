@@ -14,8 +14,8 @@ export interface ServiceTypes {
   registerUser: { email: string; password: string };
   loginUser: { email: string; password: string };
   getUserById: string;
-  getWeatherForecast: Record<string, string>;
-  getTechniques: TechniqueI[];
+  getTechniques: null;
+  getSessions: string;
 }
 
 export interface UserI {

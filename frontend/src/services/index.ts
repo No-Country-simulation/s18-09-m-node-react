@@ -10,11 +10,9 @@ const loginUser = async <T>(body: T) => await api.post("/auth/login", body);
 
 const getUserById = async <T>(url: T) => await api.get(`/data/${url}`);
 
-// const getTechniques = async () => await api.get(`/techniques`);
-
 const getTechniques = async () => await api.get("/techniques");
 
-const getSessions = async <T>(userId: T) => await api.get(`/sessions/${userId}`);
+const getSessions = async <T>(url: T) => await api.get(`/sessions/${url}`);
 
 // Default export
 const services = {
