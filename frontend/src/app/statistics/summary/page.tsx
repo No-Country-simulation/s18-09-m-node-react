@@ -48,7 +48,7 @@ const Summary: React.FC = () => {
   const userId = appStore((state) => state.user?.userData?._id);
   const [data, setData] = useState<StatsDataI[] | null>(mapSessionData(sessions));
   const [error, setError] = useState(false);
-  let isLoading = !data && !error;
+  const isLoading = !data && !error;
 
   useEffect(() => {
     if (!userId) return;
