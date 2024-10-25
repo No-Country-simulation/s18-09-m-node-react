@@ -1,6 +1,6 @@
-import { QueryProps } from "@/types";
+// import { QueryProps } from "@/types";
 import api from "./api";
-import createQuerys from "@/utils/createQuerys";
+// import createQuerys from "@/utils/createQuerys";
 
 // User services
 const registerUser = async <T>(body: T) =>
@@ -14,18 +14,15 @@ const getUserById = async <T>(url: T) => await api.get(`/data/${url}`);
 
 const getTechniques = async () => await api.get("/techniques");
 
-// Clima services
-
-const getWeatherForecast = async <T>(querys: T) =>
-  await api.get(`/clima/forescast?${createQuerys(querys as QueryProps)}`);
+const getSessions = async <T>(userId: T) => await api.get(`/sessions/${userId}`);
 
 // Default export
 const services = {
   registerUser,
   loginUser,
   getUserById,
-  getWeatherForecast,
   getTechniques,
+  getSessions,
 };
 
 export default services;
