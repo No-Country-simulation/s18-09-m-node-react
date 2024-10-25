@@ -14,19 +14,13 @@ const getUserById = async <T>(url: T) => await api.get(`/data/${url}`);
 
 const getTechniques = async () => await api.get("/techniques");
 
-const getSessions = async <T>(url: T) => await api.get(`/sessions/${url}`);
-
-// Clima services
-
-const getWeatherForecast = async <T>(querys: T) =>
-  await api.get(`/clima/forescast?${createQuerys(querys as QueryProps)}`);
+const getSessions = async <T>(userId: T) => await api.get(`/sessions/${userId}`);
 
 // Default export
 const services = {
   registerUser,
   loginUser,
   getUserById,
-  getWeatherForecast,
   getTechniques,
   getSessions,
 };
