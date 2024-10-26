@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, {
@@ -8,82 +7,28 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { Edit2 } from "lucide-react";
 import services from "@/services";
 import { Configuration } from "@/components/ui/userMenu/Configuration";
 import { UserMenu } from "@/components/ui/userMenu/UserMenu";
 import Message from "@/components/Message";
+import { Edit2 } from "lucide-react";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
 
-type TimerMode = "pomodoro" | "52-17" | "pausas-activas";
-
-interface TimerConfig {
-  workDuration: number;
-  breakDuration: number;
-  description: JSX.Element;
-}
-
-const initialTimerConfigs: Record<TimerMode, TimerConfig> = {
-  pomodoro: {
-    workDuration: 5,
-    breakDuration: 5,
-    description: (
-      <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
-        <span className="font-bold">
-          Maximiza tu productividad con intervalos de enfoque y descansos
-          estratégicos.
-        </span>
-        <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
-          <Edit2 className="h-7 w-7 text-blue-500" />
-        </button>
-      </div>
-    ),
-  },
-  "52-17": {
-    workDuration: 52 * 60,
-    breakDuration: 17 * 60,
-    description: (
-      <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
-        <span className="font-bold">
-          Optimiza tu rendimiento con sesiones largas y descansos estratégicos.
-        </span>
-        <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
-          <Edit2 className="h-7 w-7 text-blue-500" />
-        </button>
-      </div>
-    ),
-  },
-  "pausas-activas": {
-    workDuration: 60 * 60,
-    breakDuration: 10 * 60,
-    description: (
-      <div className="max-w-[1200px] bg-white relative px-8 py-8 b border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
-        <span className="font-bold">
-          Incorpora pausas activas en tu rutina laboral y marca una diferencia
-          significativa.
-        </span>
-        <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
-          <Edit2 className="h-7 w-7 text-blue-500" />
-        </button>
-      </div>
-    ),
-  },
-};
+const factor = 60; // 1 = seconds | 60 = minute
 
 export default function Home() {
-  const [time, setTime] = useState(25 * 60);
+  const [timer, setTimer] = useState(25 * factor);
+  const [breakTime, setBreakTime] = useState(5 * factor);
+  const [currentTechnique, setCurrentTechnique] = useState<Technique >();
   const [isRunning, setIsRunning] = useState(false);
-  const [mode, setMode] = useState<TimerMode>("pomodoro");
   const [isWorkTime, setIsWorkTime] = useState(true);
-  const [timerConfigs, setTimerConfigs] = useState(initialTimerConfigs);
   const [showNotification, setShowNotification] = useState(false);
+  const [session, setSession] = useState(1);
   const [buttonText, setButtonText] = useState("Meditar");
-  const [hoveredMode, setHoveredMode] = useState<TimerMode | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const fetchCalled = useRef(false);
-  const [showDescription, setShowDescription] = useState(true);
 
   const showSystemNotification = useCallback((message: string) => {
     if (Notification.permission === "granted") {
@@ -108,6 +53,8 @@ export default function Home() {
     active_pause: boolean;
     description: string;
   }
+
+  const [techniques, setTechniques] = useState([] as Technique[]);
   // Calling the API to update timerConfigs
   useEffect(() => {
     if (!fetchCalled.current) {
@@ -116,69 +63,7 @@ export default function Home() {
       const fetchData = async () => {
         try {
           const response = await services.getTechniques();
-          const techniquesArray: Technique[] = response.data.data;
-
-          const techniquesMap = techniquesArray.reduce(
-            (map: Record<string, Technique>, technique: Technique) => {
-              map[technique.name] = technique;
-              return map;
-            },
-            {}
-          );
-
-          const updatedTimerConfigs: Record<TimerMode, TimerConfig> = {
-            pomodoro: {
-              workDuration: (techniquesMap["Pomodoro"]?.focus_time || 25) * 60,
-              breakDuration: (techniquesMap["Pomodoro"]?.break_time || 5) * 60,
-              description: (
-                <div className="max-w-[1200px] bg-white relative px-8 py-8 border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
-                  <span className="font-bold">
-                    {techniquesMap["Pomodoro"]?.description ||
-                      "Maximiza tu productividad con intervalos de enfoque y descansos estratégicos."}
-                  </span>
-                  <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
-                    <Edit2 className="h-7 w-7 text-blue-500" />
-                  </button>
-                </div>
-              ),
-            },
-            "52-17": {
-              workDuration:
-                (techniquesMap["52/17 Technique"]?.focus_time || 52) * 60,
-              breakDuration:
-                (techniquesMap["52/17 Technique"]?.break_time || 17) * 60,
-              description: (
-                <div className="max-w-[1200px] bg-white relative px-8 py-8 border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
-                  <span className="font-bold">
-                    {techniquesMap["52/17 Technique"]?.description ||
-                      "Optimiza tu rendimiento con sesiones largas y descansos estratégicos."}
-                  </span>
-                  <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
-                    <Edit2 className="h-7 w-7 text-blue-500" />
-                  </button>
-                </div>
-              ),
-            },
-            "pausas-activas": {
-              workDuration:
-                (techniquesMap["Active Pause"]?.focus_time || 25) * 60,
-              breakDuration:
-                (techniquesMap["Active Pause"]?.break_time || 5) * 60,
-              description: (
-                <div className="max-w-[1200px] bg-white relative px-8 py-8 border-solid border-2 border-slate-300 min-h-[200px] mt-5 transition-all duration-300">
-                  <span className="font-bold">
-                    {techniquesMap["Active Pause"]?.description ||
-                      "Incorpora pausas activas en tu rutina laboral y marca una diferencia significativa."}
-                  </span>
-                  <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50">
-                    <Edit2 className="h-7 w-7 text-blue-500" />
-                  </button>
-                </div>
-              ),
-            },
-          };
-
-          setTimerConfigs(updatedTimerConfigs);
+          setTechniques(Object.values(response.data.data)); // convierte el objeto en un arreglo
         } catch (apiError) {
           console.error("Error al obtener las técnicas:", apiError);
           setFetchError("Error al actualizar las técnicas.");
@@ -187,7 +72,7 @@ export default function Home() {
 
       fetchData();
     }
-  }, []);
+  }, [techniques]);
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -197,37 +82,11 @@ export default function Home() {
       .padStart(2, "0")}`;
   };
 
-  const resetTimer = useCallback(() => {
-    const config = timerConfigs[mode];
-    setTime(config.workDuration);
-    setIsWorkTime(true);
-  }, [mode, timerConfigs]);
 
   const toggleTimer = () => {
     setIsRunning((prev) => !prev);
   };
 
-  const switchMode = (newMode: TimerMode) => {
-    if (mode === newMode) {
-      // Toggles the description selected
-      setShowDescription((prevState) => !prevState);
-    } else {
-      // Change and show description on different technique
-      setMode(newMode);
-      setShowDescription(true); // Mostrar siempre que se cambie de técnica
-      setIsRunning(false);
-      setIsWorkTime(true);
-      setTime(timerConfigs[newMode].workDuration);
-    }
-  };
-
-  // Hover or selected
-  const showDescriptionContent = () => {
-    if (hoveredMode) {
-      return timerConfigs[hoveredMode].description;
-    }
-    return timerConfigs[mode].description; // Not hover, show selected technique
-  };
 
   const buttonOptions = useMemo(
     () => ["Meditar", "Estiramientos", "Respirar"],
@@ -239,37 +98,43 @@ export default function Home() {
   }, [buttonOptions]);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
 
-    if (isRunning && time > 0) {
+    let interval: NodeJS.Timeout | null = null;
+    
+
+    if (isRunning && timer > 0) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
+        setTimer((prevTime) => prevTime - 1);
       }, 1000);
-    } else if (time === 0 && isWorkTime) {
+    } else if (timer === 0 && isWorkTime) {
       setIsWorkTime(false);
-      setTime(timerConfigs[mode].breakDuration);
+      if (currentTechnique && session < currentTechnique?.cycles_before_long_break) {
+        setTimer(currentTechnique?.break_time ?? 5);
+        setBreakTime(currentTechnique?.break_time ?? 5);
+        setButtonText(getRandomButtonText());
+        showSystemNotification("¡Es hora de tu break corto!");
+      } else {
+        setTimer(currentTechnique?.long_break_time ?? 15);
+        setBreakTime(currentTechnique?.long_break_time ?? 15);
+        setButtonText("Es hora de un largo descanso");
+        showSystemNotification("¡Es hora de tu break largo!");
+        setSession(1);
+      }
       setShowNotification(true);
-      showSystemNotification("¡Es hora de tu break!");
       setIsRunning(false); // Pause until notification is closed
-      setButtonText(getRandomButtonText());
-    } else if (time === 0 && !isWorkTime) {
-      resetTimer(); // Reset to work time
+    } else if (timer === 0 && !isWorkTime) {
+
+      setIsWorkTime(true);
+      setTimer(currentTechnique?.focus_time ?? 25);  
+      
+      setSession(session + 1);
       setIsRunning(false);
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [
-    isRunning,
-    time,
-    mode,
-    isWorkTime,
-    getRandomButtonText,
-    showSystemNotification,
-    resetTimer,
-    timerConfigs,
-  ]);
+  }, [isRunning, timer, isWorkTime, getRandomButtonText, showSystemNotification,  techniques, breakTime, currentTechnique?.focus_time, currentTechnique, session]);
 
   const closeNotification = () => {
     setShowNotification(false);
@@ -287,6 +152,16 @@ export default function Home() {
   // // setIsModalOpen(false); // Cerrar el modal
   // };
 
+  // console.log(techniques)
+
+  function handleTime(technique: Technique): void {
+    setCurrentTechnique(technique);
+    // console.log(currentTechnique)
+    setTimer(technique.focus_time * factor);
+    setBreakTime(technique.break_time * factor);
+    setIsWorkTime(true);
+  }
+
   return (
     <div className="min-h-screen  flex flex-col items-center justify-around p-4">
       <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50" onClick={toggleUserMenu}>
@@ -296,7 +171,7 @@ export default function Home() {
         isMenuOpen={isUserMenuOpen}
         toggleUserMenu={toggleUserMenu}
       >
-        <Configuration toggleOptions={toggleUserMenu}/>
+        <Configuration toggleOptions={toggleUserMenu} />
       </UserMenu>
       <main className="text-2xl md:container md:mx-auto px-4 py-8 max-w-2xl ">
         {fetchError && (
@@ -304,58 +179,37 @@ export default function Home() {
             {fetchError}
           </div>
         )}
+
+        {/* Techniques container */}
+
         <div className="flex flex-col justify-center mb-6 space-x-6 bg-transparent">
-          <div className="flex justify-evenly bg-green-100 border-b-2 border-blue-500">
-            <button
-              className={`text-lg pb-2 ${
-                mode === "pomodoro" || hoveredMode === "pomodoro"
-                  ? "border-b-2 border-blue-400 text-blue-600 font-semibold"
-                  : "text-gray-800"
-              }`}
-              onMouseEnter={() => setHoveredMode("pomodoro")}
-              onMouseLeave={() => setHoveredMode(null)}
-              onClick={() => switchMode("pomodoro")}
-            >
-              Técnica Pomodoro
-            </button>
-            <button
-              className={`text-lg pb-2 ${
-                mode === "52-17" || hoveredMode === "52-17"
-                  ? "border-b-2 border-blue-400 text-blue-600 font-semibold"
-                  : "text-gray-800"
-              }`}
-              onMouseEnter={() => setHoveredMode("52-17")}
-              onMouseLeave={() => setHoveredMode(null)}
-              onClick={() => switchMode("52-17")}
-            >
-              Técnica 52/17
-            </button>
-            <button
-              className={`text-lg pb-2 ${
-                mode === "pausas-activas" || hoveredMode === "pausas-activas"
-                  ? "border-b-2 border-blue-400 text-blue-600 font-semibold"
-                  : "text-gray-800"
-              }`}
-              onMouseEnter={() => setHoveredMode("pausas-activas")}
-              onMouseLeave={() => setHoveredMode(null)}
-              onClick={() => switchMode("pausas-activas")}
-            >
-              Técnica Pausas Activas
-            </button>
+          <div className="flex justify-evenly  border-b-2 border-blue-500">
+
+            {techniques.map((technique) => (
+              <button
+                key={technique.name}
+                className={`text-lg pb-2 ${
+                  currentTechnique?.name === technique.name
+                    ? "border-b-4 border-blue-500 "
+                    : "text-gray-800"
+                }`}
+                onClick={() => handleTime(technique)}
+                title={technique.description}
+              >
+                {technique.name}
+              </button>
+            ))}
           </div>
-          <div
-            className={`mt-4 transition-all duration-300 ${
-              showDescription ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            {showDescriptionContent()}
-          </div>
+
         </div>
+
+
+        {/* Timer container */}
 
         <div className="text-center mt-10 ">
           <div className="container mx-auto mb-5 bg-gradient-to-r from-green-400 to-blue-300 py-12 rounded-2xl shadow-md max-w-[600px]">
             <p className=" text-8xl font-extrabold text-white">
-              {formatTime(time)}
+              {formatTime(timer)}
             </p>
           </div>
           <button
@@ -371,9 +225,9 @@ export default function Home() {
         </div>
       </main>
 
-            {/* Show Message component */}
+      {/* Show Message component */}
 
-      {showNotification && <Message mode={mode} buttonText={buttonText} closeNotification={closeNotification} />
+      {showNotification && <Message buttonText={buttonText} closeNotification={closeNotification} />
       }
       {/*<WelcomeModal isOpen={isModalOpen} onClose={handleCloseModal} />*/}
     </div>

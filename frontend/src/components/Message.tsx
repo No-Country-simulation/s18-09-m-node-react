@@ -4,10 +4,9 @@ import { X } from "lucide-react"
 interface MessageProps {
     closeNotification: () => void
     buttonText: string
-    mode: string
 }
 
-const Message = ({closeNotification, buttonText, mode}: MessageProps) => {
+const Message = ({closeNotification, buttonText}: MessageProps) => {
   return (
 
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-end p-4">
@@ -23,11 +22,11 @@ const Message = ({closeNotification, buttonText, mode}: MessageProps) => {
             <p className="text-gray-600 mt-2">
               Descansa tus ojos. Estira tus piernas. Respira. Relájate.
             </p>
-            {mode === "pausas-activas" && (
+            
               <button className="bg-green-500 text-white mt-2">
                 {buttonText}
               </button>
-            )}
+            
           </div>
         </div>
 
