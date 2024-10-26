@@ -5,11 +5,12 @@ type Props = {
   href: string;
   title: string;
   icon: JSX.Element;
+  toggleDrawer: () => void;
 };
 
-export const NavLink = ({ href, title, icon }: Props) => {
+export const NavLink = ({ href, title, icon, toggleDrawer }: Props) => {
   return (
-    <Link href={href} className="w-full">
+    <Link href={href} className="w-full" onClick={toggleDrawer}>
       <div
         className="h-[56px] px-[16px]
                    flex gap-[12px]

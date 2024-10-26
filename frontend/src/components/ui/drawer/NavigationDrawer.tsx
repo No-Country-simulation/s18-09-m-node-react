@@ -62,7 +62,7 @@ export const NavigationDrawer = ({ isMenuOpen, toggleDrawer }: Props) => {
                        rounded-2xl"
           >
             <CrossButton onClick={toggleDrawer} />
-            <NavigationItems />
+            <NavigationItems toggleDrawer={toggleDrawer} />
             <LogoutButton setIsConfirmMenuOpen={setIsConfirmMenuOpen} />
           </motion.div>
         )}
