@@ -1,5 +1,5 @@
-import services from "@/services";
 import { ServiceTypes } from "@/types";
+import services from "@/services";
 
 const useFetchData = () => {
     const fetchData = async <T extends keyof ServiceTypes>(service: T, data: ServiceTypes[T]) => {
