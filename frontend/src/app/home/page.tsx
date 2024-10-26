@@ -11,6 +11,7 @@ import services from "@/services";
 import { Configuration } from "@/components/ui/userMenu/Configuration";
 import { UserMenu } from "@/components/ui/userMenu/UserMenu";
 import Message from "@/components/Message";
+import { Edit2 } from "lucide-react";
 import withAuth from "@/app/auth/withAuth";
 import { Edit2 } from "lucide-react";
 {
