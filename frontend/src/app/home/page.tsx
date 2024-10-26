@@ -11,6 +11,7 @@ import services from "@/services";
 import { Configuration } from "@/components/ui/userMenu/Configuration";
 import { UserMenu } from "@/components/ui/userMenu/UserMenu";
 import Message from "@/components/Message";
+import withAuth from "@/app/auth/withAuth";
 import { Edit2 } from "lucide-react";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
@@ -18,7 +19,7 @@ import { Edit2 } from "lucide-react";
 
 const factor = 60; // 1 = seconds | 60 = minute
 
-export default function Home() {
+function Home() {
   const [timer, setTimer] = useState(25 * factor);
   const [breakTime, setBreakTime] = useState(5 * factor);
   const [currentTechnique, setCurrentTechnique] = useState<Technique >();
@@ -233,3 +234,4 @@ export default function Home() {
     </div>
   );
 }
+export default withAuth(Home);
