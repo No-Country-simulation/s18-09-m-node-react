@@ -18,7 +18,7 @@ export const PrivateNav = () => {
     >
       {" "}
       {/* Aumenté el espacio aquí */}
-      <Link
+      {/*<Link
         href={"/profile"}
         className="p-2
                    rounded-full
@@ -28,7 +28,7 @@ export const PrivateNav = () => {
       >
         <span className="sr-only">Perfil</span>
         <UserIcon />
-      </Link>
+      </Link>*/}
       <button
         type="button"
         className="p-2
