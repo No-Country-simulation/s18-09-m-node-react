@@ -13,6 +13,7 @@ import services from "@/services";
 import { Configuration } from "@/components/ui/userMenu/Configuration";
 import { UserMenu } from "@/components/ui/userMenu/UserMenu";
 import Message from "@/components/Message";
+import withAuth from "@/app/auth/withAuth";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
@@ -72,7 +73,7 @@ const initialTimerConfigs: Record<TimerMode, TimerConfig> = {
   },
 };
 
-export default function Home() {
+function Home() {
   const [time, setTime] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState<TimerMode>("pomodoro");
@@ -379,3 +380,4 @@ export default function Home() {
     </div>
   );
 }
+export default withAuth(Home);
