@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { appStore } from "@/store";
+import ResetPasswordModal from "@/components/ResetPasswordModal";
 
 const validatePassword = (password: string) => {
   const errors = [];
@@ -43,6 +44,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const isLoading = false;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showLoader = appStore((state) => state.showLoader);
   const hideLoader = appStore((state) => state.hideLoader);
@@ -77,6 +79,19 @@ export default function LoginPage() {
     }
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleResetPassword = (email: string) => {
+    console.log(`Resetting password for ${email}`);
+    toast.success("Link enviado al correo!");
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6">
@@ -103,7 +118,6 @@ export default function LoginPage() {
               onChange={setFormState}
               error={validatePassword(formState.password)}
             />
-
           </div>
           <div className="flex items-center space-x-2">
             <input
@@ -114,7 +128,7 @@ export default function LoginPage() {
             />
             <span className="text-sm">Mostrar contraseña</span>
           </div>
-          
+
           <Button
             type="submit"
             className="w-full relative"
@@ -127,12 +141,13 @@ export default function LoginPage() {
         </form>
 
         <div className="text-center">
-          <Link
-            href="/forgot-password"
-            className="text-sm text-blue-600 hover:underline"
+          <span
+            onClick={openModal}
+            className="cursor-pointer text-sm text-blue-600 hover:underline"
+            role="button"
           >
             ¿Ha olvidado su contraseña?
-          </Link>
+          </span>
         </div>
         <div className="space-y-3">
           <Button variant="outline" className="w-full">
@@ -160,6 +175,11 @@ export default function LoginPage() {
           </Link>
         </div>
       </div>
+      <ResetPasswordModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onResetPassword={handleResetPassword}
+      />
     </div>
   );
 }
