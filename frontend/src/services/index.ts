@@ -8,6 +8,8 @@ const registerUser = async <T>(body: T) =>
 
 const loginUser = async <T>(body: T) => await api.post("/auth/login", body);
 
+const resetPassword = async <T>(body: T) => await api.post("/auth/forgetpassword", body);
+
 const getUserById = async <T>(url: T) => await api.get(`/data/${url}`);
 
 const getTechniques = async () => await api.get("/techniques");
@@ -21,6 +23,7 @@ const services = {
   getUserById,
   getTechniques,
   getSessions,
+  resetPassword
 };
 
 export default services;

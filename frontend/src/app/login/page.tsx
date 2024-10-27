@@ -87,9 +87,15 @@ export default function LoginPage() {
     setIsModalOpen(false);
   };
 
-  const handleResetPassword = (email: string) => {
+  const handleResetPassword = async (email: string) => {
     console.log(`Resetting password for ${email}`);
-    toast.success("Link enviado al correo!");
+    const { status } = await fetchData("resetPassword",  {email} );
+    if (status) {
+      toast.success("Una contraseña ha sido enviada a su correo");
+    } else {
+      toast.error("Error al enviar el enlace");
+    }
+    setIsModalOpen(false);
   };
 
   return (

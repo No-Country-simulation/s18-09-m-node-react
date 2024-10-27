@@ -13,6 +13,7 @@ export interface FuntionProps<T> {
 export interface ServiceTypes {
   registerUser: { email: string; password: string };
   loginUser: { email: string; password: string };
+  resetPassword: { email: string; };
   getUserById: string;
   getTechniques: null;
   getSessions: string;
