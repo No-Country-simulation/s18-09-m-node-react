@@ -22,7 +22,13 @@ export const NavLink = ({ href, title, icon, toggleDrawer }: Props) => {
                    duration-100
                    hover:text-[#19B69A]"
       >
-        {icon}
+        <span
+          className="text-[#09090B] 
+                     ransition duration-200
+                     group-hover:text-[#19B69A]"
+        >
+          {icon}
+        </span>
         <h2
           className="h-[20px]
                        text-[14px]

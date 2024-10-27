@@ -1,8 +1,6 @@
 "use client";
 
-import { UserIcon } from "@/svg/UserIcon";
 import { Menu } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 import { NavigationDrawer } from "../drawer/NavigationDrawer";
 
