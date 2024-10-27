@@ -4,6 +4,7 @@ import { Loader } from "@/components/ui/Loader";
 import { appStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 /**
  * Higher-Order Component (HOC) que envuelve un componente y verifica si el usuario está autenticado.
@@ -14,8 +15,10 @@ import { useEffect, useState } from "react";
  * @returns Un nuevo componente que verifica la autenticación del usuario antes de renderizar el componente envuelto.
  */
 
-const withAuth = (WrappedComponent: React.ComponentType<{ children: React.ReactNode }>) => {
-  const Wrapper = (props: { children: React.ReactNode }) => {
+const withAuth = <P extends object>(
+  WrappedComponent: React.ComponentType<P>
+) => {
+  const Wrapper: React.FC<P> = (props) => {
     const router = useRouter();
     const [isAuth, setIsAuth] = useState(false);
 
@@ -24,6 +27,9 @@ const withAuth = (WrappedComponent: React.ComponentType<{ children: React.ReactN
       if (user?.token) {
         setIsAuth(true);
       } else {
+        toast.error(
+          "Acceso denegado. Por favor, inicia sesión para continuar."
+        );
         router.push("/login");
       }
     }, [router]);
