@@ -15,6 +15,7 @@ import { Edit2 } from "lucide-react";
 
        
 import withAuth from "@/app/auth/withAuth";
+import { appStore } from "@/store";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
@@ -49,6 +50,7 @@ function Home() {
 
   interface Technique {
     name: string;
+    _id: string;
     focus_time: number;
     break_time: number;
     long_break_time: number;
@@ -67,6 +69,7 @@ function Home() {
         try {
           const response = await services.getTechniques();
           setTechniques(Object.values(response.data.data)); // convierte el objeto en un arreglo
+          console.log(response.data.data);
         } catch (apiError) {
           console.error("Error al obtener las técnicas:", apiError);
           setFetchError("Error al actualizar las técnicas.");
@@ -165,6 +168,10 @@ function Home() {
     setIsWorkTime(true);
   }
 
+  const { user } = appStore.getState();
+  const userId = user?.userData?._id
+  const techniqueid = currentTechnique?._id
+  console.log(userId, techniqueid)
   return (
     <div className="min-h-screen  flex flex-col items-center justify-around p-4">
       <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50" onClick={toggleUserMenu}>
