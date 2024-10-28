@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document, Model, Types } from 'mongoose';
 
 export enum UserRole {
   ADMIN = 'ADMIN',
@@ -13,10 +13,14 @@ export interface UserAttributes {
   password: string;
   role: UserRole;
   active: boolean;
+  alarm: string;
+  background_color: boolean;
+  background: string;
+  techniques: Types.ObjectId[];
 }
 
 export interface UserCreationAttributes
-  extends Omit<UserAttributes, 'active'> { }
+  extends Omit<UserAttributes, 'name' | 'surname' | 'active' | 'alarm' | 'background_color' | 'background' | 'techniques'> { }
 
 export interface UserUpdateAttributes
   extends Partial<UserAttributes> { }
@@ -37,10 +41,12 @@ const UserSchema: Schema<UserDocument> = new Schema({
     unique: true
   },
   name: {
-    type: String
+    type: String,
+    default: ''
   },
   surname: {
-    type: String
+    type: String,
+    default: ''
   },
   username: {
     type: String,
@@ -59,6 +65,23 @@ const UserSchema: Schema<UserDocument> = new Schema({
     type: Boolean,
     default: true
   },
+  alarm: {
+    type: String,
+    default: 'Birds'
+  },
+  background_color: {
+    type: Boolean,
+    default: true
+  },
+  background: {
+    type: String,
+    default: '#DFF7F2'
+  },
+  techniques: {
+    type: [Schema.Types.ObjectId],
+    ref: 'PersonalTechnique',
+    default: []
+  }
 }, { timestamps: true });
 
 export const User: Model<UserDocument> = mongoose.model<UserDocument>('User', UserSchema);

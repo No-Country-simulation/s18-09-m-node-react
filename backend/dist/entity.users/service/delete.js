@@ -9,18 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get = void 0;
+exports.deleteUser = void 0;
 const model_js_1 = require("../model.js");
-function get(value) {
+function deleteUser(value) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { _id } = value;
-            const user = yield model_js_1.User.findById(_id);
-            return { user };
+            const userDeleted = yield model_js_1.User.findByIdAndDelete(_id);
+            if (!userDeleted) {
+                return { error: "User not found" }; // Mensaje si el usuario no existe
+            }
+            return { userDeleted };
         }
         catch (err) {
             throw err;
         }
     });
 }
-exports.get = get;
+exports.deleteUser = deleteUser;

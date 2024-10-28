@@ -31,7 +31,11 @@ export const notProtectedRoutes = express
  *       "role": "USER",
  *       "active": true,
  *       "createdAt": "2024-10-08T15:34:31.952Z",
- *       "updatedAt": "2024-10-08T15:34:31.952Z"
+ *       "updatedAt": "2024-10-08T15:34:31.952Z",
+ *       "alarm": "Birds",
+ *       "background": "#DFF7F2",
+ *       "background_color": true,
+ *       "techniques": []
  *     },
  *     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
  *   }
@@ -74,7 +78,11 @@ export const notProtectedRoutes = express
    *       "_id": "67055107fab86d2fd48a4d7e",
    *       "createdAt": "2024-10-08T15:34:31.952Z",
    *       "updatedAt": "2024-10-08T15:34:31.952Z",
-   *       "__v": 0
+   *       "__v": 0,
+   *       "alarm": "Birds",
+   *       "background": "#DFF7F2",
+   *       "background_color": true,
+   *       "techniques": []
    *   }
    * }
    * @example response - 400 - Example of response
@@ -149,13 +157,19 @@ export const userProtectedRoutes = express
         "user": {
             "_id": "6716ce3799aaf188e7ed4d64",
             "email": "example@example.com",
+            "name": "example",
+            "surname": "example",
             "username": "Userexample",
             "password": "$2b$09$9sfrpFEhDFbKr.swTZctDugv4YhYogWi1/w3sYh4P4f0KuGMXDuX.",
             "role": "USER",
             "active": true,
             "createdAt": "2024-10-21T21:57:11.523Z",
             "updatedAt": "2024-10-21T21:58:30.863Z",
-            "__v": 0
+            "__v": 0,
+            "alarm": "Birds",
+            "background": "#DFF7F2",
+            "background_color": true,
+            "techniques": []
         }
     }
 }
@@ -188,29 +202,37 @@ export const userProtectedRoutes = express
    *   "role": "USER",
    *   "active": true
    * }
+   * @example request - Example of request config
+   * {
+   *  "alarm": "Birds"
+   * }
    * @return {object} 201 - User Updated.
    * @return {object} 400 - User not Found.
    * @return {object} 500 - Internal server error
    * @example response - 201 - Example of response
-   *{
-   *  "success": true,
-   *  "message": "User updated.",
-   *  "data": {
-   *      "UserUpdate": {
-   *          "_id": "671ff03616e415a0e1c5b5c4",
-   *          "email": "benjapey99@gmail.com",
-   *          "username": "Ragepay",
-   *          "password": "$2b$09$CkNEyzhchIn4k1FMdZZu/OJd4teRI21B09WyMscmbYyvFEalzoZ2a",
-   *          "role": "USER",
-   *          "active": true,
-   *          "createdAt": "2024-10-28T20:12:38.697Z",
-   *          "updatedAt": "2024-10-28T20:15:19.297Z",
-   *          "__v": 0,
-   *          "name": "Benjamín",
-   *          "surname": "Peyraga"
-   *      }
-   *  }
-   *}
+   * {
+     "success": true,
+     "message": "User updated.",
+     "data": {
+         "UserUpdate": {
+             "_id": "671ff03616e415a0e1c5b5c4",
+             "email": "benjapey99@gmail.com",
+             "username": "Ragepay",
+             "password": "$2b$09$CkNEyzhchIn4k1FMdZZu/OJd4teRI21B09WyMscmbYyvFEalzoZ2a",
+             "role": "USER",
+             "active": true,
+             "createdAt": "2024-10-28T20:12:38.697Z",
+             "updatedAt": "2024-10-28T20:15:19.297Z",
+             "__v": 0,
+             "name": "Benjamín",
+             "surname": "Peyraga",
+             "alarm": "Birds",
+             "background": "#DFF7F2",
+             "background_color": true,
+             "techniques": []
+         }
+     }
+  }
    * @example response - 400 - Example of response
    * {
    *   "success": false,

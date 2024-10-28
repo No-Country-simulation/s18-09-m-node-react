@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Technique = void 0;
+exports.PersonalTechnique = exports.Technique = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const TechniqueSchema = new mongoose_1.Schema({
     name: {
@@ -52,7 +52,8 @@ const TechniqueSchema = new mongoose_1.Schema({
     },
     active_pause: {
         type: Boolean,
-        default: true
+        default: false
     }
 }, { timestamps: true });
 exports.Technique = mongoose_1.default.model('Technique', TechniqueSchema);
+exports.PersonalTechnique = mongoose_1.default.model('PersonalTechnique', TechniqueSchema);
