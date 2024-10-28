@@ -52,7 +52,7 @@ export default function RootLayout({
         <Loader />
         <Toaster richColors />
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );
