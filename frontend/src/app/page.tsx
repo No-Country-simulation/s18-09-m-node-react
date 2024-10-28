@@ -1,11 +1,17 @@
 "use client";
 import Link  from "next/link";
 import { Button } from "@/components/ui/button";
-import  HomeBrackground from "@/svg/main.svg";
+import HomeBrackground from "@/img/home.png";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect} from "react";
+import { useMediaQuery } from 'react-responsive';
+import MobileLayout from "@/components/MobileLayout";
 
 export default function Home() {
+
+  // const [isMobile, setIsMobile] = useState(false);
+  const isMobile = false;
+  const isMobileScreen = useMediaQuery({ query: '(max-width: 500px)' }); // Detect screens less than 400px wide
   //Fondo personalizado
   useEffect(() => {
     const savedImage = localStorage.getItem("bgImage");
@@ -23,35 +29,40 @@ export default function Home() {
   }, []);
 
   return (
-    <div className=" bg-white relative">
-      <div >
-        <Image
-          src={ HomeBrackground }
-          alt="Fondo de oficina"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-        /> 
+    <div className=" relative min-h-screen">
+    {/* Conditionally render content based on screen size */}
+    {isMobileScreen ? (
+        <MobileLayout />
+      ) : (
+        <div>
+        <div className={`absolute inset-0 z-0 ${isMobile ? 'w-full h-[520px]' : 'w-[200vh] h-[520px] sm:w-full md:w-full md:h-full'}`}>
+          <Image
+            src={HomeBrackground}
+            alt="Oficina con persona trabajando"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+            priority
+          />
+        </div>
+        <div className="relative z-10 max-w-md w-full p-6 text-center bg-white rounded-lg shadow-xl ml-4 md:ml-16 lg:ml-24 ">
+        <h1 className="text-3xl  font-bold font-roboto text-tertiary">¡Bienvenido!</h1>
+        <p className="mb-4 text-gray-600">
+        Con <span className="font-bold">Break&Focus</span>, gestiona tu tiempo de forma inteligente,
+        <span className="font-bold">alternando entre trabajo concentrado y pausas activas.</span>
+        </p>
+        <p className="mb-6 text-gray-600">
+          ¿Empiezas hoy a trabajar mejor y sentirte bien?
+        </p>
+        <Link href="/home">
+          <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded">
+            Empezar Ahora
+          </Button>
+        </Link>
       </div>
-      
-      <div className="relative z-10">
-        <main className="container px-4 py-8  flex items-center text-center min-h-[calc(70vh-80px)]">
-          <div className=" ml-52 mt-1 max-w-xl min-h-[calc(60vh-80px)] space-y-6">
-            <h1 className=" text-3xl  font-bold font-roboto text-tertiary">¡Bienvenido!</h1>
-            <p className="text-xl text-cemter font-roboto  text-black">
-              Con <span className="font-bold">Break&Focus</span>, gestiona tu tiempo de forma inteligente, <span className="font-bold">alternando entre trabajo concentrado y pausas activas.</span>
-            </p>
-            <p className="text-lg font-roboto font-semibold text-black">
-              ¿Empiezas hoy a trabajar mejor y sentirte bien?
-            </p>
-            <Link href="/home">
-              <Button className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-lg text-lg">
-                Empezar Ahora
-              </Button>
-            </Link>
-          </div>
-        </main>
       </div>
-    </div>  
+      )}
+    
+  </div> 
   );
 }
