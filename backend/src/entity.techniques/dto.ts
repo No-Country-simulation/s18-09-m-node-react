@@ -4,7 +4,7 @@ import { validateTechniqueData, validateUpdateTechniqueData } from './validation
 export default class DTO {
   private constructor() { }
 
-  public static register(data: any): { error: { message: string }; value: null } | { error: null; value: TechniqueAttributes } {
+  public static register(data: any, user: any): { error: { message: string }; value: null } | { error: null; value: TechniqueAttributes & { user_id: string } } {
     const validationResult = validateTechniqueData(data);
     if (validationResult.hasError) {
       return {
@@ -19,6 +19,7 @@ export default class DTO {
     return {
       error: null,
       value: {
+        user_id: user._id,
         name,
         description,
         focus_time,

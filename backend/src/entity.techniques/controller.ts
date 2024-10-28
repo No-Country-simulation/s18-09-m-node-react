@@ -10,11 +10,11 @@ export default class Controller {
 
   // -- Register a new technique --
   public static async register(req: Request, res: Response, next: NextFunction) {
-    const { error, value } = DTO.register(req.body);
+    const { error, value } = DTO.register(req.body, req.user);
     if (error) return ControllerHandler.badRequest(error.message, res);
     try {
-      const userData = await register(value);
-      return ControllerHandler.created('Technique created.', userData, res);
+      const techniqueData = await register(value);
+      return ControllerHandler.created('Technique created.', techniqueData, res);
     } catch (err) {
       next(err);
     }

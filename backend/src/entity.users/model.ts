@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document, Model, Types } from 'mongoose';
 
 export enum UserRole {
   ADMIN = 'ADMIN',
@@ -11,6 +11,10 @@ export interface UserAttributes {
   password: string;
   role: UserRole;
   active: boolean;
+  // alarm: string;
+  // background_color: boolean;
+  // background: string;
+  // techniques: Types.ObjectId[];
 }
 
 export interface UserCreationAttributes
@@ -51,6 +55,23 @@ const UserSchema: Schema<UserDocument> = new Schema({
     type: Boolean,
     default: true
   },
+  // alarm: {
+  //   type: String,
+  //   default: 'Birds'
+  // },
+  // background_color: {
+  //   type: Boolean,
+  //   default: true
+  // },
+  // background: {
+  //   type: String,
+  //   default: '#000000'
+  // },
+  // techniques: {
+  //   type: [Schema.Types.ObjectId],
+  //   ref: 'PersonalTechnique',
+  //   default: []
+  // }
 }, { timestamps: true });
 
 export const User: Model<UserDocument> = mongoose.model<UserDocument>('User', UserSchema);

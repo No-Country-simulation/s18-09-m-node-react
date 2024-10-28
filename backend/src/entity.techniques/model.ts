@@ -45,7 +45,7 @@ const TechniqueSchema: Schema<TechniqueDocument> = new Schema({
   },
   active_pause: {
     type: Boolean,
-    default: true
+    default: false
   }
 }, { timestamps: true });
 
