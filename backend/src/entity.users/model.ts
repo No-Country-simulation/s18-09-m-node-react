@@ -7,6 +7,8 @@ export enum UserRole {
 
 export interface UserAttributes {
   email: string;
+  name: string;
+  surname: string;
   username: string;
   password: string;
   role: UserRole;
@@ -33,6 +35,14 @@ const UserSchema: Schema<UserDocument> = new Schema({
     type: String,
     required: true,
     unique: true
+  },
+  name: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  surname: {
+    type: String
   },
   username: {
     type: String,
