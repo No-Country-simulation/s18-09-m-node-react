@@ -30,7 +30,7 @@ function Home() {
   const [showNotification, setShowNotification] = useState(false);
   const [session, setSession] = useState(1);
   const [buttonText, setButtonText] = useState("Meditar");
-  const [fetchError, setFetchError] = useState<string | null>(null);
+  // const [fetchError, setFetchError] = useState<string | null>(null);
   const fetchCalled = useRef(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -96,11 +96,11 @@ function Home() {
         try {
           const response = await services.getTechniques();
           setTechniques(Object.values(response.data.data)); // convierte el objeto en un arreglo
-        } catch (apiError) {
-          console.error("Error al obtener las técnicas:", apiError);
-          setFetchError("Para registrar tu progreso, deberías iniciar sesión");
+        } catch {
+          // console.error("Error al obtener las técnicas:", apiError);
+          // setFetchError("Para registrar tu progreso, deberías iniciar sesión");
           setTechniques(localTechniques);
-          console.log("local", localTechniques[0]);
+          // console.log("local", localTechniques[0]);
         }
       };
 
@@ -209,11 +209,7 @@ function Home() {
         <Configuration toggleOptions={toggleUserMenu} />
       </UserMenu>
       <main className="text-2xl md:container md:mx-auto px-4 py-8 max-w-2xl ">
-        {fetchError && (
-          <div className="bg-red-300 text-red-800 p-4 rounded-md mb-6">
-            {fetchError}
-          </div>
-        )}
+
 
         {/* Techniques container */}
 
