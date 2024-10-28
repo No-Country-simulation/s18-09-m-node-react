@@ -3,13 +3,14 @@ import Link  from "next/link";
 import { Button } from "@/components/ui/button";
 import HomeBrackground from "@/img/home.png";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useMediaQuery } from 'react-responsive';
 import MobileLayout from "@/components/MobileLayout";
 
 export default function Home() {
 
-  const [isMobile, setIsMobile] = useState(false);
+  // const [isMobile, setIsMobile] = useState(false);
+  const isMobile = false;
   const isMobileScreen = useMediaQuery({ query: '(max-width: 500px)' }); // Detect screens less than 400px wide
   //Fondo personalizado
   useEffect(() => {
@@ -53,9 +54,11 @@ export default function Home() {
         <p className="mb-6 text-gray-600">
           ¿Empiezas hoy a trabajar mejor y sentirte bien?
         </p>
-        <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded">
-          Empezar Ahora
-        </Button>
+        <Link href="/home">
+          <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded">
+            Empezar Ahora
+          </Button>
+        </Link>
       </div>
       </div>
       )}

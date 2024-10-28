@@ -6,7 +6,7 @@ import "./globals.css";
 import { Loader } from "@/components/ui/Loader";
 import { Toaster } from "sonner";
 import { Header } from "./common/Header";
-import Footer from "./common/Footer";
+// import Footer from "./common/Footer";
 import { metadata } from "./config";
 import { useRouteChangeLoader } from "@/hooks/useRouteChangeLoader";
 
