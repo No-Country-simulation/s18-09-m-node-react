@@ -11,6 +11,8 @@ export interface UserAttributes {
   password: string;
   role: UserRole;
   active: boolean;
+  // name: string;
+  // surname: string;
   // alarm: string;
   // background_color: boolean;
   // background: string;
