@@ -14,84 +14,85 @@ import {
 import { NavHeader } from "./NavHeader";
 import { NavLink } from "./NavLink";
 import { Divider } from "./Divider";
+import { appStore } from "@/store";
 
 type Props = {
   toggleDrawer: () => void;
 };
 
 export const NavigationItems = ({ toggleDrawer }: Props) => {
+  const modalSettings = appStore((state) => state.modalSettings);
+  const setModalSettings = appStore((state) => state.setModalSettings);
+
+  const controlDisplay = (value: string) => {
+    toggleDrawer();
+    setModalSettings({
+      ...modalSettings,
+      [value]: true,
+    });
+  };
+
   return (
     <nav className="w-full py-[18px] px-[12px]">
       <NavHeader title="Perfil de usuario" />
       <NavLink
-        href={"/profile/information"}
         title={"Información personal"}
         icon={<PersonalInfoIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("profileInfo")}
       />
       <NavLink
-        href={"/profile/configuration-preferences"}
         title={"Preferencias de configuración"}
         icon={<PreferencesIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("configPreferences")}
       />
       <NavLink
-        href={"/profile/usage-history"}
         title={"Historial de uso"}
         icon={<UsageHistoryIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("usageHistory")}
       />
       <Divider />
       <NavHeader title="Estadísticas" />
       <NavLink
-        href={"/statistics/summary"}
         title={"Resúmen de Productividad"}
         icon={<StatsSummaryIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("statsSummary")}
       />
       <NavLink
-        href={"/statistics/charts"}
         title={"Gráficos y Visualizaciones"}
         icon={<StatsCharsIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("statsChars")}
       />
       <NavLink
-        href={"/statistics/export"}
         title={"Exportar Datos"}
         icon={<ExportIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("export")}
       />
       <Divider />
       <NavHeader title="Configuración" />
       <NavLink
-        href={"/settings/notifications"}
         title={"Notificaciones"}
         icon={<NotificationsIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("notifications")}
       />
       <NavLink
-        href={"/settings/security"}
         title={"Seguridad"}
         icon={<SecurityIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("security")}
       />
       <NavLink
-        href={"/settings/faq"}
         title={"Preguntas Frecuentes"}
         icon={<FaqIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("faq")}
       />
       <NavLink
-        href={"/settings/tutorials-and-guides"}
         title={"Tutoriales y Guías"}
         icon={<GuidesIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("tutorialsAndGuides")}
       />
       <NavLink
-        href={"/settings/contact-support"}
         title={"Contacto Soporte"}
         icon={<ContactSupportIcon />}
-        toggleDrawer={toggleDrawer}
+        controlDisplay={() => controlDisplay("supportContact")}
       />
     </nav>
   );

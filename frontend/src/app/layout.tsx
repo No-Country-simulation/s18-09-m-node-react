@@ -9,6 +9,7 @@ import { Header } from "./common/Header";
 // import Footer from "./common/Footer";
 import { metadata } from "./config";
 import { useRouteChangeLoader } from "@/hooks/useRouteChangeLoader";
+import { Modal } from "@/components/ui/modals/Modal";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -48,6 +49,7 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Modal />
         <Header />
         <Loader />
         <Toaster richColors />

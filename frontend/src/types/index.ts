@@ -38,6 +38,9 @@ export interface AppStoreI {
   setTechniques: (techniques: TechniqueI[]) => void;
   sessions: SessionI[] | null;
   setSessions: (sessions: SessionI[]) => void;
+  modalSettings: ModalSettingsI,
+  setModalSettings: (modalConfig: ModalSettingsI) => void;
+  resetModalSettings: () => void
 }
 
 export interface TechniqueI {
@@ -86,4 +89,18 @@ export interface SessionI {
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+export interface ModalSettingsI {
+  profileInfo: boolean,
+  configPreferences: boolean,
+  usageHistory: boolean,
+  statsSummary: boolean,
+  statsChars: boolean,
+  export: boolean,
+  notifications: boolean,
+  security: boolean,
+  faq: boolean,
+  tutorialsAndGuides: boolean,
+  supportContact: boolean
 }
