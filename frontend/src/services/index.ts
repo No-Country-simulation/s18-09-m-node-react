@@ -16,6 +16,8 @@ const getTechniques = async () => await api.get("/techniques");
 
 const getSessions = async <T>(url: T) => await api.get(`/sessions/${url}`);
 
+const createSession = async <T>(body: T) => await api.post("/sessions/register", body);
+
 // Default export
 const services = {
   registerUser,
@@ -23,7 +25,8 @@ const services = {
   getUserById,
   getTechniques,
   getSessions,
-  resetPassword
+  resetPassword,
+  createSession
 };
 
 export default services;

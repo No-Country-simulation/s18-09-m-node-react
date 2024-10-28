@@ -37,6 +37,7 @@ function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const localTechniques = [{
     name: "Pomodoro",
+    _id: "613b1fcf8f1d1e2f4a12b3c7",
     focus_time: 25,
     break_time: 5,
     long_break_time: 15,
@@ -46,6 +47,7 @@ function Home() {
   },
   {
     name: "Técnica 52/17",
+    _id: "613b1fcf8f1d1e2f4a12b3c8",
     focus_time: 52,
     break_time: 17,
     long_break_time: 30,
@@ -55,6 +57,7 @@ function Home() {
   },
   {
     name: "Pausa Activa",
+    _id: "613b1fcf8f1d1e2f4a12b3c9",
     focus_time: 25,
     break_time: 5,
     long_break_time: 15,
@@ -133,11 +136,17 @@ function Home() {
     return buttonOptions[Math.floor(Math.random() * buttonOptions.length)];
   }, [buttonOptions]);
 
+  const { user } = appStore.getState();
+  const userId = user?.userData?._id
+  const techniqueid = currentTechnique?._id
+
   useEffect(() => {
 
     let interval: NodeJS.Timeout | null = null;
+    const expected_total_time = currentTechnique?.focus_time ?? 0 + (currentTechnique?.break_time ?? 0);
+    const startTime = Date.now();
     
-
+    console.log(userId, techniqueid)
     if (isRunning && timer > 0) {
       interval = setInterval(() => {
         setTimer((prevTime) => prevTime - 1);
@@ -165,12 +174,37 @@ function Home() {
       
       setSession(session + 1);
       setIsRunning(false);
+      const end_time = Date.now();
+      const real_focus_time = end_time - startTime;
+      const real_break_time = expected_total_time - real_focus_time;
+      const real_break_count = Math.floor(real_break_time / breakTime);
+      const score = real_focus_time / expected_total_time;
+      const data = {
+        user_id: userId,
+        technique_id: techniqueid,
+        start_time: new Date(startTime),
+        end_time: new Date(end_time),
+        expected_total_time,
+        real_focus_time,
+        real_break_time,
+        real_break_count,
+        finished: true,
+        score,
+      };
+      services
+        .createSession(data)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isRunning, timer, isWorkTime, getRandomButtonText, showSystemNotification,  techniques, breakTime, currentTechnique?.focus_time, currentTechnique, session]);
+  }, [isRunning, timer, isWorkTime, getRandomButtonText, showSystemNotification, techniques, breakTime, currentTechnique?.focus_time, currentTechnique, session, userId, techniqueid]);
 
   const closeNotification = () => {
     setShowNotification(false);
@@ -199,10 +233,8 @@ function Home() {
   }
   console.log(techniques)
 
-  const { user } = appStore.getState();
-  const userId = user?.userData?._id
-  const techniqueid = currentTechnique?._id
-  console.log(userId, techniqueid)
+
+ 
   return (
     <div className="min-h-screen  flex flex-col items-center justify-around p-4">
       <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50" onClick={toggleUserMenu}>
