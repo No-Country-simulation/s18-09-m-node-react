@@ -1,14 +1,14 @@
 import * as bcrypt from 'bcrypt';
 
 import { BCRYPT_ROUNDS } from '../config/environment';
-import { UserRole, UserAttributes, User } from './model';
+import { UserRole, UserCreationAttributes } from './model';
 import { validateUserData } from './validation';
 
 export default class DTO {
   private static salt = bcrypt.genSaltSync(BCRYPT_ROUNDS);
   private constructor() { }
 
-  public static register(data: any): { error: { message: string }; value: null; password: null } | { error: null; value: UserAttributes; password: string } {
+  public static register(data: any): { error: { message: string }; value: null; password: null } | { error: null; value: UserCreationAttributes; password: string } {
 
     // provisorio para que acepte el username vacio
     data.username = data.username || (data.email && data.email.split('@')[0]);
@@ -37,8 +37,7 @@ export default class DTO {
         email,
         username,
         password: hashPassword,
-        role,
-        active: true
+        role
       },
       password: password,
     };
@@ -63,11 +62,11 @@ export default class DTO {
   }
 
   public static update(data: any, user: any) {
-    const { name, surname, email, username, password, role, active } = data;
-    if ((!email && !username && !password && !role && !active) || !user._id)
+    const { name, surname, email, username, password, role, active, alarm, background_color, background } = data;
+    if ((!email && !username && !password && !role && !active && !alarm && !background_color && !background) || !user._id)
       return {
         error: {
-          message: 'At least one field is required: email, username, password, role and active.',
+          message: 'At least one field is required: email, username, password, role, active, alarm, background_color and background .',
         },
       };
 
@@ -96,6 +95,9 @@ export default class DTO {
     if (password) response.password = bcrypt.hashSync(password, this.salt);
     if (role) response.role = role;
     if (active) response.active = active;
+    if (alarm) response.alarm = alarm;
+    if (background_color) response.background_color = background_color;
+    if (background) response.background = background;
 
     return {
       error: null,

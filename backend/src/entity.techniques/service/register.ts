@@ -1,6 +1,6 @@
 import { PersonalTechnique, TechniqueDocument, TechniqueAttributes } from '../model';
 import { User } from '../../entity.users/model';
-
+import mongoose from 'mongoose';
 
 export async function register(technique: TechniqueAttributes & { user_id: string }): Promise<TechniqueDocument> {
   try {
@@ -11,12 +11,14 @@ export async function register(technique: TechniqueAttributes & { user_id: strin
     const registeredTechnique = await newTechnique.save();
     if (!registeredTechnique) throw new Error("Unable to register technique.");
 
-    //user.techniques.push(registeredTechnique._id);
-    //await user.save();
+    user.techniques.push(new mongoose.Types.ObjectId(registeredTechnique._id));
+
+    await user.save();
 
     return registeredTechnique;
   } catch (err) {
     throw err;
   }
 }
+
 

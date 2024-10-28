@@ -8,26 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getById = exports.get = void 0;
-const mongoose_1 = __importDefault(require("mongoose"));
 const model_1 = require("../model");
 const model_2 = require("../../entity.users/model");
-const arrayTechniques = ["67110c7a18eb9bf757e68bcc", "67110c7a18eb9bf757e68bcc"];
 function get(user_id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const user = yield model_2.User.findById(user_id);
+            if (!user)
+                throw new Error('User not found');
             // Personal techniques
-            //const personalTechniques = await PersonalTechnique.find({ _id: { $in: user.techniques} }).exec();
-            const objectIds = arrayTechniques.map((technique) => new mongoose_1.default.Types.ObjectId(technique));
-            const personalTechniques = yield model_1.PersonalTechnique.find({ _id: { $in: objectIds } }).exec();
+            const personalTechniques = yield model_1.PersonalTechnique.find({ _id: { $in: user.techniques } }).exec();
             // General techniques
             const techniques = yield model_1.Technique.find({}).exec();
-            return [...personalTechniques, ...techniques];
+            return [...techniques, ...personalTechniques];
         }
         catch (err) {
             throw err;

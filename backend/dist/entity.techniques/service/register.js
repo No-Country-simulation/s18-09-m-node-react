@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = void 0;
 const model_1 = require("../model");
 const model_2 = require("../../entity.users/model");
+const mongoose_1 = __importDefault(require("mongoose"));
 function register(technique) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -22,8 +26,8 @@ function register(technique) {
             const registeredTechnique = yield newTechnique.save();
             if (!registeredTechnique)
                 throw new Error("Unable to register technique.");
-            //user.techniques.push(registeredTechnique._id);
-            //await user.save();
+            user.techniques.push(new mongoose_1.default.Types.ObjectId(registeredTechnique._id));
+            yield user.save();
             return registeredTechnique;
         }
         catch (err) {
