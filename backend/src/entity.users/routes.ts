@@ -9,7 +9,7 @@ export const notProtectedRoutes = express
   /**
  * POST /v1/auth/login
  * @summary User login
- * @tags AUTH
+ * @tags AUTH PUBLIC
  * @param {object} request.body.required - User login details
  * @example request - Example of request body
  * {
@@ -52,7 +52,7 @@ export const notProtectedRoutes = express
   /**
    * POST /v1/auth/register
    * @summary Register a new user
-   * @tags AUTH
+   * @tags AUTH PUBLIC
    * @param {object} request.body.required - User details
    * @example request - Example of request body
    * {
@@ -93,7 +93,7 @@ export const notProtectedRoutes = express
   /**
    * POST /v1/auth/forgetpassword
    * @summary Request a password reset
-   * @tags AUTH
+   * @tags AUTH PUBLIC
    * @param {object} request.body.required - User details
    * @example request - Example of request body
    * {
@@ -132,7 +132,7 @@ export const userProtectedRoutes = express
   /**
    * GET /v1/users/getByToken
    * @summary Get Users by Token
-   * @tags AUTH
+   * @tags AUTH PRIVATE
    * @param {string} Authorization.header.required - Bearer token for authorization
    * @example request - Example of request body
    * {
@@ -175,43 +175,46 @@ export const userProtectedRoutes = express
   /**
    * PUT /v1/users/update
    * @summary Update User
-   * @tags AUTH
+   * @tags AUTH PRIVATE
    * @param {string} Authorization.header.required - Bearer token for authorization
+   * @param {object} request.body.required - User data to update
    * @example request - Example of request body
    * {
-    "name": "Benjamin",
-    "surname": "Peyraga",
-    "username": "Ragepay",
-    "password": "12345678",
-    "email": "benjapey99@gmail.com",
-    "role": "USER",
-    "active": true
-}
-   * @return {object} 201 - User Found.
+   *   "name": "Benjamin",
+   *   "surname": "Peyraga",
+   *   "username": "Ragepay",
+   *   "password": "12345678",
+   *   "email": "benjapey99@gmail.com",
+   *   "role": "USER",
+   *   "active": true
+   * }
+   * @return {object} 201 - User Updated.
    * @return {object} 400 - User not Found.
    * @return {object} 500 - Internal server error
    * @example response - 201 - Example of response
-   * {
-    "success": true,
-    "message": "User found.",
-    "data": {
-        "user": {
-            "_id": "6716ce3799aaf188e7ed4d64",
-            "email": "example@example.com",
-            "username": "Userexample",
-            "password": "$2b$09$9sfrpFEhDFbKr.swTZctDugv4YhYogWi1/w3sYh4P4f0KuGMXDuX.",
-            "role": "USER",
-            "active": true,
-            "createdAt": "2024-10-21T21:57:11.523Z",
-            "updatedAt": "2024-10-21T21:58:30.863Z",
-            "__v": 0
-        }
-    }
-}
+   *{
+   *  "success": true,
+   *  "message": "User updated.",
+   *  "data": {
+   *      "UserUpdate": {
+   *          "_id": "671ff03616e415a0e1c5b5c4",
+   *          "email": "benjapey99@gmail.com",
+   *          "username": "Ragepay",
+   *          "password": "$2b$09$CkNEyzhchIn4k1FMdZZu/OJd4teRI21B09WyMscmbYyvFEalzoZ2a",
+   *          "role": "USER",
+   *          "active": true,
+   *          "createdAt": "2024-10-28T20:12:38.697Z",
+   *          "updatedAt": "2024-10-28T20:15:19.297Z",
+   *          "__v": 0,
+   *          "name": "Benjamín",
+   *          "surname": "Peyraga"
+   *      }
+   *  }
+   *}
    * @example response - 400 - Example of response
    * {
    *   "success": false,
-   *   "message": "User not found."
+   *   "message": "User not updated."
    * }
    * @example response - 500 - Example of response
    * {
@@ -220,9 +223,52 @@ export const userProtectedRoutes = express
    * }
    */
   .put('/users/update', Controller.update)
-  /*
+
+  /**
+   * DELETE /v1/users/delete
+   * @summary Delete User
+   * @tags AUTH PRIVATE
+   * @param {string} Authorization.header.required - Bearer token for authorization
+   * @example request - Example of request body
+   * {
+   *  "Authorization" : "Bearer {Token}"
+   * }
+   * @return {object} 201 - User Found.
+   * @return {object} 400 - User not Found.
+   * @return {object} 500 - Internal server error
+   * @example response - 201 - Example of response
+   * {
+    "success": true,
+    "message": "User deleted.",
+    "data": {
+        "userDeleted": {
+            "_id": "671ff03616e415a0e1c5b5c4",
+            "email": "benjapey99@gmail.com",
+            "username": "Ragepay",
+            "password": "$2b$09$CkNEyzhchIn4k1FMdZZu/OJd4teRI21B09WyMscmbYyvFEalzoZ2a",
+            "role": "USER",
+            "active": true,
+            "createdAt": "2024-10-28T20:12:38.697Z",
+            "updatedAt": "2024-10-28T20:15:19.297Z",
+            "__v": 0,
+            "name": "Benjamín",
+            "surname": "Peyraga"
+        }
+    }
+}
+   * @example response - 400 - Example of response
+   * {
+   *   "success": false,
+   *   "message": "User not deleted."
+   * }
+   * @example response - 500 - Example of response
+   * {
+   *   "success": false,
+   *   "message": "Unauthorized"
+   * }
+   */
   .delete('/users/delete', Controller.delete)
-  */
+
 
 // -- Admin protected routes --
 export const adminProtectedRoutes = express

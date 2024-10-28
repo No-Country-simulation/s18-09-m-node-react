@@ -38,7 +38,7 @@ export default class DTO {
         username,
         password: hashPassword,
         role,
-        active: true,
+        active: true
       },
       password: password,
     };
@@ -104,6 +104,22 @@ export default class DTO {
   }
 
   public static getByToken(user: any) {
+    const { _id } = user;
+
+    if (!_id)
+      return {
+        error: {
+          message: 'User not found.',
+        },
+      };
+
+    return {
+      error: null,
+      value: { _id }
+    };
+  }
+
+  public static delete(user: any) {
     const { _id } = user;
 
     if (!_id)

@@ -10,6 +10,7 @@ import {
   get,
 } from './service';
 import { forgetPassword } from './service/forget';
+import { deleteUser } from './service/delete';
 
 
 export default class Controller {
@@ -57,7 +58,7 @@ export default class Controller {
   // -- Update user --
   public static async update(req: Request, res: Response, next: NextFunction) {
     const user_id = req.params.id ? { id: req.params.id } : req.user;
-    
+
     const { error, value } = DTO.update(req.body, user_id);
     console.log(value)
     if (error) return ControllerHandler.badRequest(error.message, res)
@@ -69,23 +70,21 @@ export default class Controller {
       next(err);
     }
   }
-  /*
+
   // -- Delete user --
   public static async delete(req: Request, res: Response, next: NextFunction) {
     const user_id = req.params.id ? { id: req.params.id } : req.user;
-    
-    const { error, value } = DTO.delete(req.body, user_id);
-    console.log(value)
+    const { error, value } = DTO.delete(user_id);
+
     if (error) return ControllerHandler.badRequest(error.message, res)
     try {
-      const result = await delete(value);
-      if (result) return ControllerHandler.ok("User updated.", res, result)
-      return ControllerHandler.notFound("User not updated.", res)
+      const result = await deleteUser(value);
+      if (result) return ControllerHandler.ok("User deleted.", res, result)
+      return ControllerHandler.notFound("User not deleted.", res)
     } catch (err) {
       next(err);
     }
   }
-    */
 
 
   // -- Get user/s --

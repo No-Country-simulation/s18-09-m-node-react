@@ -37,9 +37,7 @@ const UserSchema: Schema<UserDocument> = new Schema({
     unique: true
   },
   name: {
-    type: String,
-    required: true,
-    unique: true
+    type: String
   },
   surname: {
     type: String
