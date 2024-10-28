@@ -28,37 +28,34 @@ TableProps) {
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-gray-50">
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <tr className="border-b border-[#E4E4E7]">
+              <th className="px-6 py-3 font-inter text-left text-xs font-[17px] text-[#71717A] tracking-wider font-[600]">
                 Fecha
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 font-inter text-center text-xs font-[17px] text-[#71717A] tracking-wider font-[600]">
                 Total de pausas
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 font-inter text-center text-xs font-[17px] text-[#71717A] tracking-wider font-[600]">
                 Tiempo total trabajado
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 font-inter text-end text-xs font-[17px] text-[#71717A] tracking-wider font-[600]">
                 Duración de pausas
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-[#E4E4E7] text-[#09090B] font-[500] font-inter text-[14px] border-b border-[#E4E4E7]">
             {data.map((item, index) => (
-              <tr
-                key={index}
-                className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-              >
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <tr key={index} className={"bg-white"}>
+                <td className="px-6 py-4 whitespace-nowrap">
                   {item.start_time}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-center">
                   {item.real_break_count}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-center">
                   {item.real_focus_time}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-end">
                   {item.real_break_time}
                 </td>
               </tr>
@@ -66,38 +63,7 @@ TableProps) {
           </tbody>
         </table>
       </div>
-      <div className="flex items-center justify-center space-x-2 mt-4">
-        {/* <button
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-2 py-1 border rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        
-        
-
-        {[...Array(totalPages)].map((_, i) => (
-          <button
-            key={i}
-            onClick={() => onPageChange(i + 1)}
-            className={`px-3 py-1 border rounded text-sm font-medium ${
-              currentPage === i + 1
-                ? 'bg-blue-500 text-white'
-                : 'text-gray-700 bg-white hover:bg-gray-50'
-            }`}
-          >
-            {i + 1}
-          </button>
-        ))}
-        <button
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="px-2 py-1 border rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>*/}
-      </div>
+      <div className="flex items-center justify-center space-x-2 mt-4"></div>
     </div>
   );
 }
