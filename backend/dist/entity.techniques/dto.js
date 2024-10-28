@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const validation_1 = require("./validation");
 class DTO {
     constructor() { }
-    static register(data) {
+    static register(data, user) {
         const validationResult = (0, validation_1.validateTechniqueData)(data);
         if (validationResult.hasError) {
             return {
@@ -17,6 +17,7 @@ class DTO {
         return {
             error: null,
             value: {
+                user_id: user._id,
                 name,
                 description,
                 focus_time,

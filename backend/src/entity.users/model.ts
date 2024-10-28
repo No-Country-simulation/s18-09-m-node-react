@@ -65,7 +65,7 @@ const UserSchema: Schema<UserDocument> = new Schema({
   // },
   // background: {
   //   type: String,
-  //   default: '#000000'
+  //   default: '#DFF7F2'
   // },
   // techniques: {
   //   type: [Schema.Types.ObjectId],

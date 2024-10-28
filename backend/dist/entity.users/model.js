@@ -53,5 +53,22 @@ const UserSchema = new mongoose_1.Schema({
         type: Boolean,
         default: true
     },
+    // alarm: {
+    //   type: String,
+    //   default: 'Birds'
+    // },
+    // background_color: {
+    //   type: Boolean,
+    //   default: true
+    // },
+    // background: {
+    //   type: String,
+    //   default: '#DFF7F2'
+    // },
+    // techniques: {
+    //   type: [Schema.Types.ObjectId],
+    //   ref: 'PersonalTechnique',
+    //   default: []
+    // }
 }, { timestamps: true });
 exports.User = mongoose_1.default.model('User', UserSchema);
