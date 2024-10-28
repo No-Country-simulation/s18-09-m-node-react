@@ -38,7 +38,7 @@ export default class DTO {
         username,
         password: hashPassword,
         role,
-        active: true,
+        active: true
       },
       password: password,
     };
@@ -63,20 +63,20 @@ export default class DTO {
   }
 
   public static update(data: any, user: any) {
-    const { email, username, password, role, active } = data;
-    if ((!email && !username && !password && !role && !active) || !user.id)
+    const { name, surname, email, username, password, role, active } = data;
+    if ((!email && !username && !password && !role && !active) || !user._id)
       return {
         error: {
-          message: 'A least one field is required: email, username, password, role and active.',
+          message: 'At least one field is required: email, username, password, role and active.',
         },
       };
 
-    // if (password && !this.checkPassword(password))
-    //   return {
-    //     error: {
-    //       message: "Password must be at least 8 characters long."
-    //     }
-    //   }
+    //  if (password && !this.checkPassword(password))
+    //    return {
+    //      error: {
+    //        message: "Password must be at least 8 characters long."
+    //      }
+    //    }
 
     if (role && !(role in UserRole))
       return {
@@ -86,9 +86,11 @@ export default class DTO {
       };
 
     const response: any = {
-      id: parseInt(user.id as string),
+      _id: user._id,
       updatedAt: new Date(),
     };
+    if (name) response.name = name;
+    if (surname) response.surname = surname;
     if (email) response.email = email;
     if (username) response.username = username;
     if (password) response.password = bcrypt.hashSync(password, this.salt);
@@ -102,9 +104,9 @@ export default class DTO {
   }
 
   public static getByToken(user: any) {
-    const { id } = user;
+    const { _id } = user;
 
-    if (!id)
+    if (!_id)
       return {
         error: {
           message: 'User not found.',
@@ -113,7 +115,23 @@ export default class DTO {
 
     return {
       error: null,
-      value: parseInt(id as string),
+      value: { _id }
+    };
+  }
+
+  public static delete(user: any) {
+    const { _id } = user;
+
+    if (!_id)
+      return {
+        error: {
+          message: 'User not found.',
+        },
+      };
+
+    return {
+      error: null,
+      value: { _id }
     };
   }
 }
