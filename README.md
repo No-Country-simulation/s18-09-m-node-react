@@ -43,6 +43,9 @@ Es una plataforma web diseñada para mejorar tu productividad y bienestar median
 ### Herramientas de construcción
 
 * Diseño UX/UI:
+   *  [Ideas](https://www.figma.com/board/6xpeDZMxKlPqm7xTPzZbfl/Break-and-focus?node-id=1-2&node-type=section&t=SYtaJRCHHtf3fuMa-0)
+   *  [Prototipo](https://www.figma.com/design/oc2sSuVpy9hgPNTmeg9nlP/Break-and-Focus?node-id=0-1&node-type=canvas&t=rbLVrRumr9ICiAVS-0)
+
 
 * Backend: 
    * [![NodeJS][NodeJS]][Node-url] [![Express.js][Express.js]][Express-url]
@@ -58,12 +61,6 @@ Es una plataforma web diseñada para mejorar tu productividad y bienestar median
    * [![TailwindCSS][TailwindCSS]][TailwindCSS-url]
      
  
-### Enlaces del proyecto
-
- [Ideas](https://www.figma.com/board/6xpeDZMxKlPqm7xTPzZbfl/Break-and-focus?node-id=1-2&node-type=section&t=SYtaJRCHHtf3fuMa-0) 
- 
- [Prototipo](https://www.figma.com/design/oc2sSuVpy9hgPNTmeg9nlP/Break-and-Focus?node-id=0-1&node-type=canvas&t=rbLVrRumr9ICiAVS-0)
-
 
 
 
