@@ -14,6 +14,9 @@ import Message from "@/components/Message";
 import { Edit2 } from "lucide-react";
 
        
+
+import withAuth from "@/app/(auth)/withAuth";
+
 // import withAuth from "@/app/auth/withAuth";
 import { appStore } from "@/store";
 {
