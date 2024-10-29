@@ -43,6 +43,7 @@ Es una plataforma web diseñada para mejorar tu productividad y bienestar median
 ### Herramientas de construcción
 
 * Diseño UX/UI:
+   * ![figma](https://github.com/user-attachments/assets/3f5e1c30-fd39-4a63-acb2-a9deecae500a) 
    *  [Ideas](https://www.figma.com/board/6xpeDZMxKlPqm7xTPzZbfl/Break-and-focus?node-id=1-2&node-type=section&t=SYtaJRCHHtf3fuMa-0)
    *  [Prototipo](https://www.figma.com/design/oc2sSuVpy9hgPNTmeg9nlP/Break-and-Focus?node-id=0-1&node-type=canvas&t=rbLVrRumr9ICiAVS-0)
 
