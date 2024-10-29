@@ -14,7 +14,7 @@ import Message from "@/components/Message";
 import { Edit2 } from "lucide-react";
 
        
-import withAuth from "@/app/auth/withAuth";
+import withAuth from "@/app/(auth)/withAuth";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
