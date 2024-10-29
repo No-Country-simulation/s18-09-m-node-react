@@ -14,7 +14,10 @@ import Message from "@/components/Message";
 import { Edit2 } from "lucide-react";
 
        
+
 import withAuth from "@/app/(auth)/withAuth";
+
+// import withAuth from "@/app/auth/withAuth";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
@@ -30,8 +33,37 @@ function Home() {
   const [showNotification, setShowNotification] = useState(false);
   const [session, setSession] = useState(1);
   const [buttonText, setButtonText] = useState("Meditar");
-  const [fetchError, setFetchError] = useState<string | null>(null);
+  // const [fetchError, setFetchError] = useState<string | null>(null);
   const fetchCalled = useRef(false);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const localTechniques = [{
+    name: "Pomodoro",
+    focus_time: 25,
+    break_time: 5,
+    long_break_time: 15,
+    cycles_before_long_break: 0,
+    active_pause: false,
+    description: "Maximiza tu productividad con intervalos de enfoque y descansos estratégicos. La Técnica Pomodoro divide tu tiempo de trabajo en sesiones de 25 minutos de concentración plena, seguidas de 5 minutos de descanso. Este ciclo te ayuda a mantener la motivación, reducir la procrastinación y evitar el agotamiento, permitiéndote lograr más en menos tiempo mientras cuidas tu bienestar mental. Luego de 4 ciclos, tendrás un descanso largo de 15 minutos.",
+  },
+  {
+    name: "Técnica 52/17",
+    focus_time: 52,
+    break_time: 17,
+    long_break_time: 30,
+    cycles_before_long_break: 3,
+    active_pause: false,
+    description: "Optimiza tu rendimiento con sesiones largas y descansos estratégicos. La Técnica 52/17 propone trabajar durante 52 minutos de concentración profunda, seguidos de 17 minutos de descanso. Este método te permite mantener un enfoque sostenido en tareas importantes, mientras los descansos regulares te ayudan a renovarenergías y prevenir el agotamiento. A su vez, luego de 3 ciclos 52/17, tendrás en descanso largo de 30'"
+  },
+  {
+    name: "Pausa Activa",
+    focus_time: 25,
+    break_time: 5,
+    long_break_time: 15,
+    cycles_before_long_break: 4,
+    active_pause: true,
+    description : "Recarga tu energía en pocos minutos. Realizar breves ejercicios durante la jornada laboral ayuda a reducir el estrés, mejorar la concentración y evitar la fatiga. Dedica unos minutos a estiramientos, respiración profunda o movimientos ligeros para revitalizar tu cuerpo y mente. ¡Incorpora estas pausas en tu rutina diaria para mantener un equilibrio saludable entre trabajo y bienestar!"
+  }];
 
   const showSystemNotification = useCallback((message: string) => {
     if (Notification.permission === "granted") {
@@ -67,15 +99,17 @@ function Home() {
         try {
           const response = await services.getTechniques();
           setTechniques(Object.values(response.data.data)); // convierte el objeto en un arreglo
-        } catch (apiError) {
-          console.error("Error al obtener las técnicas:", apiError);
-          setFetchError("Error al actualizar las técnicas.");
+        } catch {
+          // console.error("Error al obtener las técnicas:", apiError);
+          // setFetchError("Para registrar tu progreso, deberías iniciar sesión");
+          setTechniques(localTechniques);
+          // console.log("local", localTechniques[0]);
         }
       };
 
       fetchData();
     }
-  }, [techniques]);
+  }, [localTechniques, techniques]);
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -164,6 +198,7 @@ function Home() {
     setBreakTime(technique.break_time * factor);
     setIsWorkTime(true);
   }
+  console.log(techniques)
 
   return (
     <div className="min-h-screen  flex flex-col items-center justify-around p-4">
@@ -177,11 +212,7 @@ function Home() {
         <Configuration toggleOptions={toggleUserMenu} />
       </UserMenu>
       <main className="text-2xl md:container md:mx-auto px-4 py-8 max-w-2xl ">
-        {fetchError && (
-          <div className="bg-red-300 text-red-800 p-4 rounded-md mb-6">
-            {fetchError}
-          </div>
-        )}
+
 
         {/* Techniques container */}
 
@@ -236,4 +267,4 @@ function Home() {
     </div>
   );
 }
-export default withAuth(Home);
+export default Home;
