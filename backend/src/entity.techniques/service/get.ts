@@ -9,3 +9,12 @@ export async function get() {
     throw err;
   }
 }
+
+export async function getById(technique_id:string) {
+  try {
+    const technique = await Technique.findById(technique_id).exec();
+    return technique;
+  } catch (err) {
+    throw err;
+  }
+}
