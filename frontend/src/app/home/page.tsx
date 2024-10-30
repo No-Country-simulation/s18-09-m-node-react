@@ -17,7 +17,7 @@ import { appStore } from "@/store";
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
 
-const factor = 60; // 1 = seconds | 60 = minute
+const factor = 1; // 1 = seconds | 60 = minute
 
 function Home() {
   const [timer, setTimer] = useState(25 * factor);
@@ -151,13 +151,13 @@ function Home() {
     } else if (timer === 0 && isWorkTime) {
       setIsWorkTime(false);
       if (currentTechnique && session < currentTechnique?.cycles_before_long_break) {
-        setTimer(currentTechnique?.break_time ?? 5);
-        setBreakTime(currentTechnique?.break_time ?? 5);
+        setTimer((currentTechnique?.break_time) * factor );
+        setBreakTime((currentTechnique?.break_time) * factor);
         setButtonText(getRandomButtonText());
         showSystemNotification("¡Es hora de tu break corto!");
       } else {
-        setTimer(currentTechnique?.long_break_time ?? 15);
-        setBreakTime(currentTechnique?.long_break_time ?? 15);
+        setTimer((currentTechnique?.long_break_time ?? 15) * factor);
+        setBreakTime((currentTechnique?.long_break_time ?? 15) * factor);
         setButtonText("Es hora de un largo descanso");
         showSystemNotification("¡Es hora de tu break largo!");
         setSession(1);
@@ -167,7 +167,7 @@ function Home() {
     } else if (timer === 0 && !isWorkTime) {
 
       setIsWorkTime(true);
-      setTimer(currentTechnique?.focus_time ?? 25);  
+      setTimer((currentTechnique?.focus_time ?? 25)* factor);  
       
       setSession(session + 1);
       setIsRunning(false);
