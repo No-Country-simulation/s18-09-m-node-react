@@ -1,14 +1,14 @@
 import * as bcrypt from 'bcrypt';
 
 import { BCRYPT_ROUNDS } from '../config/environment';
-import { UserRole, UserAttributes, User } from './model';
+import { UserRole, UserCreationAttributes } from './model';
 import { validateUserData } from './validation';
 
 export default class DTO {
   private static salt = bcrypt.genSaltSync(BCRYPT_ROUNDS);
   private constructor() { }
 
-  public static register(data: any): { error: { message: string }; value: null; password: null } | { error: null; value: UserAttributes; password: string } {
+  public static register(data: any): { error: { message: string }; value: null; password: null } | { error: null; value: UserCreationAttributes; password: string } {
 
     // provisorio para que acepte el username vacio
     data.username = data.username || (data.email && data.email.split('@')[0]);
@@ -37,8 +37,7 @@ export default class DTO {
         email,
         username,
         password: hashPassword,
-        role,
-        active: true,
+        role
       },
       password: password,
     };
@@ -63,20 +62,20 @@ export default class DTO {
   }
 
   public static update(data: any, user: any) {
-    const { email, username, password, role, active } = data;
-    if ((!email && !username && !password && !role && !active) || !user.id)
+    const { name, surname, email, username, password, role, active, alarm, background_color, background } = data;
+    if ((!email && !username && !password && !role && !active && !alarm && !background_color && !background) || !user._id)
       return {
         error: {
-          message: 'A least one field is required: email, username, password, role and active.',
+          message: 'At least one field is required: email, username, password, role, active, alarm, background_color and background .',
         },
       };
 
-    // if (password && !this.checkPassword(password))
-    //   return {
-    //     error: {
-    //       message: "Password must be at least 8 characters long."
-    //     }
-    //   }
+    //  if (password && !this.checkPassword(password))
+    //    return {
+    //      error: {
+    //        message: "Password must be at least 8 characters long."
+    //      }
+    //    }
 
     if (role && !(role in UserRole))
       return {
@@ -86,14 +85,19 @@ export default class DTO {
       };
 
     const response: any = {
-      id: parseInt(user.id as string),
+      _id: user._id,
       updatedAt: new Date(),
     };
+    if (name) response.name = name;
+    if (surname) response.surname = surname;
     if (email) response.email = email;
     if (username) response.username = username;
     if (password) response.password = bcrypt.hashSync(password, this.salt);
     if (role) response.role = role;
     if (active) response.active = active;
+    if (alarm) response.alarm = alarm;
+    if (background_color) response.background_color = background_color;
+    if (background) response.background = background;
 
     return {
       error: null,
@@ -102,9 +106,9 @@ export default class DTO {
   }
 
   public static getByToken(user: any) {
-    const { id } = user;
+    const { _id } = user;
 
-    if (!id)
+    if (!_id)
       return {
         error: {
           message: 'User not found.',
@@ -113,7 +117,23 @@ export default class DTO {
 
     return {
       error: null,
-      value: parseInt(id as string),
+      value: { _id }
+    };
+  }
+
+  public static delete(user: any) {
+    const { _id } = user;
+
+    if (!_id)
+      return {
+        error: {
+          message: 'User not found.',
+        },
+      };
+
+    return {
+      error: null,
+      value: { _id }
     };
   }
 }

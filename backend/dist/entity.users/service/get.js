@@ -10,10 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get = void 0;
-function get(user_id) {
+const model_js_1 = require("../model.js");
+function get(value) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return {};
+            const { _id } = value;
+            const user = yield model_js_1.User.findById(_id);
+            return { user };
         }
         catch (err) {
             throw err;

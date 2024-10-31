@@ -1,10 +1,10 @@
 import { TechniqueAttributes, TechniqueUpdateAttributes } from './model';
-import { validateTechniqueData } from './validation';
+import { validateTechniqueData, validateUpdateTechniqueData } from './validation';
 
 export default class DTO {
   private constructor() { }
 
-  public static register(data: any): { error: { message: string }; value: null } | { error: null; value: TechniqueAttributes } {
+  public static register(data: any, user: any): { error: { message: string }; value: null } | { error: null; value: TechniqueAttributes & { user_id: string } } {
     const validationResult = validateTechniqueData(data);
     if (validationResult.hasError) {
       return {
@@ -19,6 +19,7 @@ export default class DTO {
     return {
       error: null,
       value: {
+        user_id: user._id,
         name,
         description,
         focus_time,
@@ -32,7 +33,7 @@ export default class DTO {
 
 
   public static update(data: any, technique_id: string): { error: { message: string }; value: null } | { error: null; value: TechniqueUpdateAttributes } {
-    const validationResult = validateTechniqueData(data);
+    const validationResult = validateUpdateTechniqueData(data);
     if (validationResult.hasError) {
       return {
         error: {
@@ -47,13 +48,13 @@ export default class DTO {
       error: null,
       value: {
         _id: technique_id,
-        name,
-        description,
-        focus_time,
-        break_time,
-        long_break_time,
-        cycles_before_long_break,
-        active_pause
+        name: name!,
+        description: description!,
+        focus_time: focus_time!,
+        break_time: break_time!,
+        long_break_time: long_break_time!,
+        cycles_before_long_break: cycles_before_long_break!,
+        active_pause: active_pause!
       },
     };
   }

@@ -51,8 +51,7 @@ class DTO {
                 email,
                 username,
                 password: hashPassword,
-                role,
-                active: true,
+                role
             },
             password: password,
         };
@@ -74,19 +73,19 @@ class DTO {
         };
     }
     static update(data, user) {
-        const { email, username, password, role, active } = data;
-        if ((!email && !username && !password && !role && !active) || !user.id)
+        const { name, surname, email, username, password, role, active, alarm, background_color, background } = data;
+        if ((!email && !username && !password && !role && !active && !alarm && !background_color && !background) || !user._id)
             return {
                 error: {
-                    message: 'A least one field is required: email, username, password, role and active.',
+                    message: 'At least one field is required: email, username, password, role, active, alarm, background_color and background .',
                 },
             };
-        // if (password && !this.checkPassword(password))
-        //   return {
-        //     error: {
-        //       message: "Password must be at least 8 characters long."
-        //     }
-        //   }
+        //  if (password && !this.checkPassword(password))
+        //    return {
+        //      error: {
+        //        message: "Password must be at least 8 characters long."
+        //      }
+        //    }
         if (role && !(role in model_1.UserRole))
             return {
                 error: {
@@ -94,9 +93,13 @@ class DTO {
                 },
             };
         const response = {
-            id: parseInt(user.id),
+            _id: user._id,
             updatedAt: new Date(),
         };
+        if (name)
+            response.name = name;
+        if (surname)
+            response.surname = surname;
         if (email)
             response.email = email;
         if (username)
@@ -107,14 +110,20 @@ class DTO {
             response.role = role;
         if (active)
             response.active = active;
+        if (alarm)
+            response.alarm = alarm;
+        if (background_color)
+            response.background_color = background_color;
+        if (background)
+            response.background = background;
         return {
             error: null,
             value: response,
         };
     }
     static getByToken(user) {
-        const { id } = user;
-        if (!id)
+        const { _id } = user;
+        if (!_id)
             return {
                 error: {
                     message: 'User not found.',
@@ -122,7 +131,20 @@ class DTO {
             };
         return {
             error: null,
-            value: parseInt(id),
+            value: { _id }
+        };
+    }
+    static delete(user) {
+        const { _id } = user;
+        if (!_id)
+            return {
+                error: {
+                    message: 'User not found.',
+                },
+            };
+        return {
+            error: null,
+            value: { _id }
         };
     }
 }

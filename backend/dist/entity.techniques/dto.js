@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const validation_1 = require("./validation");
 class DTO {
     constructor() { }
-    static register(data) {
+    static register(data, user) {
         const validationResult = (0, validation_1.validateTechniqueData)(data);
         if (validationResult.hasError) {
             return {
@@ -17,6 +17,7 @@ class DTO {
         return {
             error: null,
             value: {
+                user_id: user._id,
                 name,
                 description,
                 focus_time,
@@ -28,7 +29,7 @@ class DTO {
         };
     }
     static update(data, technique_id) {
-        const validationResult = (0, validation_1.validateTechniqueData)(data);
+        const validationResult = (0, validation_1.validateUpdateTechniqueData)(data);
         if (validationResult.hasError) {
             return {
                 error: {
@@ -42,13 +43,13 @@ class DTO {
             error: null,
             value: {
                 _id: technique_id,
-                name,
-                description,
-                focus_time,
-                break_time,
-                long_break_time,
-                cycles_before_long_break,
-                active_pause
+                name: name,
+                description: description,
+                focus_time: focus_time,
+                break_time: break_time,
+                long_break_time: long_break_time,
+                cycles_before_long_break: cycles_before_long_break,
+                active_pause: active_pause
             },
         };
     }

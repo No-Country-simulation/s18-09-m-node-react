@@ -5,6 +5,7 @@ import HomeBrackground from "@/img/home.png";
 import Image from "next/image";
 
 export default function Home() {
+
   return (
     <div className="h-screen relative flex flex-col md:flex-row">
       <div className="absolute inset-0 z-0 md:hidden">

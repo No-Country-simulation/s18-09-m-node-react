@@ -10,6 +10,7 @@ import {
   get,
 } from './service';
 import { forgetPassword } from './service/forget';
+import { deleteUser } from './service/delete';
 
 
 export default class Controller {
@@ -35,7 +36,7 @@ export default class Controller {
       if (result.success) {
         return ControllerHandler.created("Password reset email sent.", result, res);
       } else {
-        return ControllerHandler.badRequest( result.message, res ); // Usuario no encontrado
+        return ControllerHandler.badRequest(result.message, res); // Usuario no encontrado
       }
     } catch (err) {
       next(err);
@@ -57,12 +58,29 @@ export default class Controller {
   // -- Update user --
   public static async update(req: Request, res: Response, next: NextFunction) {
     const user_id = req.params.id ? { id: req.params.id } : req.user;
+
     const { error, value } = DTO.update(req.body, user_id);
+    console.log(value)
     if (error) return ControllerHandler.badRequest(error.message, res)
     try {
       const result = await update(value);
-      if (result) return ControllerHandler.ok("User updated.", res)
+      if (result) return ControllerHandler.ok("User updated.", res, result)
       return ControllerHandler.notFound("User not updated.", res)
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  // -- Delete user --
+  public static async delete(req: Request, res: Response, next: NextFunction) {
+    const user_id = req.params.id ? { id: req.params.id } : req.user;
+    const { error, value } = DTO.delete(user_id);
+
+    if (error) return ControllerHandler.badRequest(error.message, res)
+    try {
+      const result = await deleteUser(value);
+      if (result) return ControllerHandler.ok("User deleted.", res, result)
+      return ControllerHandler.notFound("User not deleted.", res)
     } catch (err) {
       next(err);
     }

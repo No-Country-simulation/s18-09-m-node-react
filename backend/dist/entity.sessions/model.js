@@ -46,8 +46,31 @@ const SessionSchema = new mongoose_1.Schema({
     },
     expected_total_time: {
         type: Number,
-        required: true,
         min: 0,
+    },
+    expected_focus_time: {
+        type: Number,
+        min: 0,
+    },
+    expected_break_time: {
+        type: Number,
+        min: 0,
+    },
+    schedule: {
+        type: [
+            {
+                start_working: { type: String, required: true },
+                break_time: {
+                    type: {
+                        time: { type: String, required: true },
+                        isLongBreak: { type: Boolean, required: true },
+                    },
+                    required: true,
+                    _id: false,
+                },
+            },
+        ],
+        _id: false,
     },
     real_focus_time: {
         type: Number,

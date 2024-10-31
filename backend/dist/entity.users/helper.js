@@ -12,7 +12,7 @@ class UserHelper {
         return bcrypt_1.default.compareSync(password, savedPassword);
     }
     static generateToken(user) {
-        const token = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '10d' });
         return token;
     }
 }

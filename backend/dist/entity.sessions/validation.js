@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateSessionData = exports.sessionRegistrationSchema = void 0;
+exports.validateUpdateSessionData = exports.sessionUpdateSchema = exports.validateSessionData = exports.sessionRegistrationSchema = void 0;
 const zod_1 = require("zod");
 const parseData_1 = require("../utils/parseData");
 exports.sessionRegistrationSchema = zod_1.z.object({
@@ -11,20 +11,13 @@ exports.sessionRegistrationSchema = zod_1.z.object({
         message: 'Invalid technique ID format.',
     }),
     start_time: zod_1.z.preprocess((arg) => {
-        if (typeof arg === "string" || arg instanceof Date)
+        if (typeof arg === 'string' || arg instanceof Date)
             return new Date(arg);
     }, zod_1.z.date()),
     end_time: zod_1.z.preprocess((arg) => {
-        if (typeof arg === "string" || arg instanceof Date)
+        if (typeof arg === 'string' || arg instanceof Date)
             return new Date(arg);
     }, zod_1.z.date()),
-    expected_total_time: zod_1.z
-        .number({
-        required_error: 'Expected total time is required.',
-    })
-        .min(0, {
-        message: 'Expected total time must be greater than or equal to 0.',
-    }),
     real_focus_time: zod_1.z
         .number({
         required_error: 'Real focus time is required.',
@@ -65,3 +58,42 @@ const validateSessionData = (techniqueRegisterData) => {
     };
 };
 exports.validateSessionData = validateSessionData;
+const breakTimeSchema = zod_1.z.object({
+    time: zod_1.z.string(),
+    isLongBreak: zod_1.z.boolean(),
+});
+const cycleSchema = zod_1.z.object({
+    start_working: zod_1.z.string(),
+    break_time: breakTimeSchema,
+});
+exports.sessionUpdateSchema = zod_1.z.object({
+    user_id: zod_1.z.string().optional(),
+    technique_id: zod_1.z.string().optional(),
+    start_time: zod_1.z.preprocess((arg) => {
+        if (typeof arg === 'string' || arg instanceof Date)
+            return new Date(arg);
+    }, zod_1.z.date().optional()),
+    end_time: zod_1.z.preprocess((arg) => {
+        if (typeof arg === 'string' || arg instanceof Date)
+            return new Date(arg);
+    }, zod_1.z.date().optional()),
+    expected_total_time: zod_1.z.number().min(0).default(0).optional(),
+    expected_focus_time: zod_1.z.number().min(0).default(0).optional(),
+    expected_break_time: zod_1.z.number().min(0).default(0).optional(),
+    schedule: zod_1.z.array(cycleSchema).optional(),
+    real_focus_time: zod_1.z.number().min(0).default(0).optional(),
+    real_break_time: zod_1.z.number().min(0).default(0).optional(),
+    real_break_count: zod_1.z.number().min(0).default(0).optional(),
+    finished: zod_1.z.boolean().default(false).optional(),
+    score: zod_1.z.number().min(0).default(0).optional(),
+});
+const validateUpdateSessionData = (techniqueUpdateData) => {
+    const result = exports.sessionUpdateSchema.partial().safeParse(techniqueUpdateData);
+    const { hasError, errorMessages, userData } = (0, parseData_1.parseValidationResult)(result);
+    return {
+        hasError,
+        errorMessages,
+        userData,
+    };
+};
+exports.validateUpdateSessionData = validateUpdateSessionData;
