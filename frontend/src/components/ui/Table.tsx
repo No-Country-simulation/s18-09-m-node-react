@@ -24,7 +24,7 @@ export default function Table({
 // onPageChange
 TableProps) {
   return (
-    <div className="w-full">
+    <div className="w-full h-[400px]">
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>

@@ -3,26 +3,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import HomeBrackground from "@/img/home.png";
 import Image from "next/image";
-import { useEffect } from "react";
 
 export default function Home() {
-
-  
-  //Fondo personalizado
-  useEffect(() => {
-    const savedImage = localStorage.getItem("bgImage");
-    const savedColor = localStorage.getItem("bgColor");
-
-    if (savedImage) {
-      document.body.style.backgroundImage = `url(${savedImage})`;
-      document.body.style.backgroundSize = "cover";
-      document.body.style.backgroundRepeat = "no-repeat";
-      document.body.style.backgroundPosition = "center";
-    } else if (savedColor) {
-      document.body.style.backgroundImage = "none";
-      document.body.style.backgroundColor = savedColor;
-    }
-  }, []);
 
   return (
     <div className="h-screen relative flex flex-col md:flex-row">

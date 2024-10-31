@@ -10,7 +10,7 @@ export const Header = () => {
   const token = user?.token;
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white/30 shadow-sm"> {/* Aquí usamos bg-white/80 para el fondo blanco con 80% de opacidad */}
       <div
         className="max-w-7xl
                    mx-auto
