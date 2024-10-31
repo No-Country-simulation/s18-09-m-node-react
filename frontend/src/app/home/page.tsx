@@ -13,11 +13,12 @@ import { UserMenu } from "@/components/ui/userMenu/UserMenu";
 import Message from "@/components/Message";
 import { Edit2 } from "lucide-react";
 import { appStore } from "@/store";
+import { toast } from "sonner";
 {
   /*import WelcomeModal from "@/components/ui/WelcomeModal"; */
 }
 
-const factor = 1; // 1 = seconds | 60 = minute
+const factor = 60; // 1 = seconds | 60 = minute
 
 function Home() {
   const [timer, setTimer] = useState(25 * factor);
@@ -195,8 +196,9 @@ function Home() {
       };
       services
         .createSession(data)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+          // console.log(response);
+          toast.success("Sesión registrada");
         })
         .catch((error) => {
           console.error(error);
