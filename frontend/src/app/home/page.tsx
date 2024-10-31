@@ -22,7 +22,7 @@ const factor = 1; // 1 = seconds | 60 = minute
 function Home() {
   const [timer, setTimer] = useState(25 * factor);
   const [breakTime, setBreakTime] = useState(5 * factor);
-  const [currentTechnique, setCurrentTechnique] = useState<Technique >();
+  const [currentTechnique, setCurrentTechnique] = useState<Technique>();
   const [isRunning, setIsRunning] = useState(false);
   const [isWorkTime, setIsWorkTime] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
@@ -32,36 +32,41 @@ function Home() {
   const fetchCalled = useRef(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const localTechniques = [{
-    name: "Pomodoro",
-    _id: "613b1fcf8f1d1e2f4a12b3c7",
-    focus_time: 25,
-    break_time: 5,
-    long_break_time: 15,
-    cycles_before_long_break: 0,
-    active_pause: false,
-    description: "Maximiza tu productividad con intervalos de enfoque y descansos estratégicos. La Técnica Pomodoro divide tu tiempo de trabajo en sesiones de 25 minutos de concentración plena, seguidas de 5 minutos de descanso. Este ciclo te ayuda a mantener la motivación, reducir la procrastinación y evitar el agotamiento, permitiéndote lograr más en menos tiempo mientras cuidas tu bienestar mental. Luego de 4 ciclos, tendrás un descanso largo de 15 minutos.",
-  },
-  {
-    name: "Técnica 52/17",
-    _id: "613b1fcf8f1d1e2f4a12b3c8",
-    focus_time: 52,
-    break_time: 17,
-    long_break_time: 30,
-    cycles_before_long_break: 3,
-    active_pause: false,
-    description: "Optimiza tu rendimiento con sesiones largas y descansos estratégicos. La Técnica 52/17 propone trabajar durante 52 minutos de concentración profunda, seguidos de 17 minutos de descanso. Este método te permite mantener un enfoque sostenido en tareas importantes, mientras los descansos regulares te ayudan a renovarenergías y prevenir el agotamiento. A su vez, luego de 3 ciclos 52/17, tendrás en descanso largo de 30'"
-  },
-  {
-    name: "Pausa Activa",
-    _id: "613b1fcf8f1d1e2f4a12b3c9",
-    focus_time: 25,
-    break_time: 5,
-    long_break_time: 15,
-    cycles_before_long_break: 4,
-    active_pause: true,
-    description : "Recarga tu energía en pocos minutos. Realizar breves ejercicios durante la jornada laboral ayuda a reducir el estrés, mejorar la concentración y evitar la fatiga. Dedica unos minutos a estiramientos, respiración profunda o movimientos ligeros para revitalizar tu cuerpo y mente. ¡Incorpora estas pausas en tu rutina diaria para mantener un equilibrio saludable entre trabajo y bienestar!"
-  }];
+  const localTechniques = [
+    {
+      name: "Pomodoro",
+      _id: "613b1fcf8f1d1e2f4a12b3c7",
+      focus_time: 25,
+      break_time: 5,
+      long_break_time: 15,
+      cycles_before_long_break: 0,
+      active_pause: false,
+      description:
+        "Maximiza tu productividad con intervalos de enfoque y descansos estratégicos. La Técnica Pomodoro divide tu tiempo de trabajo en sesiones de 25 minutos de concentración plena, seguidas de 5 minutos de descanso. Este ciclo te ayuda a mantener la motivación, reducir la procrastinación y evitar el agotamiento, permitiéndote lograr más en menos tiempo mientras cuidas tu bienestar mental. Luego de 4 ciclos, tendrás un descanso largo de 15 minutos.",
+    },
+    {
+      name: "Técnica 52/17",
+      _id: "613b1fcf8f1d1e2f4a12b3c8",
+      focus_time: 52,
+      break_time: 17,
+      long_break_time: 30,
+      cycles_before_long_break: 3,
+      active_pause: false,
+      description:
+        "Optimiza tu rendimiento con sesiones largas y descansos estratégicos. La Técnica 52/17 propone trabajar durante 52 minutos de concentración profunda, seguidos de 17 minutos de descanso. Este método te permite mantener un enfoque sostenido en tareas importantes, mientras los descansos regulares te ayudan a renovarenergías y prevenir el agotamiento. A su vez, luego de 3 ciclos 52/17, tendrás en descanso largo de 30'",
+    },
+    {
+      name: "Pausa Activa",
+      _id: "613b1fcf8f1d1e2f4a12b3c9",
+      focus_time: 25,
+      break_time: 5,
+      long_break_time: 15,
+      cycles_before_long_break: 4,
+      active_pause: true,
+      description:
+        "Recarga tu energía en pocos minutos. Realizar breves ejercicios durante la jornada laboral ayuda a reducir el estrés, mejorar la concentración y evitar la fatiga. Dedica unos minutos a estiramientos, respiración profunda o movimientos ligeros para revitalizar tu cuerpo y mente. ¡Incorpora estas pausas en tu rutina diaria para mantener un equilibrio saludable entre trabajo y bienestar!",
+    },
+  ];
 
   const showSystemNotification = useCallback((message: string) => {
     if (Notification.permission === "granted") {
@@ -118,11 +123,9 @@ function Home() {
       .padStart(2, "0")}`;
   };
 
-
   const toggleTimer = () => {
     setIsRunning((prev) => !prev);
   };
-
 
   const buttonOptions = useMemo(
     () => ["Meditar", "Estiramientos", "Respirar"],
@@ -134,25 +137,28 @@ function Home() {
   }, [buttonOptions]);
 
   const { user } = appStore.getState();
-  const userId = user?.userData?._id
-  const techniqueid = currentTechnique?._id
+  const userId = user?.userData?._id;
+  const techniqueid = currentTechnique?._id;
 
   useEffect(() => {
-
     let interval: NodeJS.Timeout | null = null;
-    const expected_total_time = currentTechnique?.focus_time ?? 0 + (currentTechnique?.break_time ?? 0);
+    const expected_total_time =
+      currentTechnique?.focus_time ?? 0 + (currentTechnique?.break_time ?? 0);
     const startTime = Date.now();
-    
-    console.log(userId, techniqueid)
+
+    // console.log(userId, techniqueid)
     if (isRunning && timer > 0) {
       interval = setInterval(() => {
         setTimer((prevTime) => prevTime - 1);
       }, 1000);
     } else if (timer === 0 && isWorkTime) {
       setIsWorkTime(false);
-      if (currentTechnique && session < currentTechnique?.cycles_before_long_break) {
-        setTimer((currentTechnique?.break_time) * factor );
-        setBreakTime((currentTechnique?.break_time) * factor);
+      if (
+        currentTechnique &&
+        session < currentTechnique?.cycles_before_long_break
+      ) {
+        setTimer(currentTechnique?.break_time * factor);
+        setBreakTime(currentTechnique?.break_time * factor);
         setButtonText(getRandomButtonText());
         showSystemNotification("¡Es hora de tu break corto!");
       } else {
@@ -165,10 +171,9 @@ function Home() {
       setShowNotification(true);
       setIsRunning(false); // Pause until notification is closed
     } else if (timer === 0 && !isWorkTime) {
-
       setIsWorkTime(true);
-      setTimer((currentTechnique?.focus_time ?? 25)* factor);  
-      
+      setTimer((currentTechnique?.focus_time ?? 25) * factor);
+
       setSession(session + 1);
       setIsRunning(false);
       const end_time = Date.now();
@@ -201,7 +206,20 @@ function Home() {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isRunning, timer, isWorkTime, getRandomButtonText, showSystemNotification, techniques, breakTime, currentTechnique?.focus_time, currentTechnique, session, userId, techniqueid]);
+  }, [
+    isRunning,
+    timer,
+    isWorkTime,
+    getRandomButtonText,
+    showSystemNotification,
+    techniques,
+    breakTime,
+    currentTechnique?.focus_time,
+    currentTechnique,
+    session,
+    userId,
+    techniqueid,
+  ]);
 
   const closeNotification = () => {
     setShowNotification(false);
@@ -228,29 +246,24 @@ function Home() {
     setBreakTime(technique.break_time * factor);
     setIsWorkTime(true);
   }
-  console.log(techniques)
+  // console.log(techniques)
 
-
- 
   return (
     <div className="min-h-screen  flex flex-col items-center justify-around p-4">
-      <button className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50" onClick={toggleUserMenu}>
+      <button
+        className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50"
+        onClick={toggleUserMenu}
+      >
         <Edit2 className="h-7 w-7 text-blue-500" />
       </button>
-      <UserMenu
-        isMenuOpen={isUserMenuOpen}
-        toggleUserMenu={toggleUserMenu}
-      >
+      <UserMenu isMenuOpen={isUserMenuOpen} toggleUserMenu={toggleUserMenu}>
         <Configuration toggleOptions={toggleUserMenu} />
       </UserMenu>
       <main className="text-2xl md:container md:mx-auto px-4 py-8 max-w-2xl ">
-
-
         {/* Techniques container */}
 
         <div className="flex flex-col justify-center mb-6 space-x-6 bg-transparent">
           <div className="flex justify-evenly  border-b-2 border-blue-500">
-
             {techniques.map((technique) => (
               <button
                 key={technique.name}
@@ -266,9 +279,7 @@ function Home() {
               </button>
             ))}
           </div>
-
         </div>
-
 
         {/* Timer container */}
 
@@ -293,8 +304,12 @@ function Home() {
 
       {/* Show Message component */}
 
-      {showNotification && <Message buttonText={buttonText} closeNotification={closeNotification} />
-      }
+      {showNotification && (
+        <Message
+          buttonText={buttonText}
+          closeNotification={closeNotification}
+        />
+      )}
       {/*<WelcomeModal isOpen={isModalOpen} onClose={handleCloseModal} />*/}
     </div>
   );
