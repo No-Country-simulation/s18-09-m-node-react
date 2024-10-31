@@ -16,6 +16,7 @@ const controllers_handler_1 = __importDefault(require("../handlers/controllers.h
 const dto_1 = __importDefault(require("./dto"));
 const service_1 = require("./service");
 const forget_1 = require("./service/forget");
+const delete_1 = require("./service/delete");
 class Controller {
     constructor() { }
     // -- Register a new user --
@@ -43,7 +44,7 @@ class Controller {
                     return controllers_handler_1.default.created("Password reset email sent.", result, res);
                 }
                 else {
-                    return res.status(404).json({ message: result.message }); // Usuario no encontrado
+                    return controllers_handler_1.default.badRequest(result.message, res); // Usuario no encontrado
                 }
             }
             catch (err) {
@@ -71,13 +72,32 @@ class Controller {
         return __awaiter(this, void 0, void 0, function* () {
             const user_id = req.params.id ? { id: req.params.id } : req.user;
             const { error, value } = dto_1.default.update(req.body, user_id);
+            console.log(value);
             if (error)
                 return controllers_handler_1.default.badRequest(error.message, res);
             try {
                 const result = yield (0, service_1.update)(value);
                 if (result)
-                    return controllers_handler_1.default.ok("User updated.", res);
+                    return controllers_handler_1.default.ok("User updated.", res, result);
                 return controllers_handler_1.default.notFound("User not updated.", res);
+            }
+            catch (err) {
+                next(err);
+            }
+        });
+    }
+    // -- Delete user --
+    static delete(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user_id = req.params.id ? { id: req.params.id } : req.user;
+            const { error, value } = dto_1.default.delete(user_id);
+            if (error)
+                return controllers_handler_1.default.badRequest(error.message, res);
+            try {
+                const result = yield (0, delete_1.deleteUser)(value);
+                if (result)
+                    return controllers_handler_1.default.ok("User deleted.", res, result);
+                return controllers_handler_1.default.notFound("User not deleted.", res);
             }
             catch (err) {
                 next(err);

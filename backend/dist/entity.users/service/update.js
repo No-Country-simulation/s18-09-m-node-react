@@ -8,12 +8,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.update = void 0;
+const model_1 = require("../model");
 function update(userData) {
     return __awaiter(this, void 0, void 0, function* () {
+        const { _id } = userData, updateFields = __rest(userData, ["_id"]);
         try {
-            return {};
+            const updatedUser = yield model_1.User.findByIdAndUpdate(_id, // ID del usuario a actualizar
+            { $set: updateFields }, // Campos a actualizar
+            { new: true, runValidators: true } // Opciones: `new` para devolver el documento actualizado
+            );
+            if (updatedUser) {
+                return {
+                    UserUpdate: updatedUser,
+                };
+            }
+            else {
+                return null;
+            }
         }
         catch (err) {
             throw err;

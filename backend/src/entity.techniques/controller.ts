@@ -6,15 +6,15 @@ import DTO from './dto';
 import { register, update, get, getById } from './service';
 
 export default class Controller {
-  private constructor() {}
+  private constructor() { }
 
   // -- Register a new technique --
   public static async register(req: Request, res: Response, next: NextFunction) {
-    const { error, value } = DTO.register(req.body);
+    const { error, value } = DTO.register(req.body, req.user);
     if (error) return ControllerHandler.badRequest(error.message, res);
     try {
-      const userData = await register(value);
-      return ControllerHandler.created('Technique created.', userData, res);
+      const techniqueData = await register(value);
+      return ControllerHandler.created('Technique created.', techniqueData, res);
     } catch (err) {
       next(err);
     }
@@ -37,7 +37,8 @@ export default class Controller {
   // -- Get techniques --
   public static async get(req: Request, res: Response, next: NextFunction) {
     try {
-      const techniques = await get();
+      const user_id = req.user as any
+      const techniques = await get(user_id?._id as string);
       if (techniques.length > 0) return ControllerHandler.ok('Techniques found.', res, techniques);
       return ControllerHandler.notFound('Techniques not found.', res);
     } catch (err) {

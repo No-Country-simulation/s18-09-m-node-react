@@ -12,7 +12,7 @@ export class UserHelper {
   }
 
   public static generateToken(user: UserDocument) {
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '1d' });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '10d' });
     return token;
   }
 

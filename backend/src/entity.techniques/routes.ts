@@ -38,9 +38,6 @@ export const userProtectedRoutes = express.Router();
  */
 userProtectedRoutes.get('/techniques', Controller.get);
 
-// -- Admin protected routes --
-export const adminProtectedRoutes = express.Router();
-
 /**
  * POST /v1/techniques/register
  * @summary Register a new technique
@@ -85,7 +82,7 @@ export const adminProtectedRoutes = express.Router();
  *   "message": "Internal server error."
  * }
  */
-adminProtectedRoutes.post('/techniques/register', Controller.register);
+userProtectedRoutes.post('/techniques/register', Controller.register);
 
 /**
  * PUT /v1/techniques/update/{id}
@@ -128,4 +125,97 @@ adminProtectedRoutes.post('/techniques/register', Controller.register);
  *   "message": "Internal server error."
  * }
  */
-adminProtectedRoutes.put('/techniques/update/:id', Controller.update);
+userProtectedRoutes.put('/techniques/update/:id', Controller.update);
+
+
+// -- Admin protected routes --
+export const adminProtectedRoutes = express.Router();
+
+/**
+ * POST /v1/techniques/admin/register
+ * @summary Register a new technique
+ * @tags TECHNIQUES
+ * @param {object} request.body.required - Technique details
+ * @example request - Example of request body
+ * {
+ *   "name": "Pomodoro",
+ *   "description": "A time management technique.",
+ *   "focus_time": 25,
+ *   "break_time": 5,
+ *   "long_break_time": 15,
+ *   "cycles_before_long_break": 4,
+ *   "active_pause": true
+ * }
+ * @return {object} 201 - Technique created
+ * @example response - 201 - Example of response
+ * {
+ *   "success": true,
+ *   "message": "Technique created.",
+ *   "data": {
+ *     "_id": "613b1fcf8f1d1e2f4a12b3c7",
+ *     "name": "Pomodoro",
+ *     "description": "A time management technique.",
+ *     "focus_time": 25,
+ *     "break_time": 5,
+ *     "long_break_time": 15,
+ *     "cycles_before_long_break": 4,
+ *     "active_pause": true
+ *   }
+ * }
+ * @return {object} 400 - Invalid data
+ * @example response - 400 - Example of error response
+ * {
+ *   "success": false,
+ *   "message": "Name is required."
+ * }
+ * @return {object} 500 - Internal server error
+ * @example response - 500 - Example of error response
+ * {
+ *   "success": false,
+ *   "message": "Internal server error."
+ * }
+ */
+adminProtectedRoutes.post('/techniques/admin/register', Controller.register);
+
+/**
+ * PUT /v1/techniques/admin/update/{id}
+ * @summary Update an existing technique
+ * @tags TECHNIQUES
+ * @param {string} id.path.required - Technique ID
+ * @param {object} request.body.required - Updated technique details
+ * @example request - Example of request body
+ * {
+ *   "name": "Pomodoro",
+ *   "description": "A time management technique.",
+ *   "focus_time": 25,
+ *   "break_time": 5,
+ *   "long_break_time": 15,
+ *   "cycles_before_long_break": 4,
+ *   "active_pause": true
+ * }
+ * @return {object} 200 - Technique updated
+ * @example response - 200 - Example of response
+ * {
+ *   "success": true,
+ *   "message": "Technique updated."
+ * }
+ * @return {object} 400 - Invalid data
+ * @example response - 400 - Example of error response
+ * {
+ *   "success": false,
+ *   "message": "Invalid focus time."
+ * }
+ * @return {object} 404 - Technique not found
+ * @example response - 404 - Example of response
+ * {
+ *   "success": false,
+ *   "message": "Technique not updated."
+ * }
+ * @return {object} 500 - Internal server error
+ * @example response - 500 - Example of error response
+ * {
+ *   "success": false,
+ *   "message": "Internal server error."
+ * }
+ */
+userProtectedRoutes.put('/techniques/admin/update/:id', Controller.update);

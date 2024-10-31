@@ -15,7 +15,7 @@ function update(techniqueData) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { _id, name, description, focus_time, break_time, long_break_time, cycles_before_long_break, active_pause } = techniqueData;
-            const updatedTechnique = yield model_1.Technique.findOneAndUpdate({ _id }, { name, description, focus_time, break_time, long_break_time, cycles_before_long_break, active_pause }, { new: true });
+            const updatedTechnique = yield model_1.PersonalTechnique.findOneAndUpdate({ _id }, { name, description, focus_time, break_time, long_break_time, cycles_before_long_break, active_pause }, { new: true });
             return updatedTechnique;
         }
         catch (err) {

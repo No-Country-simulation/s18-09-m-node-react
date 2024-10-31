@@ -9,29 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSessionsByUserId = exports.get = void 0;
-const model_1 = require("../model");
-function get() {
+exports.deleteUser = void 0;
+const model_js_1 = require("../model.js");
+function deleteUser(value) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const sessions = yield model_1.Session.find({}).exec();
-            return sessions;
+            const { _id } = value;
+            const userDeleted = yield model_js_1.User.findByIdAndDelete(_id);
+            if (!userDeleted) {
+                return { error: "User not found" }; // Mensaje si el usuario no existe
+            }
+            return { userDeleted };
         }
         catch (err) {
             throw err;
         }
     });
 }
-exports.get = get;
-function getSessionsByUserId(userId) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const sessions = yield model_1.Session.find({ user_id: userId }).exec();
-            return sessions;
-        }
-        catch (err) {
-            throw err;
-        }
-    });
-}
-exports.getSessionsByUserId = getSessionsByUserId;
+exports.deleteUser = deleteUser;
