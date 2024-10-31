@@ -6,6 +6,18 @@ import { Sound } from "@/svg/SoundIcon";
 import { Time } from "@/svg/TimeIcon";
 import { Fondo } from "@/svg/FondoIcon";
 import { Separator } from "../separator";
+import { useEffect} from "react";
+import { Loader } from "@/components/ui/Loader";
+import montaniaPinoImg from "@/img/montanias-pino.jpg";
+import amanecerImg from "@/img/amanecer.jpg";
+import montaniaGrisImg from "@/img/montanias-gris.jpg";
+import montaniaCelesteImg from "@/img/montanias-celeste.jpg";
+import montaniaRosaImg from "@/img/montanias-rosa.jpg";
+import celesteImg from "@/img/celeste.jpg";
+import verdeImg from "@/img/verde.jpg";
+import maderaImg from "@/img/madera.jpg";
+import arcoirisImg from "@/img/arcoiris.jpg";
+import pastoImg from "@/img/pasto.jpg";
 
 interface ConfigurationProps {
   toggleOptions: () => void;
@@ -32,16 +44,16 @@ const setBgColor = (color: string) => {
 };
 
 const imageOptions = [
-  { id: 1, src: "https://www.xtrafondos.com/thumbs/webp/1_10205.webp", alt: "Nature"},
-  { id: 2, src: "https://www.xtrafondos.com/thumbs/webp/1_8607.webp", alt: "City"},
-  { id: 3, src: "https://www.xtrafondos.com/thumbs/webp/1_12610.webp", alt: "Abstract"},
-  { id: 4, src: "https://www.xtrafondos.com/thumbs/webp/1_5931.webp", alt: "Texture"},
-  { id: 5, src: "https://www.xtrafondos.com/thumbs/webp/1_7819.webp", alt: "Texture"},
-  { id: 6, src: "https://www.xtrafondos.com/thumbs/webp/1_8359.webp", alt: "Texture"},
-  { id: 7, src: "https://www.xtrafondos.com/thumbs/webp/1_12754.webp", alt: "Texture"},
-  { id: 8, src: "https://www.xtrafondos.com/thumbs/webp/1_12163.webp", alt: "Texture"},
-  { id: 9, src: "https://www.xtrafondos.com/thumbs/webp/1_7888.webp", alt: "Texture"},
-  { id: 10, src: "https://www.xtrafondos.com/thumbs/webp/1_3148.webp", alt: "Texture"},
+  { id: 1, src: montaniaPinoImg.src, alt: "montañas", isBlack:true},
+  { id: 2, src: amanecerImg.src, alt: "amanecer", isBlack:false},
+  { id: 3, src: montaniaGrisImg.src, alt: "montañas gris", isBlack:true},
+  { id: 4, src: montaniaCelesteImg.src, alt: "montaña celeste", isBlack:true},
+  { id: 5, src: montaniaRosaImg.src, alt: "montaña rosa", isBlack:true},
+  { id: 6, src: celesteImg.src, alt: "celeste", isBlack:true},
+  { id: 7, src: verdeImg.src, alt: "verde", isBlack:true},
+  { id: 8, src: maderaImg.src, alt: "madera", isBlack:true},
+  { id: 9, src: arcoirisImg.src, alt: "arcoiris", isBlack:true},
+  { id: 10, src: pastoImg.src, alt: "pasto", isBlack:true},
 ];
 
 const setBgImage = (imageUrl: string) => {
@@ -67,6 +79,22 @@ export const Configuration: React.FC<ConfigurationProps> = ({ toggleOptions }) =
     setIsImageGridVisible(!isImageGridVisible);
     setIsColorGridVisible(false);
   };
+
+  //Fondo personalizado
+  useEffect(() => {
+    const savedImage = localStorage.getItem("bgImage");
+    const savedColor = localStorage.getItem("bgColor");
+  
+    if (savedImage) {
+      document.body.style.backgroundImage = `url(${savedImage})`;
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundRepeat = "no-repeat";
+      document.body.style.backgroundPosition = "center";
+    } else if (savedColor) {
+      document.body.style.backgroundImage = "none";
+      document.body.style.backgroundColor = savedColor;
+    }
+  }, []);
 
   return (
     <>
@@ -204,10 +232,12 @@ export const Configuration: React.FC<ConfigurationProps> = ({ toggleOptions }) =
                       key={image.id}
                       className={`w-full aspect-square rounded-md overflow-hidden border-2 ${selectedImage === image.id ? "border-blue-500" : "border-transparent"}`}
                       onClick={() => {
+
                         setSelectedImage(image.id);
                         setBgImage(image.src); // Establece la imagen de fondo y la guarda en localStorage
                       }}
                     >
+                      <Loader />
                       <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
                     </button>
                   ))}
