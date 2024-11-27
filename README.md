@@ -144,6 +144,11 @@ flowchart
    G -- Aprobado --> H((Fusión de la solicitud de cambios))
    G -- Rechazado --> D
 ```
+## Contactar
+| Nombre | Rol en el Proyecto | Forma de contacto |
+|------|-----|-----|
+| Orlando | Frontend | [X](https://x.com/OrlandoFloresH) [Linktree](https://linktr.ee/lalomax) lalomax365@gmail.com |
+
 
 <!-- ACKNOWLEDGMENTS -->
 ## Reconocimientos
