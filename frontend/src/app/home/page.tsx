@@ -252,12 +252,7 @@ function Home() {
 
   return (
     <div className="min-h-screen  flex flex-col items-center justify-around p-4">
-      <button
-        className="absolute bottom-20 right-4 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50"
-        onClick={toggleUserMenu}
-      >
-        <Edit2 className="h-7 w-7 text-blue-500" />
-      </button>
+
       <UserMenu isMenuOpen={isUserMenuOpen} toggleUserMenu={toggleUserMenu}>
         <Configuration toggleOptions={toggleUserMenu} />
       </UserMenu>
@@ -269,11 +264,10 @@ function Home() {
             {techniques.map((technique) => (
               <button
                 key={technique.name}
-                className={`text-lg pb-2 ${
-                  currentTechnique?.name === technique.name
+                className={`text-lg pb-2 ${currentTechnique?.name === technique.name
                     ? "border-b-4 border-blue-500 "
                     : "text-gray-800"
-                }`}
+                  }`}
                 onClick={() => handleTime(technique)}
                 title={technique.description}
               >
@@ -286,10 +280,18 @@ function Home() {
         {/* Timer container */}
 
         <div className="text-center mt-10 ">
-          <div className="container mx-auto mb-5 bg-gradient-to-r from-green-400 to-blue-300 py-12 rounded-2xl shadow-md max-w-[600px]">
-            <p className=" text-8xl font-extrabold text-white">
-              {formatTime(timer)}
-            </p>
+          <div className="relative">
+            <div className="container mx-auto mb-5 bg-gradient-to-r from-green-400 to-blue-300 py-12 rounded-2xl shadow-md max-w-[600px]">
+              <p className=" text-8xl font-extrabold text-white">
+                {formatTime(timer)}
+              </p>
+            </div>
+            <button
+              className="absolute top-6 right-0 transform -translate-y-1/2 bg-green-50 p-2 rounded-xl shadow-lg shadow-gray-500/50"
+              onClick={toggleUserMenu}
+            >
+              <Edit2 className="h-7 w-7 text-blue-500" />
+            </button>
           </div>
           <button
             onClick={toggleTimer}
